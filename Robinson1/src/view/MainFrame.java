@@ -60,7 +60,6 @@ public class MainFrame{
 	    final PartFrame part = new PartFrame(p);
 		p.lp.setPq((Integer.toString(p.getQuantity())));
 		p.lp.setPu(p.getUnit());
-		System.out.println(p.getUnit());
 		p.lp.setPn(p.getPartName());
 		container.add(p.lp.getPq());
 		container.add(p.lp.getPu());
