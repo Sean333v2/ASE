@@ -15,7 +15,8 @@ public class AddFrame {
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
-	private int arguments = 5;
+	private JTextField unit;
+	private int arguments = 6;
 	private String[] info = new String[arguments];
 	
 	public AddFrame(){
@@ -23,14 +24,16 @@ public class AddFrame {
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
+		unit = new JTextField("Unknown");
 		
 		setUpGUI();
 	}
-	public AddFrame(String[] error, String n, String num, String v, String q){
+	public AddFrame(String[] error, String n, String num, String v, String q, String u){
 		quantity = new JTextField("");
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
+		unit = new JTextField("Unknown");
 		
 		if("".equals(error[0]))
 			name = new JTextField(n);
@@ -40,6 +43,8 @@ public class AddFrame {
    	 		vendor = new JTextField(v);
 		if("".equals(error[3]))
    	 		quantity = new JTextField(q);
+		if("".equals(error[4]))
+			unit = new JTextField(u);
 		
 		setUpErrorGUI(error);
 	}
@@ -49,6 +54,7 @@ public class AddFrame {
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
+		unit = new JTextField("Unknown");
 		
 		setUpErrorGUI(error);
 	}
@@ -69,8 +75,10 @@ public class AddFrame {
 	    addFrame.add(number);
 	    addFrame.add(new JLabel("Vendor:"));
 	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity"));
+	    addFrame.add(new JLabel("Quantity: "));
 	    addFrame.add(quantity);
+	    addFrame.add(new JLabel("Unit: "));
+	    addFrame.add(unit);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton); 
 	    
@@ -81,19 +89,21 @@ public class AddFrame {
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
+	        	 info[4] = unit.getText();
 	        	 
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
+	        	 unit = new JTextField(unit.getText());
 	        	 
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
 	        	 newPart = MainController.addPart(info);
 	        	 if(newPart.getErrorCount() > 0){
 	        		 addFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText());
+	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText(), unit.getText());
 	        		 //addFrame.updateJTextFields(error, name.getText(), number.getText(), vendor.getText(), quantity.getText());
 	        		 addFrame.addFrame.setVisible(true);	 	
 	        	 }
@@ -122,8 +132,10 @@ public class AddFrame {
 	    addFrame.add(number);
 	    addFrame.add(new JLabel("Vendor: "+perror[2]));
 	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity " +perror[3]));
+	    addFrame.add(new JLabel("Quantity:  " +perror[3]));
 	    addFrame.add(quantity);
+	    addFrame.add(new JLabel("Unit: "+perror[4]));
+	    addFrame.add(unit);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -135,21 +147,23 @@ public class AddFrame {
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
+	        	 info[4] = unit.getText();
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
+	        	 unit = new JTextField(unit.getText());
 	        	
 	        	 Part newPart;
 	        	 //If there is a flg thhat this is an update
-	        	 if(perror[4].equals("1"))
+	        	 if(perror[5].equals("1"))
 	        		 newPart = MainController.updatePart(info);
 	        	 else
 	        		 newPart = MainController.addPart(info);
 	        	 if(newPart.getErrorCount() > 0){
 	        		 addFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText());
+	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText(), unit.getText());
 	        		 addFrame.addFrame.setVisible(true);
 	        	 }
 	        	 else{ 

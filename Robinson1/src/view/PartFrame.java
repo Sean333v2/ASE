@@ -64,17 +64,14 @@ public class PartFrame{
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
-	        	 if("Unknown".equals(unit.getText()))
-	        		 info[4] = "";
-	        	 else
-	        		 info[4] = unit.getText();
+	        	 info[4] = unit.getText();
 	        	 MainController.deletePart(mainPart);
 	        	 mainPart = MainController.updatePart(info);
 
 	        	// AddController.updatePart(p, info);	       
 	        	 if(mainPart.getErrorCount() > 0){
 	        		 partFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(mainPart.getErrorList(), mainPart.getPartName(), mainPart.getPartNum(), mainPart.getVendorName(), ""+mainPart.getQuantity());
+	        		 AddFrame addFrame = new AddFrame(mainPart.getErrorList(), mainPart.getPartName(), mainPart.getPartNum(), mainPart.getVendorName(), ""+mainPart.getQuantity(), mainPart.getUnit());
 	        		 addFrame.addFrame.setVisible(true);	 	
 	        	 }
 	        	 else{
@@ -93,9 +90,6 @@ public class PartFrame{
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
 		quantity.setText(""+mainPart.getQuantity());
-		if("".equals(mainPart.getUnit()))
-			unit.setText("Unkown");
-		else
-			unit.setText(mainPart.getUnit());
+		unit.setText(mainPart.getUnit());
 	}
 }

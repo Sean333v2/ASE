@@ -52,8 +52,8 @@ public class Part{
 			if(u == null){
 				throw new IllegalArgumentException("'" + u + "' cannot be null");
 			}
-			else if("Unknown".equals(u)){
-				throw new IllegalArgumentException("'"+ u + "' cannot be 'Unkown'");
+			else if("Unknown".equals(u) || "".equals(u)){
+				throw new IllegalArgumentException("'"+ u + "' cannot be 'Unknown' or blank");
 			}
 			else{
 				this.unit = u;

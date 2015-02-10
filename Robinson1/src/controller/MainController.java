@@ -17,11 +17,11 @@ public class MainController {
 		
 	}
 	public static void addExamples(){
-		String[] ex1 = {"Adapter","8K09195656PS","","3"};
-		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1"};
-		String[] ex3 = {"Braket","8K0614235B","parts.com","2"};
-		String[] ex4 = {"Screw","8T09190702","","20"};
-		String[] ex5 = {"Isolator","8T21919070A","parts.com","1"};
+		String[] ex1 = {"Adapter","8K09195656PS","","3", "unit1"};
+		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "unit2"};
+		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "unit3"};
+		String[] ex4 = {"Screw","8T09190702","","20", "unit4"};
+		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "unit5"};
 		
 		Part part1 = addPart(ex1);
 		Part part2 = addPart(ex2);
@@ -42,6 +42,7 @@ public class MainController {
 		
 		//Remove from MainFrame
 		 mf.container.remove(p.lp.getPq());
+		 mf.container.remove(p.lp.getPu());
     	 mf.container.remove(p.lp.getPn());
     	 mf.container.remove(p.lp.getDelete());
     	 mf.container.remove(p.lp.getDetails());    	
@@ -63,6 +64,7 @@ public class MainController {
 		
 		newPart.setVendorName(stringArray[2]);
 		newPart.setQuantity(stringArray[3]);
+		newPart.setUnit(stringArray[4]);
 		
 		if(newPart.getErrorCount() == 0){
 			//Add part to mainFrame
