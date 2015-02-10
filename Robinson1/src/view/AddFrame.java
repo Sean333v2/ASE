@@ -16,9 +16,11 @@ public class AddFrame {
 	private JTextField vendor;
 	private JTextField number;
 	private JComboBox unit;
-	private int arguments = 6;
+	private JComboBox location;
+	private int arguments = 8;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 
 //git test2
 	public AddFrame(){
@@ -28,6 +30,8 @@ public class AddFrame {
 		number = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
+		location = new JComboBox(locationStrings);
+		location.setSelectedItem("Unknown");
 		
 		setUpGUI();
 	}
@@ -38,6 +42,8 @@ public class AddFrame {
 		number = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
+		location = new JComboBox(locationStrings);
+		location.setSelectedItem("Unknown");
 		
 		if ("".equals(errorPart.getErrorListIndex(0)))
 			name = new JTextField(errorPart.getPartName());
@@ -49,6 +55,8 @@ public class AddFrame {
 			quantity = new JTextField(""+errorPart.getQuantity());
 		if ("".equals(errorPart.getErrorListIndex(4)))
 			unit.setSelectedItem(errorPart.getUnit());
+		if ("".equals(errorPart.getErrorListIndex(6)))
+			location.setSelectedItem(errorPart.getLocation());
 		setUpErrorGUI(errorPart);
 		
 	}
@@ -101,6 +109,8 @@ public class AddFrame {
 	    addFrame.add(quantity);
 	    addFrame.add(new JLabel("Unit: "));
 	    addFrame.add(unit);
+	    addFrame.add(new JLabel("Location: "));
+	    addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton); 
 	    
@@ -112,6 +122,7 @@ public class AddFrame {
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
+	        	 info[6] = (String)location.getSelectedItem();
 	        	 
 	        	 
 	        	 name = new JTextField(name.getText());
@@ -119,6 +130,7 @@ public class AddFrame {
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
+	        	 location.setSelectedItem((String)location.getSelectedItem());
 	        	 
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
@@ -162,6 +174,8 @@ public class AddFrame {
 	    addFrame.add(quantity);
 	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(4)));
 	    addFrame.add(unit);
+	    addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
+	    addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -174,16 +188,20 @@ public class AddFrame {
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
+	        	 info[6] = (String)location.getSelectedItem();
+
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
+	        	 location.setSelectedItem((String)location.getSelectedItem());
+
 	        	
 	        	 Part newPart;
 				// If there is a flg thhat this is an update
-				if (errorPart.getErrorListIndex(5).equals("1"))
+				if (errorPart.getErrorListIndex(7).equals("1"))
 					newPart = MainController.updatePart(errorPart, info);
 				else
 					newPart = MainController.addPart(info);

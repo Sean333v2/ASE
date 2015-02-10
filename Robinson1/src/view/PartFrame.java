@@ -16,14 +16,15 @@ public class PartFrame{
 	private JTextField vendor;
 	private JTextField number;
 	private JComboBox unit;
+	private JComboBox location;
 	private JLabel id;
-	private int arguments = 5;
+	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public Part mainPart;
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public PartFrame(Part p){
-		int index = 0;
 		mainPart = p;
 		quantity = new JTextField(Integer.toString(p.getQuantity()));
 		name = new JTextField(p.getPartName());
@@ -31,6 +32,8 @@ public class PartFrame{
 		number = new JTextField(p.getPartNum());
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem(p.getUnit());
+		location = new JComboBox(locationStrings);
+		location.setSelectedItem(p.getLocation());
 		id = new JLabel("ID: "+p.getPersonalId());
 		setUpGUI(p);
 	}
@@ -55,6 +58,8 @@ public class PartFrame{
 	    partFrame.add(quantity);
 	    partFrame.add(new JLabel("Unit: "));
 	    partFrame.add(unit);
+	    partFrame.add(new JLabel("Location: "));
+	    partFrame.add(location);
 	    partFrame.add(id);
 	    partFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Update");
@@ -68,6 +73,7 @@ public class PartFrame{
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
+	        	 info[6] = (String)location.getSelectedItem();
 	        	 //MainController.deletePart(mainPart);
 	        	 mainPart = MainController.updatePart(mainPart, info);
 
@@ -94,6 +100,7 @@ public class PartFrame{
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
 		quantity.setText(""+mainPart.getQuantity());
-		unit.setSelectedItem(mainPart.getUnit());;
+		unit.setSelectedItem(mainPart.getUnit());
+		location.setSelectedItem(mainPart.getLocation());
 	}
 }
