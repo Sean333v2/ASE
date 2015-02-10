@@ -9,6 +9,7 @@ public class Part{
 	private String vendorName;
 	private int quantity;
 	private String unit;
+	private String location;
 	private int errorCount;
 	private int arguments = 8;
 	private boolean isNew = true;
@@ -25,6 +26,7 @@ public class Part{
 		vendorName = "";
 		quantity = 0;
 		unit = "Unknown";
+		location = "Unknown";
 		errorCount = 0;
 		lp = new listPart();
 		id++;
@@ -46,14 +48,37 @@ public class Part{
 			errorList[i] = s;
 	}
 	
-	public Part(String name, String num, String vendor, String quantity, String unit){
+	public Part(String name, String num, String vendor, String quantity, String unit, String location){
 		setPartName(name);
 		setPartNum(num);
 		setVendorName(vendor);
 		setQuantity(quantity);
 		setUnit(unit);
+		setLocation(location);
 		lp = new listPart();
 		isNew = false;
+	}
+	
+	public String getLocation(){
+		return location;
+	}
+	
+	public void setLocation(String l){
+		try{
+			if(l == null){
+				throw new IllegalArgumentException("'" + l + "' cannot be null");
+			}
+			else if("Unknown".equals(l) || "".equals(l)){
+				throw new IllegalArgumentException("Cannot be 'Unknown'");
+			}
+			else{
+				this.location = l;
+			}
+		}
+		catch(Exception e){
+			errorList[6]= ("ERROR: "+e.getMessage());
+			setErrorCount(getErrorCount() + 1);
+		}
 	}
 	
 	public String getUnit(){
@@ -66,7 +91,7 @@ public class Part{
 				throw new IllegalArgumentException("'" + u + "' cannot be null");
 			}
 			else if("Unknown".equals(u) || "".equals(u)){
-				throw new IllegalArgumentException("'"+ u + "' cannot be 'Unknown' or blank");
+				throw new IllegalArgumentException("Cannot be 'Unknown'");
 			}
 			else{
 				this.unit = u;

@@ -17,9 +17,13 @@ public class AddFrame {
 	private JTextField number;
 	private JTextField extnumber;
 	private JComboBox unit;
+
+	private JComboBox location;
+
 	private int arguments = 8;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 
 //git test2
 	public AddFrame(){
@@ -30,6 +34,8 @@ public class AddFrame {
 		extnumber = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
+		location = new JComboBox(locationStrings);
+		location.setSelectedItem("Unknown");
 		
 		setUpGUI();
 	}
@@ -41,6 +47,8 @@ public class AddFrame {
 		extnumber = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
+		location = new JComboBox(locationStrings);
+		location.setSelectedItem("Unknown");
 		
 		if ("".equals(errorPart.getErrorListIndex(0)))
 			name = new JTextField(errorPart.getPartName());
@@ -54,6 +62,10 @@ public class AddFrame {
 			unit.setSelectedItem(errorPart.getUnit());
 		if ("".equals(errorPart.getErrorListIndex(5)))
 			extnumber = new JTextField(""+errorPart.getExternalNum());
+
+		if ("".equals(errorPart.getErrorListIndex(6)))
+			location.setSelectedItem(errorPart.getLocation());
+
 		setUpErrorGUI(errorPart);
 		
 	}
@@ -108,8 +120,8 @@ public class AddFrame {
 	    addFrame.add(unit);
 	    addFrame.add(new JLabel("External Part Number: "));
 	    addFrame.add(extnumber);
-	    
-	    
+	    addFrame.add(new JLabel("Location: "));
+	    addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton); 
 	    
@@ -122,6 +134,8 @@ public class AddFrame {
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
+	        	 info[6] = (String)location.getSelectedItem();
+
 	        	 
 	        	 
 	        	 name = new JTextField(name.getText());
@@ -130,7 +144,8 @@ public class AddFrame {
 	        	 quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
-	        	 
+	        	 location.setSelectedItem((String)location.getSelectedItem());
+
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
 				newPart = MainController.addPart(info);
@@ -175,6 +190,8 @@ public class AddFrame {
 	    addFrame.add(unit);
 	    addFrame.add(new JLabel("External Part Number: "+errorPart.getErrorListIndex(5)));
 	    addFrame.add(extnumber);
+	    addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
+	    addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -188,6 +205,7 @@ public class AddFrame {
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
+	        	 info[6] = (String)location.getSelectedItem();
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
@@ -195,6 +213,8 @@ public class AddFrame {
 	        	 quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
+	        	 location.setSelectedItem((String)location.getSelectedItem());
+
 	        	
 	        	 Part newPart;
 				// If there is a flg thhat this is an update
