@@ -76,7 +76,7 @@ public class MainController {
 	}
 	public static Part updatePart(String[] stringArray){
 		
-		newPart = new Part(stringArray[0], stringArray[1], stringArray[2], "1");
+		newPart = new Part(stringArray[0], stringArray[1], stringArray[2], "1", stringArray[4]);
 		
 		//Error check for part Name, if none add
 		if(errorCheckPName(stringArray[0]))
@@ -99,7 +99,7 @@ public class MainController {
 			list.addPart(newPart);
 		}
 		//Set flag to know this is an update instance
-		newPart.setErrorList(4, "1");
+		newPart.setErrorList(5, "1");
 		
 		return newPart;
 			

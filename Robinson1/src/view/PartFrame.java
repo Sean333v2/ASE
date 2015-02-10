@@ -15,6 +15,7 @@ public class PartFrame{
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
+	private JTextField unit;
 	private int arguments = 5;
 	private String[] info = new String[arguments];
 	public Part mainPart;
@@ -25,6 +26,10 @@ public class PartFrame{
 		name = new JTextField(p.getPartName());
 		vendor = new JTextField(p.getVendorName());
 		number = new JTextField(p.getPartNum());
+		if("".equals(p.getUnit()))
+			unit = new JTextField("Unkown");
+		else
+			unit = new JTextField(p.getUnit());
 		
 		setUpGUI(p);
 	}
@@ -45,8 +50,10 @@ public class PartFrame{
 	    partFrame.add(number);
 	    partFrame.add(new JLabel("Vendor:"));
 	    partFrame.add(vendor);
-	    partFrame.add(new JLabel("Quantity"));
+	    partFrame.add(new JLabel("Quantity: "));
 	    partFrame.add(quantity);
+	    partFrame.add(new JLabel("Unit: "));
+	    partFrame.add(unit);
 	    JButton updateButton = new JButton("Update");
 	   
 	    //Work on this
@@ -57,6 +64,10 @@ public class PartFrame{
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
+	        	 if("Unknown".equals(unit.getText()))
+	        		 info[4] = "";
+	        	 else
+	        		 info[4] = unit.getText();
 	        	 MainController.deletePart(mainPart);
 	        	 mainPart = MainController.updatePart(info);
 
@@ -82,5 +93,9 @@ public class PartFrame{
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
 		quantity.setText(""+mainPart.getQuantity());
+		if("".equals(mainPart.getUnit()))
+			unit.setText("Unkown");
+		else
+			unit.setText(mainPart.getUnit());
 	}
 }

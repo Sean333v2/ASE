@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 
 public class listPart{
 	public JLabel pq;
+	public JLabel pu;
 	public JLabel pn;
 	public JButton delete;
 	public JButton details;
@@ -15,6 +16,12 @@ public class listPart{
 	}
 	public void setPq(String pq) {
 		this.pq = new JLabel(pq);
+	}
+	public JLabel getPu(){
+		return pu;
+	}
+	public void setPu(String pu){
+		this.pu = new JLabel(pu);
 	}
 	public JLabel getPn() {
 		return pn;

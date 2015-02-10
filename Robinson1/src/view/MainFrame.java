@@ -29,7 +29,7 @@ public class MainFrame{
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		mainFrame.add(scrPane);
-		container.setLayout(new GridLayout(0, 4));
+		container.setLayout(new GridLayout(0, 5));
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            System.exit(0);
@@ -37,6 +37,7 @@ public class MainFrame{
 	      });
 		mainFrame.setVisible(true);
 		container.add(new JLabel("Quantity"));
+		container.add(new JLabel("Unit"));
 		container.add(new JLabel("Name"));
 		
 		
@@ -57,8 +58,10 @@ public class MainFrame{
 	public void addPart(Part p){
 	    final PartFrame part = new PartFrame(p);
 		p.lp.setPq((Integer.toString(p.getQuantity())));
+		p.lp.setPu(p.getUnit());
 		p.lp.setPn(p.getPartName());
 		container.add(p.lp.getPq());
+		container.add(p.lp.getPu());
 		container.add(p.lp.getPn());
 		p.lp.setDetails("Details");
 	    p.lp.getDetails().addActionListener(new ActionListener() {

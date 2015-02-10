@@ -8,8 +8,9 @@ public class Part{
 	private String partName;
 	private String vendorName;
 	private int quantity;
+	private String unit;
 	private int errorCount;
-	private int arguments = 5;
+	private int arguments = 6;
 	private boolean isNew = true;
 	private String[] errorList = new String[arguments];
 	public listPart lp;
@@ -20,6 +21,7 @@ public class Part{
 		partName = "";
 		vendorName = "";
 		quantity = 0;
+		unit = "Unknown";
 		errorCount = 0;
 		lp = new listPart();
 		//errorList = null;
@@ -31,13 +33,36 @@ public class Part{
 			errorList[i] = s;
 	}
 	
-	public Part(String name, String num, String vendor, String quantity){
+	public Part(String name, String num, String vendor, String quantity, String unit){
 		setPartName(name);
 		setPartNum(num);
 		setVendorName(vendor);
 		setQuantity(quantity);
+		setUnit(unit);
 		lp = new listPart();
 		isNew = false;
+	}
+	
+	public String getUnit(){
+		return unit;
+	}
+	
+	public void setUnit(String u){
+		try{
+			if(u == null){
+				throw new IllegalArgumentException("'" + u + "' cannot be null");
+			}
+			else if("Unknown".equals(u)){
+				throw new IllegalArgumentException("'"+ u + "' cannot be 'Unkown'");
+			}
+			else{
+				this.unit = u;
+			}
+		}
+		catch(Exception e){
+			errorList[4]= ("ERROR: "+e.getMessage());
+			setErrorCount(getErrorCount() + 1);
+		}
 	}
 	
 	//Getter and Setter for ErrorList
@@ -51,7 +76,7 @@ public class Part{
 	}
 
 	public void setErrorName(){
-		errorList[4] = "Name already exists in file";
+		errorList[5] = "Name already exists in file";
 	}
 	
 	//Getter and Setter for Error Count
