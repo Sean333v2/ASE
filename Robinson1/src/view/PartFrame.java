@@ -15,9 +15,10 @@ public class PartFrame{
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
+	private JTextField extnumber;
 	private JComboBox unit;
 	private JLabel id;
-	private int arguments = 5;
+	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public Part mainPart;
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
@@ -32,6 +33,7 @@ public class PartFrame{
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem(p.getUnit());
 		id = new JLabel("ID: "+p.getPersonalId());
+		extnumber =  new JTextField(p.getExternalNum());
 		setUpGUI(p);
 	}
 	
@@ -55,7 +57,11 @@ public class PartFrame{
 	    partFrame.add(quantity);
 	    partFrame.add(new JLabel("Unit: "));
 	    partFrame.add(unit);
+	    partFrame.add(new JLabel("External Part Number: "));
+	    partFrame.add(extnumber);
 	    partFrame.add(id);
+	    
+	    
 	    partFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Update");
 	   
@@ -68,6 +74,7 @@ public class PartFrame{
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
+	        	 info[5] = extnumber.getText();
 	        	 //MainController.deletePart(mainPart);
 	        	 mainPart = MainController.updatePart(mainPart, info);
 
@@ -94,6 +101,7 @@ public class PartFrame{
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
 		quantity.setText(""+mainPart.getQuantity());
-		unit.setSelectedItem(mainPart.getUnit());;
+		unit.setSelectedItem(mainPart.getUnit());
+		extnumber.setText(mainPart.getExternalNum());
 	}
 }

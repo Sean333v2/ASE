@@ -17,11 +17,11 @@ public class MainController {
 		
 	}
 	public static void addExamples(){
-		String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces"};
-		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "Pieces"};
-		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "Pieces"};
-		String[] ex4 = {"Screw","8T09190702","","20", "Pieces"};
-		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "Pieces"};
+		String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces",""};
+		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "Pieces",""};
+		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "Pieces",""};
+		String[] ex4 = {"Screw","8T09190702","","20", "Pieces",""};
+		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "Pieces",""};
 		
 		Part part1 = addPart(ex1);
 		Part part2 = addPart(ex2);
@@ -65,6 +65,7 @@ public class MainController {
 		newPart.setVendorName(stringArray[2]);
 		newPart.setQuantity(stringArray[3]);
 		newPart.setUnit(stringArray[4]);
+		newPart.setExternalNum(stringArray[5]);
 		
 		if(newPart.getErrorCount() == 0){
 			//Add part to mainFrame
@@ -85,6 +86,7 @@ public class MainController {
 		newPart.setPartNum(stringArray[1]);
 		newPart.setVendorName(stringArray[2]);
 		newPart.setUnit(stringArray[4]);
+		newPart.setExternalNum(stringArray[5]);
 		//Error check for part Name, if none add
 		if(errorCheckPName(stringArray[0]))
 			newPart.setPartName(stringArray[0]);
@@ -111,7 +113,7 @@ public class MainController {
 			//list.addPart(newPart);
 		}
 		//Set flag to know this is an update instance
-		newPart.setErrorList(5, "1");
+		newPart.setErrorList(7, "1");
 		
 		return newPart;
 			
