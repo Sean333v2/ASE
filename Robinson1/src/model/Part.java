@@ -10,12 +10,13 @@ public class Part{
 	private int quantity;
 	private String unit;
 	private int errorCount;
-	private int arguments = 6;
+	private int arguments = 8;
 	private boolean isNew = true;
 	private String[] errorList = new String[arguments];
 	public listPart lp;
 	private static long id = 0;
 	private String personalId;
+	private String externalNum;
 
 	
 	public Part(){
@@ -28,6 +29,7 @@ public class Part{
 		lp = new listPart();
 		id++;
 		personalId = ""+id;
+		setExternalNum("");
 		//errorList = null;
 	}
 	public String getPersonalId(){
@@ -197,6 +199,22 @@ public class Part{
 			setErrorCount(getErrorCount() + 1);
 		}	
 		isNew = false;
+	}
+	public String getExternalNum() {
+		return externalNum;
+	}
+	public void setExternalNum(String externalNum) {
+		try{
+			if( vendorName.length() <= 50  )
+				this.externalNum = externalNum;
+			else{
+				throw new IllegalArgumentException("'" + externalNum + "' is longer than 50");
+			}
+		}
+		catch(IllegalArgumentException e){
+			errorList[5] =("ERROR: "+e.getMessage());
+			setErrorCount(getErrorCount() + 1);
+		}
 	}
 	
 
