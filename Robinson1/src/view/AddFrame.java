@@ -18,7 +18,7 @@ public class AddFrame {
 	private JTextField unit;
 	private int arguments = 6;
 	private String[] info = new String[arguments];
-	
+//git test2
 	public AddFrame(){
 		quantity = new JTextField("");
 		name = new JTextField("");
@@ -28,36 +28,54 @@ public class AddFrame {
 		
 		setUpGUI();
 	}
-	public AddFrame(String[] error, String n, String num, String v, String q, String u){
+	public AddFrame(Part errorPart){
 		quantity = new JTextField("");
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
 		unit = new JTextField("Unknown");
 		
-		if("".equals(error[0]))
+		if ("".equals(errorPart.getErrorListIndex(0)))
+			name = new JTextField(errorPart.getPartName());
+		if ("".equals(errorPart.getErrorListIndex(1)))
+			number = new JTextField(errorPart.getPartNum());
+		if ("".equals(errorPart.getErrorListIndex(2)))
+			vendor = new JTextField(errorPart.getVendorName());
+		if ("".equals(errorPart.getErrorListIndex(3)))
+			quantity = new JTextField(""+errorPart.getQuantity());
+		if ("".equals(errorPart.getErrorListIndex(4)))
+			unit = new JTextField(""+errorPart.getUnit());
+		setUpErrorGUI(errorPart);
+		
+	}
+	/*public AddFrame(String[] error, String n, String num, String v, String q) {
+		quantity = new JTextField("");
+		name = new JTextField("");
+		vendor = new JTextField("");
+		number = new JTextField("");
+
+		if ("".equals(error[0]))
 			name = new JTextField(n);
-		if("".equals(error[1]))
+		if ("".equals(error[1]))
 			number = new JTextField(num);
-		if("".equals(error[2]))
-   	 		vendor = new JTextField(v);
-		if("".equals(error[3]))
-   	 		quantity = new JTextField(q);
-		if("".equals(error[4]))
-			unit = new JTextField(u);
-		
+		if ("".equals(error[2]))
+			vendor = new JTextField(v);
+		if ("".equals(error[3]))
+			quantity = new JTextField(q);
+
 		setUpErrorGUI(error);
-	}
-	
-	public AddFrame(String[] error){
+	}*/
+
+	/*public AddFrame(String[] error) {
 		quantity = new JTextField("");
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
-		unit = new JTextField("Unknown");
-		
+
 		setUpErrorGUI(error);
-	}
+	}*/
+	/*public AddFrame(String[] error) {
+	}*/
 	
 	private void setUpGUI(){
 		addFrame = new JFrame("Cabinetron: Add Part");
@@ -100,16 +118,19 @@ public class AddFrame {
 	        	 
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
-	        	 newPart = MainController.addPart(info);
-	        	 if(newPart.getErrorCount() > 0){
-	        		 addFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText(), unit.getText());
-	        		 //addFrame.updateJTextFields(error, name.getText(), number.getText(), vendor.getText(), quantity.getText());
-	        		 addFrame.addFrame.setVisible(true);	 	
-	        	 }
-	        	 else{
-	        	 	addFrame.dispose();
-	        	 }
+				newPart = MainController.addPart(info);
+				if (newPart.getErrorCount() > 0) {
+					addFrame.dispose();
+					/*AddFrame addFrame = new AddFrame(newPart.getErrorList(),
+							name.getText(), number.getText(), vendor.getText(),
+							quantity.getText());*/
+					AddFrame addFrame = new AddFrame (newPart);
+					// addFrame.updateJTextFields(error, name.getText(),
+					// number.getText(), vendor.getText(), quantity.getText());
+					addFrame.addFrame.setVisible(true);
+				} else {
+					addFrame.dispose();
+				}
 	      
 	         }
 	       
@@ -117,7 +138,8 @@ public class AddFrame {
 	      });
 	   
 	}
-	private void setUpErrorGUI(String[] perror){
+
+	private void setUpErrorGUI(Part errorPart) {
 		addFrame = new JFrame("***Try Again*** ");
 		addFrame.setSize(670, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
@@ -126,15 +148,15 @@ public class AddFrame {
 	            addFrame.dispose();
 	         }        
 	      });
-	    addFrame.add(new JLabel("Name: " +perror[0]));
+		addFrame.add(new JLabel("Name: " + errorPart.getErrorListIndex(0)));
 	    addFrame.add(name);
-	    addFrame.add(new JLabel("Part Number: " +perror[1]));
+		addFrame.add(new JLabel("Part Number: " + errorPart.getErrorListIndex(1)));
 	    addFrame.add(number);
-	    addFrame.add(new JLabel("Vendor: "+perror[2]));
+		addFrame.add(new JLabel("Vendor: " + errorPart.getErrorListIndex(2)));
 	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity:  " +perror[3]));
+	    addFrame.add(new JLabel("Quantity:  " +errorPart.getErrorListIndex(3)));
 	    addFrame.add(quantity);
-	    addFrame.add(new JLabel("Unit: "+perror[4]));
+	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(4)));
 	    addFrame.add(unit);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
@@ -156,19 +178,21 @@ public class AddFrame {
 	        	 unit = new JTextField(unit.getText());
 	        	
 	        	 Part newPart;
-	        	 //If there is a flg thhat this is an update
-	        	 if(perror[5].equals("1"))
-	        		 newPart = MainController.updatePart(info);
-	        	 else
-	        		 newPart = MainController.addPart(info);
-	        	 if(newPart.getErrorCount() > 0){
-	        		 addFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(newPart.getErrorList(), name.getText(), number.getText(), vendor.getText(), quantity.getText(), unit.getText());
-	        		 addFrame.addFrame.setVisible(true);
-	        	 }
-	        	 else{ 
-	        		 addFrame.dispose();
-	        	 }
+				// If there is a flg thhat this is an update
+				if (errorPart.getErrorListIndex(5).equals("1"))
+					newPart = MainController.updatePart(errorPart, info);
+				else
+					newPart = MainController.addPart(info);
+				if (newPart.getErrorCount() > 0) {
+					addFrame.dispose();
+					/*AddFrame addFrame = new AddFrame(newPart.getErrorList(),
+							name.getText(), number.getText(), vendor.getText(),
+							quantity.getText());*/
+					AddFrame addFrame = new AddFrame(newPart);
+					addFrame.addFrame.setVisible(true);
+				} else {
+					addFrame.dispose();
+				}
 	        	
 	         }
 	        

@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import controller.MainController;
 import model.Part;
+import model.PartsList;
 
 
 public class MainFrame{
@@ -87,6 +88,14 @@ public class MainFrame{
 	      });
 	   
 	}
+	public void refresh(PartsList list){
+		container.removeAll();
+		mainFrame.dispose();
+		prepareGUI();
+		for(int i=0; i< list.getAmount(); i++){
+			addPart(list.list.get(i));
+		}
 
 	
+}
 }

@@ -16,6 +16,7 @@ public class PartFrame{
 	private JTextField vendor;
 	private JTextField number;
 	private JTextField unit;
+	private JLabel id;
 	private int arguments = 5;
 	private String[] info = new String[arguments];
 	public Part mainPart;
@@ -30,13 +31,13 @@ public class PartFrame{
 			unit = new JTextField("Unkown");
 		else
 			unit = new JTextField(p.getUnit());
-		
+		id = new JLabel("ID: "+p.getPersonalId());
 		setUpGUI(p);
 	}
 	
 	private void setUpGUI(Part p){
 		partFrame = new JFrame("Cabinetron: Part");
-		partFrame.setSize(300, 200);
+		partFrame.setSize(300, 300);
 		partFrame.setLayout(new GridLayout(0, 2));       
 	    partFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
@@ -54,6 +55,8 @@ public class PartFrame{
 	    partFrame.add(quantity);
 	    partFrame.add(new JLabel("Unit: "));
 	    partFrame.add(unit);
+	    partFrame.add(id);
+	    partFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Update");
 	   
 	    //Work on this
@@ -65,13 +68,14 @@ public class PartFrame{
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
 	        	 info[4] = unit.getText();
-	        	 MainController.deletePart(mainPart);
-	        	 mainPart = MainController.updatePart(info);
+	        	 //MainController.deletePart(mainPart);
+	        	 mainPart = MainController.updatePart(mainPart, info);
 
 	        	// AddController.updatePart(p, info);	       
 	        	 if(mainPart.getErrorCount() > 0){
 	        		 partFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(mainPart.getErrorList(), mainPart.getPartName(), mainPart.getPartNum(), mainPart.getVendorName(), ""+mainPart.getQuantity(), mainPart.getUnit());
+	        		 AddFrame addFrame = new AddFrame(mainPart);
+	        		// AddFrame addFrame = new AddFrame(mainPart.getErrorList(), mainPart.getPartName(), mainPart.getPartNum(), mainPart.getVendorName(), ""+mainPart.getQuantity());
 	        		 addFrame.addFrame.setVisible(true);	 	
 	        	 }
 	        	 else{

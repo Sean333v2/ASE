@@ -76,10 +76,15 @@ public class MainController {
 		return newPart;
 			
 	}
-	public static Part updatePart(String[] stringArray){
+	public static Part updatePart(Part newPart, String[] stringArray){
+		//Initialize error to check again in this method
+		newPart.setErrorCount(0);
 		
-		newPart = new Part(stringArray[0], stringArray[1], stringArray[2], "1", stringArray[4]);
-		
+		//newPart = new Part(stringArray[0], stringArray[1], stringArray[2], "1", stringArray[4]);
+		newPart.setPartName(stringArray[0]);
+		newPart.setPartNum(stringArray[1]);
+		newPart.setVendorName(stringArray[2]);
+		newPart.setUnit(stringArray[4]);
 		//Error check for part Name, if none add
 		if(errorCheckPName(stringArray[0]))
 			newPart.setPartName(stringArray[0]);
@@ -96,9 +101,14 @@ public class MainController {
 		}
 		if(newPart.getErrorCount() == 0){
 			//Add part to mainFrame
-			mf.addPart(newPart);
+			//mf.addPart(newPart);
+			
+			//Add to list part 
+			newPart.lp.setPq(stringArray[3]);
+			newPart.lp.setPn(stringArray[0]);
+			mf.refresh(list);
 			//Add part to list
-			list.addPart(newPart);
+			//list.addPart(newPart);
 		}
 		//Set flag to know this is an update instance
 		newPart.setErrorList(5, "1");
