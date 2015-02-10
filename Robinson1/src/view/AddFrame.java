@@ -15,16 +15,19 @@ public class AddFrame {
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
-	private JTextField unit;
+	private JComboBox unit;
 	private int arguments = 6;
 	private String[] info = new String[arguments];
+	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
+
 //git test2
 	public AddFrame(){
 		quantity = new JTextField("");
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
-		unit = new JTextField("Unknown");
+		unit = new JComboBox(unitStrings);
+		unit.setSelectedItem("Unknown");
 		
 		setUpGUI();
 	}
@@ -33,7 +36,8 @@ public class AddFrame {
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
-		unit = new JTextField("Unknown");
+		unit = new JComboBox(unitStrings);
+		unit.setSelectedItem("Unknown");
 		
 		if ("".equals(errorPart.getErrorListIndex(0)))
 			name = new JTextField(errorPart.getPartName());
@@ -44,7 +48,7 @@ public class AddFrame {
 		if ("".equals(errorPart.getErrorListIndex(3)))
 			quantity = new JTextField(""+errorPart.getQuantity());
 		if ("".equals(errorPart.getErrorListIndex(4)))
-			unit = new JTextField(""+errorPart.getUnit());
+			unit.setSelectedItem(errorPart.getUnit());
 		setUpErrorGUI(errorPart);
 		
 	}
@@ -107,14 +111,14 @@ public class AddFrame {
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
-	        	 info[4] = unit.getText();
+	        	 info[4] = (String)unit.getSelectedItem();
 	        	 
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
-	        	 unit = new JTextField(unit.getText());
+	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
@@ -169,13 +173,13 @@ public class AddFrame {
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
-	        	 info[4] = unit.getText();
+	        	 info[4] = (String)unit.getSelectedItem();
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
 	        	 quantity = new JTextField(quantity.getText());
-	        	 unit = new JTextField(unit.getText());
+	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	
 	        	 Part newPart;
 				// If there is a flg thhat this is an update

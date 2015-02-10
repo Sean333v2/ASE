@@ -15,22 +15,22 @@ public class PartFrame{
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
-	private JTextField unit;
+	private JComboBox unit;
 	private JLabel id;
 	private int arguments = 5;
 	private String[] info = new String[arguments];
 	public Part mainPart;
+	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	
 	public PartFrame(Part p){
+		int index = 0;
 		mainPart = p;
 		quantity = new JTextField(Integer.toString(p.getQuantity()));
 		name = new JTextField(p.getPartName());
 		vendor = new JTextField(p.getVendorName());
 		number = new JTextField(p.getPartNum());
-		if("".equals(p.getUnit()))
-			unit = new JTextField("Unkown");
-		else
-			unit = new JTextField(p.getUnit());
+		unit = new JComboBox(unitStrings);
+		unit.setSelectedItem(p.getUnit());
 		id = new JLabel("ID: "+p.getPersonalId());
 		setUpGUI(p);
 	}
@@ -67,7 +67,7 @@ public class PartFrame{
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	 info[3] = quantity.getText();
-	        	 info[4] = unit.getText();
+	        	 info[4] = (String)unit.getSelectedItem();
 	        	 //MainController.deletePart(mainPart);
 	        	 mainPart = MainController.updatePart(mainPart, info);
 
@@ -94,6 +94,6 @@ public class PartFrame{
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
 		quantity.setText(""+mainPart.getQuantity());
-		unit.setText(mainPart.getUnit());
+		unit.setSelectedItem(mainPart.getUnit());;
 	}
 }

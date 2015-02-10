@@ -17,11 +17,11 @@ public class MainController {
 		
 	}
 	public static void addExamples(){
-		String[] ex1 = {"Adapter","8K09195656PS","","3", "unit1"};
-		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "unit2"};
-		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "unit3"};
-		String[] ex4 = {"Screw","8T09190702","","20", "unit4"};
-		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "unit5"};
+		String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces"};
+		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "Pieces"};
+		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "Pieces"};
+		String[] ex4 = {"Screw","8T09190702","","20", "Pieces"};
+		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "Pieces"};
 		
 		Part part1 = addPart(ex1);
 		Part part2 = addPart(ex2);
