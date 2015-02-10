@@ -13,6 +13,8 @@ public class Part{
 	private boolean isNew = true;
 	private String[] errorList = new String[arguments];
 	public listPart lp;
+	private static long id = 0;
+	private String personalId;
 
 	
 	public Part(){
@@ -22,7 +24,16 @@ public class Part{
 		quantity = 0;
 		errorCount = 0;
 		lp = new listPart();
+		id++;
+		personalId = ""+id;
 		//errorList = null;
+	}
+	public String getPersonalId(){
+		return personalId;
+	}
+	public void setPersonalId(int id){
+		this.personalId = ""+id;
+			
 	}
 	public void setErrorList(int i, String s){
 		if(s == null )
@@ -48,6 +59,14 @@ public class Part{
 				errorList[i] = "";
 		}
 		return errorList;
+	}
+	public String getErrorListIndex(int i) {
+		//Last field is for error count which is initialized to 0 in the controller
+		
+			if(errorList[i] == null)
+				errorList[i] = "";
+		
+		return errorList[i];
 	}
 
 	public void setErrorName(){
