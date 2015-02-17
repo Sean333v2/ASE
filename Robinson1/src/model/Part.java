@@ -10,10 +10,10 @@ public class Part{
 	private int quantity;
 	private String unit;
 	private String location;
-	private int errorCount;
+	protected int errorCount;
 	private int arguments = 8;
 	private boolean isNew = true;
-	private String[] errorList = new String[arguments];
+	protected String[] errorList = new String[arguments];
 	public listPart lp;
 	private static long id = 0;
 	private String personalId;
@@ -26,7 +26,7 @@ public class Part{
 		vendorName = "";
 		quantity = 0;
 		unit = "Unknown";
-		location = "Unknown";
+		//location = "Unknown";
 		errorCount = 0;
 		lp = new listPart();
 		id++;
