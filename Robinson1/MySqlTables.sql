@@ -54,6 +54,4 @@ insert into users (userName, password, email)
         values ('Chuck','banana', 'chuck@nerdherd.com');
 insert into users (userName, password, email)
         values ('Jeff', 'potato', 'jeff@nerdherd.com');
-insert into users (userName, password, email)
-        values ('Skip', 'butter', 'skip@nerdherd.com');
 */
