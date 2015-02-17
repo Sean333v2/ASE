@@ -56,11 +56,4 @@ insert into users (userName, password, email)
         values ('Jeff', 'potato', 'jeff@nerdherd.com');
 insert into users (userName, password, email)
         values ('Skip', 'butter', 'skip@nerdherd.com');
-        
-insert into operatingSystems (userId, operatingSystem1)
-        values ('1','Windows');
-insert into operatingSystems (userId, operatingSystem1, operatingSystem2)
-        values ('2', 'Windows', 'Mac');
-insert into operatingSystems (userId, operatingSystem1, operatingSystem2, operatingSystem3, operatingSystem4)
-        values ('3', 'Windows', 'Mac', 'Linux', 'Other');
 */
