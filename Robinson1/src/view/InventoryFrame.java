@@ -56,8 +56,9 @@ public class InventoryFrame{
 	      });
 		JButton submitButton = new JButton("Submit");
 		
-		addButton.addActionListener(new ActionListener() {
+		submitButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
+	        	
 	        	 location = (String)locationBox.getSelectedItem();
 	        	 if(location.equals(locationStrings[3])){
 	        		return;
