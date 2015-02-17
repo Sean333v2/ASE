@@ -1,5 +1,7 @@
 package view;
-/*This class has the inventory mainframe 
+/*This class has the inventory
+ * mainframe. This shows the list of the available locations, a submit to move to another window to show
+ * inventory items from that particular location and an add part option 
  * */
 
 
@@ -61,9 +63,10 @@ public class InventoryFrame{
 	        		return;
 	        	 }
 	        	 else{
+	        		//Get from database the parts from this location
 	        		 
 	        	 }	 
-	        	 //Get from database the parts from this location
+	        	 
 	        	 
 	         }
 	      });

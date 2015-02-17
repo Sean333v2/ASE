@@ -1,5 +1,7 @@
 package view;
-
+/*
+ * This function shows the detail view of an inventory part
+ */
 import java.awt.*;
 import java.awt.event.*;
 
