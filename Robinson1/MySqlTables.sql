@@ -3,15 +3,21 @@ create database CabinetronDB;
 use CabinetronDB;
 
 drop table if exists parts;
-create table users (
-        partId       	 int primary key auto_increment,
-        partName			 varchar(255) UNIQUE COLLATE utf8_unicode_ci NOT NULL,
-		partNumber			 varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		externalNumber	 varchar(255) NOT NULL,
-		vendorName			 varchar(40) UNIQUE NOT NULL,
-		quantity		 varchar(40),
-		location		 ENUM('Male','Female'),
-		unit			 ENUM('Unknown, Pieces')
+create table parts (
+        partId       	int primary key auto_increment,
+        partName		varchar(255) NOT NULL,
+		partNumber		varchar(20) UNIQUE NOT NULL,
+		externalNumber	varchar(50),
+		vendorName		varchar(255),
+		unit			ENUM('Linear Feet', 'Pieces') NOT NULL
+);
+
+create table inventoryItems (
+        itemId       	int primary key auto_increment,
+        partId			int,
+		quantity		varchar(50),
+		Location		ENUM('Facility 1 Warehouse 1', 'Facility 1 Warehouse 2', 'Facility 2') NOT NULL,
+		FOREIGN KEY (partId) REFERENCES parts(partId)
 );
 
 
