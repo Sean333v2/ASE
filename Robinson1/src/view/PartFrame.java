@@ -93,6 +93,7 @@ public class PartFrame{
         			 //Retry to get name
         			 updateButton.doClick();
         		 }*/
+	        	 
 	        	 partFrame.dispose();
 	        	//Error frame opens	       
 	        	 if(mainPart.getErrorCount() > 0){ 

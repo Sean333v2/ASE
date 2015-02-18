@@ -87,6 +87,9 @@ public class MainFrame{
 		//Lsiteners on buttons
 	    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
+	        	 /*
+	        	if(partFrame.partFrame.isActive())
+	        		partFrame.partFrame.dispose();*/
 	        	partFrame.refresh();
 	            partFrame.partFrame.setVisible(true);
 	         }
