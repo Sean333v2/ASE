@@ -30,6 +30,7 @@ public class InventoryFrame{
 	}
 	
 	private void prepareGUI(){
+		
 		InventoryFrame = new JFrame("Inventory");
 		InventoryFrame.setSize(500,600);
 		container = new JPanel();
@@ -64,6 +65,7 @@ public class InventoryFrame{
 	        		return;
 	        	 }
 	        	 else{
+	        		 //Open inventory frame at that location
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
 		             InventoryAtLocationFrame.mainFrame.setVisible(true);
 		             //Close frame
@@ -75,6 +77,7 @@ public class InventoryFrame{
 	        	 
 	         }
 	      });
+		//Add all 'widgets' to frame and set visibility
 		container.add(new JLabel("Choose location: "));
 	    container.add(locationBox);
 	    container.add(submitButton);

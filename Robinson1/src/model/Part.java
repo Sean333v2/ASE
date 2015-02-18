@@ -11,10 +11,10 @@ public class Part{
 	private String unit;
 	private String location;
 	protected int errorCount;
-	private int arguments = 8;
+	private int arguments = 7;
 	private boolean isNew = true;
 	protected String[] errorList = new String[arguments];
-	public listPart lp;
+	public listPart listUI;
 	private static long id = 0;
 	private String personalId;
 	private String externalNum;
@@ -28,11 +28,17 @@ public class Part{
 		unit = "Unknown";
 		//location = "Unknown";
 		errorCount = 0;
-		lp = new listPart();
+		listUI = new listPart();
 		id++;
 		personalId = ""+id;
 		setExternalNum("");
 		//errorList = null;
+	}
+	public void setIsNew(boolean isNew){
+		this.isNew = isNew;
+	}
+	public boolean getIsNew(){
+		return isNew;
 	}
 	public String getPersonalId(){
 		return personalId;
@@ -55,7 +61,7 @@ public class Part{
 		setQuantity(quantity);
 		setUnit(unit);
 		setLocation(location);
-		lp = new listPart();
+		listUI = new listPart();
 		isNew = false;
 	}
 	
@@ -174,6 +180,8 @@ public class Part{
 			errorList[0] = ("ERROR: "+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
+		//Check if there is an existing part for updated parts
+		
 		
 	}
 
@@ -201,8 +209,9 @@ public class Part{
 		return quantity;
 	}
 	public void setQuantity(String squantity) {
+		int quantityInt;
 		try{
-			quantity = Integer.parseInt(squantity);
+			quantityInt = Integer.parseInt(squantity);
 		}
 		catch(NumberFormatException e){
 			errorList[3] = ("ERROR: Not a number");
@@ -210,10 +219,10 @@ public class Part{
 			return;
 		}
 		try{
-			if( quantity > 0  )
-				this.quantity = quantity;
-			else if(isNew == false && quantity == 0){
-				this.quantity = quantity;
+			if( quantityInt > 0  )
+				quantity = quantityInt;
+			else if(isNew == false && quantityInt == 0){
+				this.quantity = quantityInt;
 			}
 			else{
 				throw new IllegalArgumentException("This variable should be greater than 0");

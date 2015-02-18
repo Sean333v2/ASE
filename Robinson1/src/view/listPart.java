@@ -2,49 +2,43 @@ package view;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-
+//This class is specifically for the viewing of the parts in the mainframe
+//Each part has a listpart object that gets set in the main controller method addpart
 public class listPart {
-	public JLabel pq;
-	public JLabel pu;
-	public JLabel pn;
-	public JButton delete;
-	public JButton details;
+	private JLabel partQuantityLabel;
+	private JLabel partUnitLabel;
+	private JLabel partNameLabel;
+	private JButton deleteButton = new JButton("Delete");
+	private JButton detailsButton = new JButton("Details");
 
-	public JLabel getPq() {
-		return pq;
-	}
-
-	public void setPq(String pq) {
-		this.pq = new JLabel(pq);
-	}
-	public JLabel getPu(){
-		return pu;
-	}
-	public void setPu(String pu){
-		this.pu = new JLabel(pu);
-	}
-	public JLabel getPn() {
-		return pn;
+	public JLabel getPartQuantityLabel() {
+		return partQuantityLabel;
 	}
 
-	public void setPn(String pn) {
-		this.pn = new JLabel(pn);
+	public void setPartQuantityLabel(String partQuantityLabel) {
+		this.partQuantityLabel = new JLabel(partQuantityLabel);
+	}
+	public JLabel getPartUnitLabel(){
+		return partUnitLabel;
+	}
+	public void setPartUnitLabel(String partUnitLabel){
+		this.partUnitLabel = new JLabel(partUnitLabel);
+	}
+	public JLabel getPartNameLabel() {
+		return partNameLabel;
 	}
 
-	public JButton getDelete() {
-		return delete;
+	public void setPartNameLabel(String partNameLabel) {
+		this.partNameLabel = new JLabel(partNameLabel);
 	}
 
-	public void setDelete(String delete) {
-		this.delete = new JButton(delete);
+	public JButton getDeleteButton() {
+		return deleteButton;
 	}
 
-	public JButton getDetails() {
-		return details;
+	public JButton getDetailsButton() {
+		return detailsButton;
 	}
 
-	public void setDetails(String details) {
-		this.details = new JButton(details);
-	}
 
 }

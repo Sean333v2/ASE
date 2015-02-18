@@ -81,7 +81,7 @@ public class PartFrame{
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
 	        	 info[6] = (String)location.getSelectedItem();
-	        	 mainPart = MainController.updatePart(mainPart, info);
+	        	 mainPart = MainController.updatePart(info,mainPart);
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.

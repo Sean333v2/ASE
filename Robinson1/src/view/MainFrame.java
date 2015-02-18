@@ -66,38 +66,37 @@ public class MainFrame{
 	}
 	
 	
-	public void addPart(Part p){
-	    final PartFrame part = new PartFrame(p);
-		p.lp.setPq((Integer.toString(p.getQuantity())));
-		p.lp.setPu(p.getUnit());
-		p.lp.setPn(p.getPartName());
-		container.add(p.lp.getPq());
-		container.add(p.lp.getPu());
-		container.add(p.lp.getPn());
-		p.lp.setDetails("Details");
-	    p.lp.getDetails().addActionListener(new ActionListener() {
+	public void addPart(Part addPart){
+	    final PartFrame partFrame = new PartFrame(addPart);
+		//Adds all to necessary fields to the  main frame
+		container.add(addPart.listUI.getPartQuantityLabel());
+		container.add(addPart.listUI.getPartUnitLabel());
+		container.add(addPart.listUI.getPartNameLabel());
+		container.add(addPart.listUI.getDetailsButton());
+		container.add(addPart.listUI.getDeleteButton());
+		
+		//Lsiteners on buttons
+	    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	part.refresh();
-	            part.partFrame.setVisible(true);
+	        	partFrame.refresh();
+	            partFrame.partFrame.setVisible(true);
 	         }
 	      });
 	    
-	    p.lp.setDelete("Delete");
-	    container.add(p.lp.getDetails());
-	    container.add(p.lp.getDelete());
-	    mainFrame.setVisible(true);
-	    p.lp.getDelete().addActionListener(new ActionListener() {
+	    addPart.listUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deletePart(p);
-	        	 if( part.partFrame.isShowing() )
-	        		 part.partFrame.dispose();
+	        	 MainController.deletePart(addPart);
+	        	 if( partFrame.partFrame.isShowing() )
+	        		 partFrame.partFrame.dispose();
  
 	        	 
 	         }
 	      });
+	    mainFrame.setVisible(true);
 	   
 	}
+	
 	public void refresh(PartsList list){
 		container.removeAll();
 		mainFrame.dispose();
@@ -105,7 +104,6 @@ public class MainFrame{
 		for(int i=0; i< list.getAmount(); i++){
 			addPart(list.list.get(i));
 		}
-
 	
 }
 }

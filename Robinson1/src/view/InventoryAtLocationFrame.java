@@ -25,66 +25,75 @@ public class InventoryAtLocationFrame{
 		prepareGUI();
 	}
 	private void prepareGUI(){
+		
+		//Prepare frame and panel
 		mainFrame = new JFrame("Cabinetron: Parts in " + location );
-		mainFrame.setSize(500,600);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
+		JButton addButton = new JButton("Add Inventory Part");
+		
+		mainFrame.setSize(500,600);
 		mainFrame.add(scrPane);
 		container.setLayout(new GridLayout(0, 5));
+		
+		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            mainFrame.dispose();
 	         }        
 	      });
 		
-		container.add(new JLabel("Quantity"));
-		container.add(new JLabel("Name"));
-		
-		JButton addButton = new JButton("Add Inventory Part");
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 AddFrame addFrame = new AddFrame();
 	             addFrame.addFrame.setVisible(true);
 	         }
 	      });
+		
+		//Add all widgets to frame and set visibility
+		container.add(new JLabel("Quantity"));
+		container.add(new JLabel("Name"));
 		container.add(addButton);
 		container.add(new JLabel(""));
 		mainFrame.setVisible(true);
 		
 	}
-	
-	public void addPart(Part p){
-	    final PartFrame part = new PartFrame(p);
-		p.lp.setPq((Integer.toString(p.getQuantity())));
-		p.lp.setPu(p.getUnit());
-		p.lp.setPn(p.getPartName());
-		container.add(p.lp.getPq());
-		container.add(p.lp.getPu());
-		container.add(p.lp.getPn());
-		p.lp.setDetails("Details");
-	    p.lp.getDetails().addActionListener(new ActionListener() {
+	//This function adds part to the main frame
+	public void addPart(Part addPart){
+	    final PartFrame partFrame = new PartFrame(addPart);
+	    
+		//Add to mainframe part details & buttons
+		container.add(addPart.listUI.getPartQuantityLabel());
+		container.add(addPart.listUI.getPartUnitLabel());
+		container.add(addPart.listUI.getPartNameLabel());
+	    container.add(addPart.listUI.getDetailsButton());
+	    container.add(addPart.listUI.getDeleteButton());
+		
+	    //Listeners for the two buttons
+	    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	part.refresh();
-	            part.partFrame.setVisible(true);
+	        	partFrame.refresh();
+	            partFrame.partFrame.setVisible(true);
 	         }
 	      });
 	    
-	    p.lp.setDelete("Delete");
-	    container.add(p.lp.getDetails());
-	    container.add(p.lp.getDelete());
-	    mainFrame.setVisible(true);
-	    p.lp.getDelete().addActionListener(new ActionListener() {
+	    
+	    addPart.listUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deletePart(p);
-	        	 if( part.partFrame.isShowing() )
-	        		 part.partFrame.dispose();
+	        	 MainController.deletePart(addPart);
+	        	 if( partFrame.partFrame.isShowing() )
+	        		 partFrame.partFrame.dispose();
  
 	        	 
 	         }
 	      });
+	    
+	    //UI
+	    mainFrame.setVisible(true);
 	   
 	}
+	
 	public void refresh(PartsList list){
 		container.removeAll();
 		mainFrame.dispose();

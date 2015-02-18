@@ -121,7 +121,7 @@ public class AddFrame {
 	        	 	
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
-				newPart = MainController.addPart(info);
+				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
 				String partNameError = "ERROR: Name already exists";
@@ -200,10 +200,10 @@ public class AddFrame {
 	        	
 	        	 Part newPart;
 				// If there is a flg thhat this is an update
-				if (errorPart.getErrorListIndex(7).equals("1"))
-					newPart = MainController.updatePart(errorPart, info);
+				if (errorPart.getIsNew() == false)
+					newPart = MainController.updatePart(info, errorPart);
 				else
-					newPart = MainController.addPart(info);
+					newPart = MainController.addPart(info,new Part());
 				if (newPart.getErrorCount() > 0) {
 					addFrame.dispose();
 					/*AddFrame addFrame = new AddFrame(newPart.getErrorList(),
