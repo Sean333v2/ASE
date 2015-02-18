@@ -25,28 +25,41 @@ public class MainFrame{
 	
 	
 	private void prepareGUI(){
+		
+		//Allocate memory
 		mainFrame = new JFrame("Cabinetron");
-		mainFrame.setSize(550,600);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
-		mainFrame.add(scrPane);
 		container.setLayout(new GridLayout(0, 5));
+		JButton addButton = new JButton("Add Part");
+		JButton inventoryButton = new JButton("Inventory");
+		
+		//Construct mainframe
+		mainFrame.setSize(550,600);
+		mainFrame.add(scrPane);
+		
+		//Add buttons and labels to UI
+		container.add(new JLabel("Quantity"));
+		container.add(new JLabel("Unit"));
+		container.add(new JLabel("Name"));
+		container.add(addButton);
+		container.add(inventoryButton);
+		
+		
+		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            System.exit(0);
 	         }        
 	      });
 		
-		
-		
-		JButton addButton = new JButton("Add Part");
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 AddFrame addFrame = new AddFrame();
 	             addFrame.addFrame.setVisible(true);
 	         }
 	      });
-		JButton inventoryButton = new JButton("Inventory");
+		
 		inventoryButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 InventoryFrame InvFrame = new InventoryFrame();
@@ -54,12 +67,7 @@ public class MainFrame{
 	         }
 	      });
 		
-		container.add(new JLabel("Quantity"));
-		container.add(new JLabel("Unit"));
-		container.add(new JLabel("Name"));
-		container.add(addButton);
-		//container.add(new JLabel(""));
-		container.add(inventoryButton);
+		
 		mainFrame.setVisible(true);
 		
 		
@@ -68,6 +76,7 @@ public class MainFrame{
 	
 	public void addPart(Part addPart){
 	    final PartFrame partFrame = new PartFrame(addPart);
+	    
 		//Adds all to necessary fields to the  main frame
 		container.add(addPart.listUI.getPartQuantityLabel());
 		container.add(addPart.listUI.getPartUnitLabel());
@@ -88,9 +97,7 @@ public class MainFrame{
 	        	 //Delete Part
 	        	 MainController.deletePart(addPart);
 	        	 if( partFrame.partFrame.isShowing() )
-	        		 partFrame.partFrame.dispose();
- 
-	        	 
+	        		 partFrame.partFrame.dispose();	 
 	         }
 	      });
 	    mainFrame.setVisible(true);

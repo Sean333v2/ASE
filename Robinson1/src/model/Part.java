@@ -12,7 +12,7 @@ public class Part{
 	private String location;
 	protected int errorCount;
 	private int arguments = 7;
-	private boolean isNew = true;
+	private boolean isNew;
 	protected String[] errorList = new String[arguments];
 	public listPart listUI;
 	private static long id = 0;
@@ -31,7 +31,8 @@ public class Part{
 		listUI = new listPart();
 		id++;
 		personalId = ""+id;
-		setExternalNum("");
+		externalNum ="";
+		isNew = true;
 		//errorList = null;
 	}
 	public void setIsNew(boolean isNew){
@@ -53,7 +54,7 @@ public class Part{
 		else
 			errorList[i] = s;
 	}
-	
+	//Only for testing purposes
 	public Part(String name, String num, String vendor, String quantity, String unit, String location){
 		setPartName(name);
 		setPartNum(num);
@@ -232,7 +233,7 @@ public class Part{
 			errorList[3] =("ERROR: Must be greater");
 			setErrorCount(getErrorCount() + 1);
 		}	
-		isNew = false;
+		
 	}
 	public String getExternalNum() {
 		return externalNum;

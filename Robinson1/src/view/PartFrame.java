@@ -69,8 +69,8 @@ public class PartFrame{
 	    
 	    partFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Update");
-	   
 	    String partNameError = "ERROR: Name already exists";
+	    partFrame.add(updateButton);
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	        	 
@@ -85,31 +85,24 @@ public class PartFrame{
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
-        		 if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
+        		/* if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
         			 JOptionPane.showMessageDialog(partFrame,
         					    "Part Name already exists",
         					    "PName warning",
         					    JOptionPane.WARNING_MESSAGE);
         			 //Retry to get name
         			 updateButton.doClick();
-        		 }
-        		 
-	        		       
-	        	 if(mainPart.getErrorCount() > 0){
-	        		 
-	        		 partFrame.dispose();
+        		 }*/
+	        	 partFrame.dispose();
+	        	//Error frame opens	       
+	        	 if(mainPart.getErrorCount() > 0){ 
 	        		 AddFrame addFrame = new AddFrame(mainPart);
 	        		addFrame.addFrame.setVisible(true);	 	
 	        	 }
-	        	 else{
-	        		partFrame.dispose();
-	        		 }
-	        	 
-	           
-	        	 
+	        	
 	         }
 	      });
-	    partFrame.add(updateButton);
+	   
 	}
 	
 	public void refresh(){

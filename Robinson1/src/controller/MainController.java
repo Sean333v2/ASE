@@ -43,39 +43,43 @@ public class MainController {
 		 listPartsFrame.container.remove(deletePart.listUI.getPartUnitLabel());
     	 listPartsFrame.container.remove(deletePart.listUI.getPartNameLabel());
     	 listPartsFrame.container.remove(deletePart.listUI.getDeleteButton());
-    	 listPartsFrame.container.remove(deletePart.listUI.getDetailsButton());    	
+    	 listPartsFrame.container.remove(deletePart.listUI.getDetailsButton()); 
     	 listPartsFrame.container.revalidate();
     	 
 	}
 	
 	public static Part addPart(String[] stringArray, Part addPart){
 		newPart = addPart;
+		//Error check for for duplicates locally first before sending to model
+		//to avoid loosing original part name and num
+		if(errorCheckPName(stringArray[0])){
+			newPart.setPartName(stringArray[0]);
+		}
+		
+		if(errorCheckpNum(stringArray[1])){
+			newPart.setPartNum(stringArray[1]);
+		}
+			
 		//Error check with model 
 		newPart.setPartName(stringArray[0]);
-		newPart.setPartName(stringArray[1]);
+		newPart.setPartNum(stringArray[1]);
 		newPart.setVendorName(stringArray[2]);
 		newPart.setQuantity(stringArray[3]);
 		newPart.setUnit(stringArray[4]);
 		newPart.setExternalNum(stringArray[5]);
 		newPart.setLocation(stringArray[6]);
 		
-		//Error check for for duplicates locally
-		if(errorCheckPName(stringArray[0]))
-			newPart.setPartName(stringArray[0]);
-		if(errorCheckpNum(stringArray[1]))
-			newPart.setPartNum(stringArray[1]);
 		
+		newPart.listUI.setPartQuantityLabel((Integer.toString(newPart.getQuantity())));
+		newPart.listUI.setPartUnitLabel(newPart.getUnit());
+		newPart.listUI.setPartNameLabel(newPart.getPartName());
 		
-		
-		if(newPart.getErrorCount() == 0){
+		if(newPart.getErrorCount() == 0 && newPart.getIsNew() == true){
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
 			//Add part to list
-			list.addPart(newPart);
+			list.addPart(newPart);	
 			
-			newPart.listUI.setPartQuantityLabel((Integer.toString(newPart.getQuantity())));
-			newPart.listUI.setPartUnitLabel(newPart.getUnit());
-			newPart.listUI.setPartNameLabel(newPart.getPartName());
 		}
 		
 		return newPart;
@@ -83,7 +87,7 @@ public class MainController {
 	}
 	public static Part updatePart(String[] stringArray, Part updatePart ){
 		//Initialize error to check again in this method
-		
+		updatePart.setErrorCount(0);
 		/*newPart.setPartName(stringArray[0]);
 		newPart.setPartNum(stringArray[1]);
 		newPart.setVendorName(stringArray[2]);
@@ -97,48 +101,19 @@ public class MainController {
 		updatePart = addPart(stringArray, updatePart);
 		
 		if(newPart.getErrorCount() == 0){
-			
-			//Add to list part & refresh
-			updatePart.listUI.setPartQuantityLabel(stringArray[3]);
-			updatePart.listUI.setPartUnitLabel(stringArray[4]);
-			updatePart.listUI.setPartNameLabel(stringArray[0]);
-			listPartsFrame.refresh(list);
-			
+			listPartsFrame.refresh(list);	
 		}
 		
 		return updatePart;
 			
 	}
-	//Might not need this anymore
-	/*
-	private static boolean errorCheckUpdateQuantity(String squantity){
-		int quantity;
-		try{
-			quantity = Integer.parseInt(squantity);
-		}
-		catch(NumberFormatException e){
-			newPart.setErrorList(3, "ERROR: Not a number");
-			newPart.setErrorCount(newPart.getErrorCount() + 1);
-			return false;
-		}
-		try{
-			if( quantity < 0  )
-				throw new IllegalArgumentException("This variable should be greater than or equal to 0");
-			
-		}
-		catch(IllegalArgumentException e){
-			newPart.setErrorList(3,"ERROR: Must be greater");
-			newPart.setErrorCount(newPart.getErrorCount() + 1);
-			return false;
-		}
-		return true;
-	}*/
+
 	
 	//Error check is part number already exists
 	private static boolean errorCheckpNum(String partNum){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
-				if(list.list.get(i).getPartNum().equals(partNum)){
+				if(list.list.get(i).getPartNum().equals(partNum) && !newPart.getPartNum().equals(partNum)){
 					throw new IllegalArgumentException("'"+ partNum+"' already exists" );
 				}
 			}
@@ -155,7 +130,7 @@ public class MainController {
 	private static boolean errorCheckPName(String partName){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
-				if(list.list.get(i).getPartName().equals(partName)){
+				if(list.list.get(i).getPartName().equals(partName) && !newPart.getPartName().equals(partName)){
 					throw new IllegalArgumentException("'"+ partName+"' already exists" );
 				}
 			}

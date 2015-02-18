@@ -17,10 +17,8 @@ public class AddFrame {
 	private JTextField number;
 	private JTextField extnumber;
 	private JComboBox unit;
-
 	private JComboBox location;
-
-	private int arguments = 8;
+	private int arguments = 7;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
@@ -120,7 +118,7 @@ public class AddFrame {
 	        	 
 	        	 	
 	        	//Get Error report to possibly show in frame
-	        	 Part newPart;
+	        	Part newPart;
 				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
@@ -199,16 +197,13 @@ public class AddFrame {
 
 	        	
 	        	 Part newPart;
-				// If there is a flg thhat this is an update
+				// If there is a flag thhat this is an update
 				if (errorPart.getIsNew() == false)
 					newPart = MainController.updatePart(info, errorPart);
 				else
 					newPart = MainController.addPart(info,new Part());
 				if (newPart.getErrorCount() > 0) {
 					addFrame.dispose();
-					/*AddFrame addFrame = new AddFrame(newPart.getErrorList(),
-							name.getText(), number.getText(), vendor.getText(),
-							quantity.getText());*/
 					AddFrame addFrame = new AddFrame(newPart);
 					addFrame.addFrame.setVisible(true);
 				} else {
