@@ -27,16 +27,16 @@ public class PartFrame{
 	
 	public PartFrame(Part p){
 		mainPart = p;
-		quantity = new JTextField(Integer.toString(p.getQuantity()));
-		name = new JTextField(p.getPartName());
-		vendor = new JTextField(p.getVendorName());
-		number = new JTextField(p.getPartNum());
+		quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
+		name = new JTextField(mainPart.getPartName());
+		vendor = new JTextField(mainPart.getVendorName());
+		number = new JTextField(mainPart.getPartNum());
 		unit = new JComboBox(unitStrings);
-		unit.setSelectedItem(p.getUnit());
+		unit.setSelectedItem(mainPart.getUnit());
 		location = new JComboBox(locationStrings);
-		location.setSelectedItem(p.getLocation());
+		location.setSelectedItem(mainPart.getLocation());
 		id = new JLabel("ID: "+p.getPersonalId());
-		extnumber =  new JTextField(p.getExternalNum());
+		extnumber =  new JTextField(mainPart.getExternalNum());
 		setUpGUI(p);
 	}
 	
@@ -83,8 +83,6 @@ public class PartFrame{
 	        	 info[6] = (String)location.getSelectedItem();
 	        	 mainPart = MainController.updatePart(mainPart, info);
 	        	
-	        	 //Maybe moved to add part?
-	        	 //Create a method
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
         		 if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
@@ -93,8 +91,7 @@ public class PartFrame{
         					    "PName warning",
         					    JOptionPane.WARNING_MESSAGE);
         			 //Retry to get name
-        			 info[0] = name.getText();
-        			 mainPart = MainController.updatePart(mainPart, info);
+        			 updateButton.doClick();
         		 }
         		 
 	        		       

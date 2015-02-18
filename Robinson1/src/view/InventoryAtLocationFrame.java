@@ -15,8 +15,8 @@ import model.PartsList;
 
 
 public class InventoryAtLocationFrame{
-	private static JFrame mainFrame;
-	public JPanel container;
+	public static JFrame mainFrame;
+	private JPanel container;
 	private String location;
 	//public static PartFrame part;
 	
@@ -33,7 +33,7 @@ public class InventoryAtLocationFrame{
 		container.setLayout(new GridLayout(0, 5));
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            System.exit(0);
+	            mainFrame.dispose();
 	         }        
 	      });
 		

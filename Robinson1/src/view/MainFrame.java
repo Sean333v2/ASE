@@ -26,7 +26,7 @@ public class MainFrame{
 	
 	private void prepareGUI(){
 		mainFrame = new JFrame("Cabinetron");
-		mainFrame.setSize(500,600);
+		mainFrame.setSize(550,600);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		mainFrame.add(scrPane);
@@ -36,10 +36,7 @@ public class MainFrame{
 	            System.exit(0);
 	         }        
 	      });
-		mainFrame.setVisible(true);
-		container.add(new JLabel("Quantity"));
-		container.add(new JLabel("Unit"));
-		container.add(new JLabel("Name"));
+		
 		
 		
 		JButton addButton = new JButton("Add Part");
@@ -49,9 +46,22 @@ public class MainFrame{
 	             addFrame.addFrame.setVisible(true);
 	         }
 	      });
+		JButton inventoryButton = new JButton("Inventory");
+		inventoryButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 InventoryFrame InvFrame = new InventoryFrame();
+	             InventoryFrame.InventoryFrame.setVisible(true);
+	         }
+	      });
+		
+		container.add(new JLabel("Quantity"));
+		container.add(new JLabel("Unit"));
+		container.add(new JLabel("Name"));
 		container.add(addButton);
-		container.add(new JLabel(""));
-
+		//container.add(new JLabel(""));
+		container.add(inventoryButton);
+		mainFrame.setVisible(true);
+		
 		
 	}
 	

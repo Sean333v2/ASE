@@ -16,7 +16,7 @@ import model.PartsList;
 
 
 public class InventoryFrame{
-	private static JFrame InventoryFrame;
+	public static JFrame InventoryFrame;
 	public JPanel container;
 	private JComboBox locationBox;
 	private String location;
@@ -38,7 +38,7 @@ public class InventoryFrame{
 		container.setLayout(new GridLayout(0, 5));
 		InventoryFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            System.exit(0);
+	            InventoryFrame.dispose();
 	         }        
 	      });
 		
@@ -64,6 +64,10 @@ public class InventoryFrame{
 	        		return;
 	        	 }
 	        	 else{
+	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
+		             InventoryAtLocationFrame.mainFrame.setVisible(true);
+		             //Close frame
+		             InventoryFrame.dispose();
 	        		//Get from database the parts from this location
 	        		 
 	        	 }	 
@@ -79,12 +83,12 @@ public class InventoryFrame{
 		InventoryFrame.setVisible(true);
 		
 	}
-	public static void main(String args[]){
+/*	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
 		InventoryFrame If = new InventoryFrame();
 		
 		
-	}
+	}*/
 }
 	
 	

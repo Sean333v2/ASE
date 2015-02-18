@@ -16,7 +16,7 @@ public class MainController {
 		
 	}
 	public static void addExamples(){
-	/*	String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces", "", "Facility 2"};
+		String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces", "", "Facility 2"};
 		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "Pieces", "", "Facility 2"};
 		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "Pieces" ,"", "Facility 2"};
 		String[] ex4 = {"Screw","8T09190702","","20", "Pieces", "", "Facility 2"};
@@ -26,7 +26,7 @@ public class MainController {
 		Part part2 = addPart(ex2);
 		Part part3 = addPart(ex3);
 		Part part4 = addPart(ex4);
-		Part part5 = addPart(ex5);*/
+		Part part5 = addPart(ex5);
 		/*for(int i=0; i < list.getAmount(); i++)
 		System.out.println(list.list.get(i).getPartName());
 		deletePart(part5);

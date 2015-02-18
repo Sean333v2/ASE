@@ -69,35 +69,7 @@ public class AddFrame {
 		setUpErrorGUI(errorPart);
 		
 	}
-	/*public AddFrame(String[] error, String n, String num, String v, String q) {
-		quantity = new JTextField("");
-		name = new JTextField("");
-		vendor = new JTextField("");
-		number = new JTextField("");
 
-		if ("".equals(error[0]))
-			name = new JTextField(n);
-		if ("".equals(error[1]))
-			number = new JTextField(num);
-		if ("".equals(error[2]))
-			vendor = new JTextField(v);
-		if ("".equals(error[3]))
-			quantity = new JTextField(q);
-
-		setUpErrorGUI(error);
-	}*/
-
-	/*public AddFrame(String[] error) {
-		quantity = new JTextField("");
-		name = new JTextField("");
-		vendor = new JTextField("");
-		number = new JTextField("");
-
-		setUpErrorGUI(error);
-	}*/
-	/*public AddFrame(String[] error) {
-	}*/
-	
 	private void setUpGUI(){
 		addFrame = new JFrame("Cabinetron: Add Part");
 		addFrame.setSize(300, 200);
@@ -145,18 +117,28 @@ public class AddFrame {
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
 	        	 location.setSelectedItem((String)location.getSelectedItem());
-
+	        	 
+	        	 	
 	        	//Get Error report to possibly show in frame
 	        	 Part newPart;
 				newPart = MainController.addPart(info);
+				
+				//show warning if part already exists
+				String partNameError = "ERROR: Name already exists";
+				if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+       			 JOptionPane.showMessageDialog(addFrame,
+       					    "Part Name already exists",
+       					    "PName warning",
+       					    JOptionPane.WARNING_MESSAGE);
+       			 //Retry 
+       			 submitButton.doClick();
+       			 
+       		 }
+				
+				
 				if (newPart.getErrorCount() > 0) {
 					addFrame.dispose();
-					/*AddFrame addFrame = new AddFrame(newPart.getErrorList(),
-							name.getText(), number.getText(), vendor.getText(),
-							quantity.getText());*/
 					AddFrame addFrame = new AddFrame (newPart);
-					// addFrame.updateJTextFields(error, name.getText(),
-					// number.getText(), vendor.getText(), quantity.getText());
 					addFrame.addFrame.setVisible(true);
 				} else {
 					addFrame.dispose();
