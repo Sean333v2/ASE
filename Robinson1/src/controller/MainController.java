@@ -78,8 +78,7 @@ public class MainController {
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
 			//Add part to list
-			list.addPart(newPart);	
-			
+			list.addPart(newPart);		
 		}
 		
 		return newPart;

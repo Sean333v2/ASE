@@ -8,9 +8,10 @@ public class listPart {
 	private JLabel partQuantityLabel;
 	private JLabel partUnitLabel;
 	private JLabel partNameLabel;
-	private JButton deleteButton = new JButton("Delete");
-	private JButton detailsButton = new JButton("Details");
-
+	private JButton deleteButton ;
+	private JButton detailsButton;
+	
+	
 	public JLabel getPartQuantityLabel() {
 		return partQuantityLabel;
 	}
@@ -35,9 +36,14 @@ public class listPart {
 	public JButton getDeleteButton() {
 		return deleteButton;
 	}
-
+	public void setDeleteButton(String delete){
+		deleteButton = new JButton(delete);
+	}
 	public JButton getDetailsButton() {
 		return detailsButton;
+	}
+	public void setDetailsButton(String detail){
+		detailsButton = new JButton(detail);
 	}
 
 

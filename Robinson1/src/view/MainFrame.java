@@ -77,6 +77,9 @@ public class MainFrame{
 	public void addPart(Part addPart){
 	    final PartFrame partFrame = new PartFrame(addPart);
 	    
+	    addPart.listUI.setDeleteButton("Delete");
+	    addPart.listUI.setDetailsButton("Details");
+	    
 		//Adds all to necessary fields to the  main frame
 		container.add(addPart.listUI.getPartQuantityLabel());
 		container.add(addPart.listUI.getPartUnitLabel());
@@ -85,6 +88,7 @@ public class MainFrame{
 		container.add(addPart.listUI.getDeleteButton());
 		
 		//Lsiteners on buttons
+		
 	    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 /*
