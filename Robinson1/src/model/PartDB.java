@@ -45,16 +45,22 @@ public class PartDB {
 			return null;
 		try{
 			Connection conn = Database.getConnection();
+			
+			//Added a new row into the parts table with the data from p.
 			stmt = conn.prepareStatement("INSERT INTO parts (partName, partNumber, externalNumber, vendorName, unit)"+
 										"VALUES (?, ?, ?, ?, ?);");
+			//Sets the variables from p into the query.
 			stmt.setString(1, p.getPartName());
 			stmt.setString(2, p.getPartNum());
 			stmt.setString(3, p.getExternalNum());
 			stmt.setString(4, p.getVendorName());
 			stmt.setString(5, p.getUnit());
-			if(stmt.execute())
+			
+			if(stmt.execute())//If an error occurs throw exception.
 				throw new SQLException();
 			
+			//The rest of the code gets back the information from the new row that was just added.
+			//This will give us an ID to put into the part object.
 			stmt = conn.prepareStatement("SELECT * FROM parts WHERE partNumber = ?");
 			stmt.setString(1, p.getPartNum());
 			rs = stmt.executeQuery();
