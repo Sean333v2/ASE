@@ -23,7 +23,6 @@ public class AddFrame {
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 
-//git test2
 	public AddFrame(){
 		quantity = new JTextField("");
 		name = new JTextField("");
@@ -122,19 +121,18 @@ public class AddFrame {
 				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
-				String partNameError = "ERROR: Name already exists";
+				String partNameError = "ERROR: '"+ newPart.getPartName()+"' already exists";
 				if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "Part Name already exists",
        					    "PName warning",
        					    JOptionPane.WARNING_MESSAGE);
        			 //Retry 
-       			 submitButton.doClick();
-       			 
+	 
        		 }
 				
 				
-				if (newPart.getErrorCount() > 0) {
+				if (newPart.getErrorCount() > 0 ) {
 					addFrame.dispose();
 					AddFrame addFrame = new AddFrame (newPart);
 					addFrame.addFrame.setVisible(true);
@@ -197,7 +195,7 @@ public class AddFrame {
 
 	        	
 	        	 Part newPart;
-				// If there is a flag thhat this is an update
+				// If there is a flag that this is an update
 				if (errorPart.getIsNew() == false)
 					newPart = MainController.updatePart(info, errorPart);
 				else

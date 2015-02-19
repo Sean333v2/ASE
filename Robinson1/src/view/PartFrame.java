@@ -40,7 +40,7 @@ public class PartFrame{
 		setUpGUI(p);
 	}
 	
-	private void setUpGUI(Part p){
+	private void setUpGUI(Part newPart){
 		partFrame = new JFrame("Cabinetron: Part");
 		partFrame.setSize(300, 300);
 		partFrame.setLayout(new GridLayout(0, 2));       
@@ -69,7 +69,6 @@ public class PartFrame{
 	    
 	    partFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Update");
-	    String partNameError = "ERROR: Name already exists";
 	    partFrame.add(updateButton);
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,28 +80,35 @@ public class PartFrame{
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
 	        	 info[6] = (String)location.getSelectedItem();
+	        	 String originalName = newPart.getPartName();
 	        	 mainPart = MainController.updatePart(info,mainPart);
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
-        		/* if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
-        			 JOptionPane.showMessageDialog(partFrame,
-        					    "Part Name already exists",
-        					    "PName warning",
-        					    JOptionPane.WARNING_MESSAGE);
-        			 //Retry to get name
-        			 updateButton.doClick();
-        		 }*/
-	        	 
-	        	 partFrame.dispose();
-	        	//Error frame opens	       
-	        	 if(mainPart.getErrorCount() > 0){ 
-	        		 AddFrame addFrame = new AddFrame(mainPart);
-	        		addFrame.addFrame.setVisible(true);	 	
-	        	 }
-	        	
-	         }
+	        	//show warning if part already exists
+					String partNameError = "ERROR: '"+ newPart.getPartName()+"' already exists";
+					if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+	       			 JOptionPane.showMessageDialog(partFrame,
+	       					    "Part Name already exists",
+	       					    "PName warning",
+	       					    JOptionPane.WARNING_MESSAGE);
+	       			partFrame.dispose();
+	       			newPart.setPartName(originalName);
+	       			newPart.listUI.getDetailsButton().doClick();
+	       			
+	       			
+	       			 
+					}
+					else if (newPart.getErrorCount() > 0) {
+						partFrame.dispose();
+						AddFrame addFrame = new AddFrame (newPart);
+						addFrame.addFrame.setVisible(true);
+					} else {
+						partFrame.dispose();
+					}
+			}
 	      });
+	    
 	   
 	}
 	
