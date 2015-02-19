@@ -1,8 +1,10 @@
 package controller;
 
-import view.MainFrame;
+import java.util.ArrayList;
 
+import view.MainFrame;
 import model.Part;
+import model.PartDB;
 import model.PartsList;
 
 public class MainController {
@@ -13,26 +15,23 @@ public class MainController {
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
 		mf = new MainFrame();
-		addExamples();
+		initializeList();
 		
 	}
-	public static void addExamples(){
-		String[] ex1 = {"Adapter","8K09195656PS","","3", "Pieces", "", "Facility 2"};
-		String[] ex2 = {"Adjust Knob","8T0919070A","parts.com","1", "Pieces", "", "Facility 2"};
-		String[] ex3 = {"Braket","8K0614235B","parts.com","2", "Pieces" ,"", "Facility 2"};
-		String[] ex4 = {"Screw","8T09190702","","20", "Pieces", "", "Facility 2"};
-		String[] ex5 = {"Isolator","8T21919070A","parts.com","1", "Pieces", "", "Facility 2"};
+	public static void initializeList(){
+		ArrayList<Part> allParts = PartDB.fetchAll();
 		
-		Part part1 = addPart(ex1);
-		Part part2 = addPart(ex2);
-		Part part3 = addPart(ex3);
-		Part part4 = addPart(ex4);
-		Part part5 = addPart(ex5);
-		/*for(int i=0; i < list.getAmount(); i++)
-		System.out.println(list.list.get(i).getPartName());
-		deletePart(part5);
-		for(int i=0; i < list.getAmount(); i++)
-			System.out.println(list.list.get(i).getPartName());*/
+		for(int i = 0; i < allParts.size(); i++){
+			Part newPart = allParts.get(i);
+			
+			if(newPart.getErrorCount() == 0){
+				//Add part to mainFrame
+				mf.addPart(newPart);
+				//Add part to list
+				list.addPart(newPart);
+			}
+		}
+		
 	}
 	public static void deletePart(Part p){
 		
@@ -67,6 +66,8 @@ public class MainController {
 		newPart.setUnit(stringArray[4]);
 		newPart.setExternalNum(stringArray[5]);
 		newPart.setLocation(stringArray[6]);
+		
+		newPart = PartDB.addPart(newPart);
 		
 		if(newPart.getErrorCount() == 0){
 			//Add part to mainFrame

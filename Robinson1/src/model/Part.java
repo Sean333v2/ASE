@@ -15,7 +15,6 @@ public class Part{
 	private boolean isNew = true;
 	private String[] errorList = new String[arguments];
 	public listPart lp;
-	private static long id = 0;
 	private String personalId;
 	private String externalNum;
 
@@ -29,8 +28,7 @@ public class Part{
 		location = "Unknown";
 		errorCount = 0;
 		lp = new listPart();
-		id++;
-		personalId = ""+id;
+		personalId = "";
 		setExternalNum("");
 		//errorList = null;
 	}
@@ -241,7 +239,7 @@ public class Part{
 	}
 	public void setExternalNum(String externalNum) {
 		try{
-			if( vendorName.length() <= 50  )
+			if( externalNum.length() <= 50  )
 				this.externalNum = externalNum;
 			else{
 				throw new IllegalArgumentException("'" + externalNum + "' is longer than 50");
