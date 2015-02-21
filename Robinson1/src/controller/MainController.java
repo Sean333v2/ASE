@@ -38,6 +38,7 @@ public class MainController {
 		//Remove from array list
 		newPart = list.findPart(p.getPartName());
 		list.removePart(newPart);
+		PartDB.deletePart(newPart);
 		
 		//Remove from MainFrame
 		 mf.container.remove(p.lp.getPq());
@@ -54,11 +55,11 @@ public class MainController {
 		newPart = new Part();
 		
 		//Error check for part Name, if none add
-		if(errorCheckPName(stringArray[0]))
+		if(errorCheckPName(stringArray[0], "0"))
 			newPart.setPartName(stringArray[0]);
 		
 		//Error check part number
-		if(errorCheckpNum(stringArray[1]))
+		if(errorCheckpNum(stringArray[1], "0"))
 			newPart.setPartNum(stringArray[1]);
 		
 		newPart.setVendorName(stringArray[2]);
@@ -91,11 +92,11 @@ public class MainController {
 		newPart.setExternalNum(stringArray[5]);
 		newPart.setLocation(stringArray[6]);
 		//Error check for part Name, if none add
-		if(errorCheckPName(stringArray[0]))
+		if(errorCheckPName(stringArray[0], newPart.getPersonalId()))
 			newPart.setPartName(stringArray[0]);
 		
 		//Error check part number
-		if(errorCheckpNum(stringArray[1]))
+		if(errorCheckpNum(stringArray[1], newPart.getPersonalId()))
 			newPart.setPartNum(stringArray[1]);
 		
 		newPart.setVendorName(stringArray[2]);
@@ -108,6 +109,9 @@ public class MainController {
 			//Add part to mainFrame
 			//mf.addPart(newPart);
 			
+			//Update database
+			/*newPart = */PartDB.updatePart(newPart);
+			
 			//Add to list part 
 			newPart.lp.setPq(stringArray[3]);
 			newPart.lp.setPu(stringArray[4]);
@@ -118,7 +122,7 @@ public class MainController {
 		}
 		//Set flag to know this is an update instance
 		newPart.setErrorList(7, "1");
-		
+
 		return newPart;
 			
 	}
@@ -144,10 +148,10 @@ public class MainController {
 		}
 		return true;
 	}
-	private static boolean errorCheckpNum(String partNum){
+	private static boolean errorCheckpNum(String partNum, String id){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
-				if(list.list.get(i).getPartNum().equals(partNum)){
+				if(list.list.get(i).getPartNum().equals(partNum) && !list.list.get(i).getPersonalId().equals(id)){
 					throw new IllegalArgumentException("'"+ partNum+"' already exists" );
 				}
 			}
@@ -159,10 +163,10 @@ public class MainController {
 		}
 		return true;
 	}
-	private static boolean errorCheckPName(String partName){
+	private static boolean errorCheckPName(String partName, String id){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
-				if(list.list.get(i).getPartName().equals(partName)){
+				if(list.list.get(i).getPartName().equals(partName) && !list.list.get(i).getPersonalId().equals(id)){
 					throw new IllegalArgumentException("'"+ partName+"' already exists" );
 				}
 			}

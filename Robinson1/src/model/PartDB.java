@@ -75,11 +75,45 @@ public class PartDB {
 	}
 	
 	public static void deletePart(Part p){
-		// TODO finish deletePart
+		PreparedStatement stmt = null;
+		try{
+			Connection conn = Database.getConnection();
+			stmt = conn.prepareStatement("DELETE FROM parts WHERE partId = ? LIMIT 1");
+			stmt.setString(1, p.getPersonalId());
+			stmt.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static Part updatePart(Part p){
-		// TODO finish updatePart
-		return p;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Part result = null;
+		if(p.getErrorCount() > 0)
+			return null;
+		try{
+			Connection conn = Database.getConnection();
+			stmt = conn.prepareStatement("UPDATE parts SET partName=?, partNumber=?, externalNumber=?, vendorName=?, unit=? WHERE partId=?");
+			stmt.setString(1, p.getPartName());
+			stmt.setString(2, p.getPartNum());
+			stmt.setString(3, p.getExternalNum());
+			stmt.setString(4, p.getVendorName());
+			stmt.setString(5, p.getUnit());
+			stmt.setString(6, p.getPersonalId());
+			stmt.execute();
+			
+			stmt = conn.prepareStatement("SELECT * FROM parts WHERE partId = ?");
+			stmt.setString(1, p.getPersonalId());
+			rs = stmt.executeQuery();
+			rs.first();
+			result = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
+            					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
