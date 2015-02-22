@@ -85,14 +85,16 @@ public class PartFrame{
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
-        		/* if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
+        		 if( mainPart.getErrorCount() == 1 && mainPart.getErrorListIndex(0).equals(partNameError) ){
         			 JOptionPane.showMessageDialog(partFrame,
         					    "Part Name already exists",
         					    "PName warning",
         					    JOptionPane.WARNING_MESSAGE);
         			 //Retry to get name
-        			 updateButton.doClick();
-        		 }*/
+        			 partFrame.dispose();
+        			 PartFrame p = new PartFrame(mainPart); 
+        			 return;
+        		 }
 	        	 
 	        	 partFrame.dispose();
 	        	//Error frame opens	       

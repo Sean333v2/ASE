@@ -54,7 +54,18 @@ public class Part{
 		else
 			errorList[i] = s;
 	}
-	//Only for testing purposes
+	
+	public Part(int id, String name, String num, String extern, String vendor, String unit){
+		setPersonalId(id);
+		setPartName(name);
+		setPartNum(num);
+		setExternalNum(extern);
+		setVendorName(vendor);
+		setUnit(unit);
+		listUI = new listPart();
+		isNew = false;
+	}
+	
 	public Part(String name, String num, String vendor, String quantity, String unit, String location){
 		setPartName(name);
 		setPartNum(num);
