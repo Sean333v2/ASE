@@ -81,7 +81,7 @@ public class MainFrame{
 	    addPart.listUI.setDetailsButton("Details");
 	    
 		//Adds all to necessary fields to the  main frame
-		container.add(addPart.listUI.getPartQuantityLabel());
+		//container.add(addPart.listUI.getPartQuantityLabel());
 		container.add(addPart.listUI.getPartUnitLabel());
 		container.add(addPart.listUI.getPartNameLabel());
 		container.add(addPart.listUI.getDetailsButton());

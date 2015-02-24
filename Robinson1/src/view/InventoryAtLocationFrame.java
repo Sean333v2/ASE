@@ -6,6 +6,7 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -25,6 +26,7 @@ public class InventoryAtLocationFrame{
 		prepareGUI();
 	}
 	private void prepareGUI(){
+		MainController.setInventoryFrame(this);
 		
 		//Prepare frame and panel
 		mainFrame = new JFrame("Cabinetron: Parts in " + location );
@@ -45,6 +47,7 @@ public class InventoryAtLocationFrame{
 		
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
+	        	 
 	        	 AddFrame addFrame = new AddFrame();
 	             addFrame.addFrame.setVisible(true);
 	         }
@@ -55,6 +58,10 @@ public class InventoryAtLocationFrame{
 		container.add(new JLabel("Name"));
 		container.add(addButton);
 		container.add(new JLabel(""));
+		ArrayList<Part> inventoryItems = MainController.gatherInventoryItems(location);
+		for(int i=0; i< inventoryItems.size(); i++){
+			addPart(inventoryItems.get(i));
+		}
 		mainFrame.setVisible(true);
 		
 	}

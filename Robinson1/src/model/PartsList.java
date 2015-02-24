@@ -17,6 +17,14 @@ public class PartsList {
 		}
 		return null;
 	}
+	public boolean checkExisting( String partName){
+		for(int j=0; j < list.size(); j++){
+			if(list.get(j).getPartName().equals(partName)){
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public boolean addPart(Part p) {
 		list.add(p);

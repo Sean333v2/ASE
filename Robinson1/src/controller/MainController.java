@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import view.InventoryAtLocationFrame;
 import view.MainFrame;
 import model.Part;
 import model.PartDB;
@@ -11,12 +12,16 @@ public class MainController {
 	private static Part newPart;
 	private static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
+	private static InventoryAtLocationFrame inventoryFrame;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
 		listPartsFrame = new MainFrame();
 		initializeList();
 		
+	}
+	public static void setInventoryFrame(InventoryAtLocationFrame inventory){
+		inventoryFrame = inventory;
 	}
 	public static void initializeList(){
 		ArrayList<Part> allParts = PartDB.fetchAll();
@@ -48,12 +53,25 @@ public class MainController {
     	 listPartsFrame.container.revalidate();
     	 
 	}
-	
+	//This method gets the information of the inventory part and adds it to the view
+	public static boolean addInventoryPart(){
+		return false;
+	}
+	public static ArrayList<Part> gatherInventoryItems(String location){
+		ArrayList<Part> inventoryatLocation = new ArrayList<Part>();
+		for(int i=0; i< list.getAmount(); i++){
+			if(list.list.get(i).getLocation().equals(location))
+				inventoryatLocation.add(list.list.get(i));
+			}
+		return inventoryatLocation;
+		
+		
+	}
 	public static Part addPart(String[] stringArray, Part addPart){
 		newPart = addPart;
 		//Error check for for duplicates locally first before sending to model
 		//to avoid loosing original part name and num
-		if(errorCheckPName(stringArray[0], "0")){
+		if(errorCheckPName(stringArray[0], "0",stringArray[6])){
 			newPart.setPartName(stringArray[0]);
 		}
 		
@@ -78,10 +96,19 @@ public class MainController {
 		newPart = PartDB.addPart(newPart);
 		
 		if(newPart.getErrorCount() == 0 && newPart.getIsNew() == true){
-			//Add part to mainFrame
-			listPartsFrame.addPart(newPart);
+			
+			//Check if the part already exists to determine if it should be shown
+			if( list.checkExisting(newPart.getPartName()) )
+				//Add part to mainFrame, or inventory frame if open
+				listPartsFrame.addPart(newPart);
+			
 			//Add part to list
-			list.addPart(newPart);		
+			list.addPart(newPart);	
+				if( inventoryFrame.mainFrame.isVisible() ){
+					inventoryFrame.addPart(newPart);
+				}
+				
+			
 		}
 		
 		return newPart;
@@ -89,15 +116,7 @@ public class MainController {
 	}
 	public static Part updatePart(String[] stringArray, Part updatePart ){
 		//Initialize error to check again in this method
-		updatePart.setErrorCount(0);
-		/*newPart.setPartName(stringArray[0]);
-		newPart.setPartNum(stringArray[1]);
-		newPart.setVendorName(stringArray[2]);
-		newPart.setUnit(stringArray[4]);
-		newPart.setExternalNum(stringArray[5]);
-		newPart.setLocation(stringArray[6]);
-		*/
-		
+		updatePart.setErrorCount(0);	
 		//Set flag to know this is an update instance
 		updatePart.setIsNew(false);
 		updatePart = addPart(stringArray, updatePart);
@@ -129,10 +148,11 @@ public class MainController {
 	}
 	
 	//Error check if name already exists
-	private static boolean errorCheckPName(String partName, String id){
+	private static boolean errorCheckPName(String partName, String id, String location){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
-				if(list.list.get(i).getPartName().equals(partName) && !list.list.get(i).getPersonalId().equals(id)){
+				if(list.list.get(i).getPartName().equals(partName) && !list.list.get(i).getPersonalId().equals(id) &&
+						list.list.get(i).getLocation().equals(location)){
 					throw new IllegalArgumentException("'"+ partName+"' already exists" );
 				}
 			}

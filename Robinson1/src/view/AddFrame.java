@@ -36,6 +36,7 @@ public class AddFrame {
 		
 		setUpGUI();
 	}
+	
 	public AddFrame(Part errorPart){
 		quantity = new JTextField("");
 		name = new JTextField("");
@@ -132,12 +133,13 @@ public class AddFrame {
 	 
        		 }
 				
-				
+				//Display error frame
 				if (newPart.getErrorCount() > 0 ) {
 					addFrame.dispose();
 					AddFrame addFrame = new AddFrame (newPart);
 					addFrame.addFrame.setVisible(true);
 				} else {
+					
 					addFrame.dispose();
 				}
 	      
