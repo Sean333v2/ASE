@@ -9,30 +9,37 @@ public class InventoryItem{
 	private String location;
 	private String quantity;
 	private Part part;
+	private int itemId;
 	
 	public InventoryItem(){
 		location = "Unknown";
-		quantity = "0";
-		
-		
+		setQuantity("0");
+	}
+	public InventoryItem( int itemId, int partId, String location, String quantity){
+		this.itemId = itemId;
+		this.quantity = quantity;
+		this.location = location;
+		this.quantity = quantity;
 	}
 	
-	
+	public void setQuantity(String quantity){
+		this.quantity = quantity;
+	}
 	public String getLocation(){
 		return location;
 	}
 	
-	public void setLocation(String l){
+	public void setLocation(String location){
 		try{
-			if(l == null){
-				throw new IllegalArgumentException("'" + l + "' cannot be null");
+			if(location == null){
+				throw new IllegalArgumentException("'" + location + "' cannot be null");
 			}
-			else if("Unknown".equals(l) || "".equals(l)){
+			else if("Unknown".equals(location) || "".equals(location)){
 				throw new IllegalArgumentException("Cannot be 'Unknown'");
 			}
 			//Check that no other part has same location from database
 			else{
-				this.location = l;
+				this.location = location;
 			}
 		}
 		catch(Exception e){
@@ -40,6 +47,19 @@ public class InventoryItem{
 			setErrorCount(getErrorCount() + 1);*/
 		}
 	}
+
+
+	public String getQuantity() {
+		return "" + part.getQuantity();
+	}
+
+
+	public int getErrorCount(){
+		return part.getErrorCount();
+	}
+
+
+	
 
 	
 }

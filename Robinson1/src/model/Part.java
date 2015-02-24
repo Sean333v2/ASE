@@ -15,7 +15,7 @@ public class Part{
 	private boolean isNew;
 	protected String[] errorList = new String[arguments];
 	public listPart listUI;
-	private static long id = 0;
+	//private static long id = 0;
 	private String personalId;
 	private String externalNum;
 
@@ -26,11 +26,10 @@ public class Part{
 		vendorName = "";
 		quantity = 0;
 		unit = "Unknown";
-		//location = "Unknown";
+		location = "Unknown";
 		errorCount = 0;
 		listUI = new listPart();
-		id++;
-		personalId = ""+id;
+		personalId = "";
 		externalNum ="";
 		isNew = true;
 		//errorList = null;
