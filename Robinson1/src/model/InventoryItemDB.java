@@ -76,7 +76,7 @@ public class InventoryItemDB {
 			stmt = conn.prepareStatement("INSERT INTO inventoryItems (partId, location, quantity)"+
 										 "VALUES (?, ?, ?);");
 			//Sets the variables from p into the query.
-			stmt.setString(1, i.getPartId());
+			stmt.setString(1, ""+i.getPart().getPersonalId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
 			stmt.execute();

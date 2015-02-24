@@ -250,7 +250,7 @@ public class Part{
 	}
 	public void setExternalNum(String externalNum) {
 		try{
-			if( vendorName.length() <= 50  )
+			if( externalNum.length() <= 50  )
 				this.externalNum = externalNum;
 			else{
 				throw new IllegalArgumentException("'" + externalNum + "' is longer than 50");

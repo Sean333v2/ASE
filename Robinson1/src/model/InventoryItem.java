@@ -10,6 +10,8 @@ public class InventoryItem{
 	private String quantity;
 	private Part part;
 	private int itemId;
+	private int partId;
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public InventoryItem(){
 		location = "Unknown";

@@ -30,7 +30,7 @@ public class MainFrame{
 		mainFrame = new JFrame("Cabinetron");
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
-		container.setLayout(new GridLayout(0, 5));
+		container.setLayout(new GridLayout(0, 4));
 		JButton addButton = new JButton("Add Part");
 		JButton inventoryButton = new JButton("Inventory");
 		
@@ -39,7 +39,7 @@ public class MainFrame{
 		mainFrame.add(scrPane);
 		
 		//Add buttons and labels to UI
-		container.add(new JLabel("Quantity"));
+		//container.add(new JLabel("Quantity"));
 		container.add(new JLabel("Unit"));
 		container.add(new JLabel("Name"));
 		container.add(addButton);
@@ -79,9 +79,10 @@ public class MainFrame{
 	    
 	    addPart.listUI.setDeleteButton("Delete");
 	    addPart.listUI.setDetailsButton("Details");
-	    
+	    addPart.listUI.setPartUnitLabel(addPart.getUnit());
+	    addPart.listUI.setPartNameLabel(addPart.getPartName());
 		//Adds all to necessary fields to the  main frame
-		container.add(addPart.listUI.getPartQuantityLabel());
+		//container.add(addPart.listUI.getPartQuantityLabel());
 		container.add(addPart.listUI.getPartUnitLabel());
 		container.add(addPart.listUI.getPartNameLabel());
 		container.add(addPart.listUI.getDetailsButton());
