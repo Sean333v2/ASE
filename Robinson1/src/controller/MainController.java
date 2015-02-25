@@ -2,7 +2,10 @@ package controller;
 
 import java.util.ArrayList;
 
+import view.InventoryAtLocationFrame;
 import view.MainFrame;
+import model.InventoryItem;
+import model.InventoryItemDB;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
@@ -11,11 +14,23 @@ public class MainController {
 	private static Part newPart;
 	private static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
+	private static InventoryAtLocationFrame inventoryLocationFrame;
+	private static InventoryItemDB inventoryDB;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
 		listPartsFrame = new MainFrame();
 		initializeList();
+		
+	}
+	//This is to set the inventory frame the current frame is working with and be able to control
+	public static void setInventoryLocation(InventoryAtLocationFrame frame){
+		inventoryLocationFrame = frame;
+	}
+	//Returns to inventoryatlocationframe the list to display 
+	public static ArrayList<InventoryItem> getInventoryAtLocation(String location){
+		return(inventoryDB.fetchByLocation(location));
+		
 		
 	}
 	public static void initializeList(){
@@ -46,6 +61,21 @@ public class MainController {
     	 listPartsFrame.container.remove(deletePart.listUI.getDeleteButton());
     	 listPartsFrame.container.remove(deletePart.listUI.getDetailsButton()); 
     	 listPartsFrame.container.revalidate();
+    	 
+	}
+public static void deleteInventoryPart(InventoryItem deletePart){
+		
+		//Remove from array list
+		//list.removePart(list.findPart(deletePart.part.getPartName()));
+		InventoryItemDB.deleteInventoryItem(deletePart); 
+		
+		//Remove from MainFrame
+		 inventoryLocationFrame.container.remove(deletePart.partUI.getPartQuantityLabel());
+		 //listPartsFrame.container.remove(deletePart.partUI.getPartUnitLabel());
+    	 inventoryLocationFrame.container.remove(deletePart.partUI.getPartNameLabel());
+    	 inventoryLocationFrame.container.remove(deletePart.partUI.getDeleteButton());
+    	 inventoryLocationFrame.container.remove(deletePart.partUI.getDetailsButton()); 
+    	 inventoryLocationFrame.container.revalidate();
     	 
 	}
 	

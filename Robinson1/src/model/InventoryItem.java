@@ -1,4 +1,7 @@
 package model;
+
+import view.inventoryUI;
+
 /*
 Inventory Item: an instance of a Part at a Location with a given Quantity. Id: automatically generated unique id
 Part: the part at that Location (should be a link to an instance of Part) Location: (same as before)
@@ -11,18 +14,22 @@ public class InventoryItem{
 	private Part part;
 	private int itemId;
 	private int partId;
+	public inventoryUI partUI;
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public InventoryItem(){
 		location = "Unknown";
 		setQuantity("0");
 	}
+	
 	public InventoryItem( int itemId, int partId, String location, String quantity){
 		this.itemId = itemId;
 		this.quantity = quantity;
 		this.location = location;	
 	}
-
+	public Part getPart(){
+		return part;	
+	}
 	public void setQuantity(String quantity){
 		this.quantity = quantity;
 	}

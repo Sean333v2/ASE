@@ -11,30 +11,30 @@ import model.Part;
 public class PartFrame{
 	
 	public JFrame partFrame;
-	private JTextField quantity;
+	//private JTextField quantity;
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
 	private JTextField extnumber;
 	private JComboBox unit;
-	private JComboBox location;
+	//private JComboBox location;
 	private JLabel id;
 	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public Part mainPart;
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
-	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
+	//String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public PartFrame(Part p){
 		mainPart = p;
-		quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
+		//quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
 		name = new JTextField(mainPart.getPartName());
 		vendor = new JTextField(mainPart.getVendorName());
 		number = new JTextField(mainPart.getPartNum());
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem(mainPart.getUnit());
-		location = new JComboBox(locationStrings);
-		location.setSelectedItem(mainPart.getLocation());
+		//location = new JComboBox(locationStrings);
+		//location.setSelectedItem(mainPart.getLocation());
 		id = new JLabel("ID: "+p.getPersonalId());
 		extnumber =  new JTextField(mainPart.getExternalNum());
 		setUpGUI(p);
@@ -56,12 +56,12 @@ public class PartFrame{
 	    partFrame.add(number);
 	    partFrame.add(new JLabel("Vendor:"));
 	    partFrame.add(vendor);
-	    partFrame.add(new JLabel("Quantity: "));
-	    partFrame.add(quantity);
+	   //partFrame.add(new JLabel("Quantity: "));
+	  //  partFrame.add(quantity);
 	    partFrame.add(new JLabel("Unit: "));
 	    partFrame.add(unit);
-	    partFrame.add(new JLabel("Location: "));
-	    partFrame.add(location);
+	   // partFrame.add(new JLabel("Location: "));
+	   // partFrame.add(location);
 	    partFrame.add(new JLabel("External Part Number: "));
 	    partFrame.add(extnumber);
 	    partFrame.add(id);
@@ -76,10 +76,10 @@ public class PartFrame{
 	        	 info[0] = name.getText();
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
-	        	 info[3] = quantity.getText();
+	        	// info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
-	        	 info[6] = (String)location.getSelectedItem();
+	        	// info[6] = (String)location.getSelectedItem();
 	        	 String originalName = newPart.getPartName();
 	        	 mainPart = MainController.updatePart(info,mainPart);
 	        	
@@ -117,9 +117,9 @@ public class PartFrame{
 		name.setText(mainPart.getPartName());
 		number.setText(mainPart.getPartNum());
 		vendor.setText(mainPart.getVendorName());
-		quantity.setText(""+mainPart.getQuantity());
+		//quantity.setText(""+mainPart.getQuantity());
 		unit.setSelectedItem(mainPart.getUnit());
 		extnumber.setText(mainPart.getExternalNum());
-		location.setSelectedItem(mainPart.getLocation());
+		//location.setSelectedItem(mainPart.getLocation());
 	}
 }

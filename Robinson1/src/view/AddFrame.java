@@ -11,41 +11,38 @@ import controller.MainController;
 public class AddFrame {
 	
 	public JFrame addFrame;
-	private JTextField quantity;
+	//private JTextField quantity;
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
 	private JTextField extnumber;
 	private JComboBox unit;
-	private JComboBox location;
+	//private JComboBox location;
 	private int arguments = 7;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
-	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
+	//String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 
 	public AddFrame(){
-		quantity = new JTextField("");
+	
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
 		extnumber = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
-		location = new JComboBox(locationStrings);
-		location.setSelectedItem("Unknown");
+		
 		
 		setUpGUI();
 	}
 	public AddFrame(Part errorPart){
-		quantity = new JTextField("");
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
 		extnumber = new JTextField("");
 		unit = new JComboBox(unitStrings);
 		unit.setSelectedItem("Unknown");
-		location = new JComboBox(locationStrings);
-		location.setSelectedItem("Unknown");
+		
 		
 		if ("".equals(errorPart.getErrorListIndex(0)))
 			name = new JTextField(errorPart.getPartName());
@@ -53,15 +50,13 @@ public class AddFrame {
 			number = new JTextField(errorPart.getPartNum());
 		if ("".equals(errorPart.getErrorListIndex(2)))
 			vendor = new JTextField(errorPart.getVendorName());
-		if ("".equals(errorPart.getErrorListIndex(3)))
-			quantity = new JTextField(""+errorPart.getQuantity());
+	
 		if ("".equals(errorPart.getErrorListIndex(4)))
 			unit.setSelectedItem(errorPart.getUnit());
 		if ("".equals(errorPart.getErrorListIndex(5)))
 			extnumber = new JTextField(""+errorPart.getExternalNum());
 
-		if ("".equals(errorPart.getErrorListIndex(6)))
-			location.setSelectedItem(errorPart.getLocation());
+		
 
 		setUpErrorGUI(errorPart);
 		
@@ -83,14 +78,14 @@ public class AddFrame {
 	    addFrame.add(number);
 	    addFrame.add(new JLabel("Vendor:"));
 	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity: "));
-	    addFrame.add(quantity);
+	    //addFrame.add(new JLabel("Quantity: "));
+	    //addFrame.add(quantity);
 	    addFrame.add(new JLabel("Unit: "));
 	    addFrame.add(unit);
 	    addFrame.add(new JLabel("External Part Number: "));
 	    addFrame.add(extnumber);
-	    addFrame.add(new JLabel("Location: "));
-	    addFrame.add(location);
+	   // addFrame.add(new JLabel("Location: "));
+	   // addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton); 
 	    
@@ -100,20 +95,20 @@ public class AddFrame {
 	        	 info[0] = name.getText();
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
-	        	 info[3] = quantity.getText();
+	        	 //info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
-	        	 info[6] = (String)location.getSelectedItem();
+	        	// info[6] = (String)location.getSelectedItem();
 
 	        	 
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
-	        	 quantity = new JTextField(quantity.getText());
+	        	 //quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
-	        	 location.setSelectedItem((String)location.getSelectedItem());
+	        	 //location.setSelectedItem((String)location.getSelectedItem());
 	        	 
 	        	 	
 	        	//Get Error report to possibly show in frame
@@ -127,9 +122,6 @@ public class AddFrame {
        					    "Part Name already exists",
        					    "PName warning",
        					    JOptionPane.WARNING_MESSAGE);
-       			
-       			  
-	 
        		 }
 				
 				
@@ -163,14 +155,14 @@ public class AddFrame {
 	    addFrame.add(number);
 		addFrame.add(new JLabel("Vendor: " + errorPart.getErrorListIndex(2)));
 	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity:  " +errorPart.getErrorListIndex(3)));
-	    addFrame.add(quantity);
+	    //addFrame.add(new JLabel("Quantity:  " +errorPart.getErrorListIndex(3)));
+	    //addFrame.add(quantity);
 	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(4)));
 	    addFrame.add(unit);
 	    addFrame.add(new JLabel("External Part Number: "+errorPart.getErrorListIndex(5)));
 	    addFrame.add(extnumber);
-	    addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
-	    addFrame.add(location);
+	    //addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
+	   // addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -181,18 +173,18 @@ public class AddFrame {
 	        	 info[0] = name.getText();
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
-	        	 info[3] = quantity.getText();
+	        	// info[3] = quantity.getText();
 	        	 info[4] = (String)unit.getSelectedItem();
 	        	 info[5] = extnumber.getText();
-	        	 info[6] = (String)location.getSelectedItem();
+	        	 //info[6] = (String)location.getSelectedItem();
 	        	 
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
-	        	 quantity = new JTextField(quantity.getText());
+	        	// quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
-	        	 location.setSelectedItem((String)location.getSelectedItem());
+	        	 //location.setSelectedItem((String)location.getSelectedItem());
 
 	        	
 	        	 Part newPart;
