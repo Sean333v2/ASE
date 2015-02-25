@@ -1,8 +1,6 @@
 package model;
 
 import controller.MainController;
-
-
 import view.inventoryUI;
 
 /*
@@ -146,6 +144,8 @@ public class InventoryItem{
 	public String getErrorListAtIndex(int index){
 		return errorList[index];
 	}
+
+	
 
 	
 

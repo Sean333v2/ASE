@@ -66,15 +66,6 @@ public class InventoryAtLocationFrame{
 		//Display items at a particular location if there already
 		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		for(int i=0; i < listItemsatLocation.size(); i++){
-			/*listItemsatLocation.get(i).partUI.setDeleteButton("Delete");
-			listItemsatLocation.get(i).partUI.setDetailsButton("Details");
-			listItemsatLocation.get(i).partUI.setPartQuantityLabel(listItemsatLocation.get(i).getQuantity());
-			listItemsatLocation.get(i).partUI.setPartNameLabel(listItemsatLocation.get(i).getPart().getPartName());
-			container.add(listItemsatLocation.get(i).partUI.getPartQuantityLabel());
-			//container.add(listItemsatLocation.get(i).partUI.getPartUnitLabel());
-			container.add(listItemsatLocation.get(i).partUI.getPartNameLabel());
-		    container.add(listItemsatLocation.get(i).partUI.getDetailsButton());
-		    container.add(listItemsatLocation.get(i).partUI.getDeleteButton());*/
 			addPart(listItemsatLocation.get(i));
 			
 		}
@@ -84,7 +75,7 @@ public class InventoryAtLocationFrame{
 	//This function adds part to the main frame
 	public void addPart(InventoryItem addInventoryPart){
 		//Do inventory frame
-	    final InventoryPartFrame partFrame = new InventoryPartFrame(addInventoryPart);
+	    final InventoryPartFrame itemFrame = new InventoryPartFrame(addInventoryPart);
 	    addInventoryPart.partUI.setDeleteButton("Delete");
 	    addInventoryPart.partUI.setDetailsButton("Details");
 		addInventoryPart.partUI.setPartQuantityLabel(addInventoryPart.getQuantity());
@@ -100,8 +91,8 @@ public class InventoryAtLocationFrame{
 	    //Listeners for the two buttons
 	    addInventoryPart.partUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	partFrame.refresh();
-	            partFrame.partFrame.setVisible(true);
+	        	itemFrame.refresh();
+	            itemFrame.inventoryFrame.setVisible(true);
 	         }
 	      });
 	    
@@ -110,8 +101,8 @@ public class InventoryAtLocationFrame{
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
 	        	 MainController.deleteInventoryItem(addInventoryPart);
-	        	 if( partFrame.partFrame.isShowing() )
-	        		 partFrame.partFrame.dispose();
+	        	 if( itemFrame.inventoryFrame.isShowing() )
+	        		 itemFrame.inventoryFrame.dispose();
  
 	        	 
 	         }
@@ -122,7 +113,7 @@ public class InventoryAtLocationFrame{
 	   
 	}
 	
-	public void refresh(PartsList list){
+	public void refresh(){
 		container.removeAll();
 		mainFrame.dispose();
 		prepareGUI();

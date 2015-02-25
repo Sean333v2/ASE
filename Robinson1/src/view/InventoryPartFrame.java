@@ -23,6 +23,7 @@ public class InventoryPartFrame{
 	public InventoryItem mainItem;
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
+	
 	public InventoryPartFrame(InventoryItem p){
 		mainItem = p;
 		quantity = new JTextField(mainItem.getQuantity());
@@ -45,14 +46,13 @@ public class InventoryPartFrame{
 	    
 	    //Show Inventory Item on mainframe
 	    inventoryFrame.add(id);
+	    inventoryFrame.add(new JLabel(""));
 	    inventoryFrame.add(new JLabel("Name:"));
 	    inventoryFrame.add(name);
 	    inventoryFrame.add(new JLabel("Location: "));
 	    inventoryFrame.add(location);
 	    inventoryFrame.add(new JLabel("Quantity: "));
 	    inventoryFrame.add(quantity);
-	    
-	    
 	    inventoryFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Submit Edits");
 	   
@@ -65,7 +65,17 @@ public class InventoryPartFrame{
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
 	        	 mainItem = MainController.updateInventory(mainItem, info);
-	       
+	        	 String partNameError = "ERROR: '"+ mainItem.getPart().getPartName()+"' already exists";
+					if( mainItem.getErrorCount() == 1 && mainItem.getErrorListAtIndex(0).equals(partNameError) ){
+	       			 JOptionPane.showMessageDialog(inventoryFrame,
+	       					    "Part Name already exists",
+	       					    "PName warning",
+	       					    JOptionPane.WARNING_MESSAGE);
+	       			inventoryFrame.dispose();
+	       			//mainItem.setPartName(originalName);
+	       			mainItem.partUI.getDetailsButton().doClick();
+					}
+	       			
 	        	 if(mainItem.getErrorCount() > 0){
 	        		 inventoryFrame.dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
