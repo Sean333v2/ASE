@@ -6,18 +6,21 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import controller.MainController;
+import model.InventoryItem;
 import model.Part;
 import model.PartsList;
 
 
 public class InventoryAtLocationFrame{
 	public static JFrame mainFrame;
-	private JPanel container;
+	public JPanel container;
 	private String location;
+	private ArrayList<InventoryItem> listItemsatLocation;
 	//public static PartFrame part;
 	
 	public InventoryAtLocationFrame(String location){
@@ -35,6 +38,10 @@ public class InventoryAtLocationFrame{
 		mainFrame.setSize(500,600);
 		mainFrame.add(scrPane);
 		container.setLayout(new GridLayout(0, 5));
+		
+		//Set this window as window for maincontroller to work with
+		MainController.setInventoryLocation(this);
+		
 		
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -55,22 +62,37 @@ public class InventoryAtLocationFrame{
 		container.add(new JLabel("Name"));
 		container.add(addButton);
 		container.add(new JLabel(""));
+		
+		//Display items at a particular location if there already
+		listItemsatLocation = MainController.getInventoryAtLocation(location);
+		for(int i=0; i < listItemsatLocation.size(); i++){
+			listItemsatLocation.get(i).partUI.setDeleteButton("Delete");
+			listItemsatLocation.get(i).partUI.setDetailsButton("Details");
+			listItemsatLocation.get(i).partUI.setPartQuantityLabel(listItemsatLocation.get(i).getQuantity());
+			listItemsatLocation.get(i).partUI.setPartQuantityLabel(listItemsatLocation.get(i).getPart().getPartName());
+			container.add(listItemsatLocation.get(i).partUI.getPartQuantityLabel());
+			//container.add(listItemsatLocation.get(i).partUI.getPartUnitLabel());
+			container.add(listItemsatLocation.get(i).partUI.getPartNameLabel());
+		    container.add(listItemsatLocation.get(i).partUI.getDetailsButton());
+		    container.add(listItemsatLocation.get(i).partUI.getDeleteButton());
+			
+		}
 		mainFrame.setVisible(true);
 		
 	}
 	//This function adds part to the main frame
-	public void addPart(Part addPart){
-	    final PartFrame partFrame = new PartFrame(addPart);
+	public void addPart(InventoryItem addInventoryPart){
+		//Do inventory frame
+	    final PartFrame partFrame = new PartFrame(addInventoryPart.getPart());
 	    
 		//Add to mainframe part details & buttons
-		container.add(addPart.listUI.getPartQuantityLabel());
-		container.add(addPart.listUI.getPartUnitLabel());
-		container.add(addPart.listUI.getPartNameLabel());
-	    container.add(addPart.listUI.getDetailsButton());
-	    container.add(addPart.listUI.getDeleteButton());
+		container.add(addInventoryPart.partUI.getPartQuantityLabel());
+		container.add(addInventoryPart.partUI.getPartNameLabel());
+	    container.add(addInventoryPart.partUI.getDetailsButton());
+	    container.add(addInventoryPart.partUI.getDeleteButton());
 		
 	    //Listeners for the two buttons
-	    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
+	    addInventoryPart.partUI.getDetailsButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	partFrame.refresh();
 	            partFrame.partFrame.setVisible(true);
@@ -78,10 +100,10 @@ public class InventoryAtLocationFrame{
 	      });
 	    
 	    
-	    addPart.listUI.getDeleteButton().addActionListener(new ActionListener() {
+	    addInventoryPart.partUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deletePart(addPart);
+	        	 MainController.deleteInventoryItem(addInventoryPart);
 	        	 if( partFrame.partFrame.isShowing() )
 	        		 partFrame.partFrame.dispose();
  
@@ -98,10 +120,10 @@ public class InventoryAtLocationFrame{
 		container.removeAll();
 		mainFrame.dispose();
 		prepareGUI();
-		
+		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI
-		for(int i=0; i< list.getAmount(); i++){
-			addPart(list.list.get(i));
+		for(int i=0; i< listItemsatLocation.size(); i++){
+			addPart(listItemsatLocation.get(i));
 		}
 
 	

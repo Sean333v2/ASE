@@ -2,20 +2,36 @@ package controller;
 
 import java.util.ArrayList;
 
+import view.InventoryAtLocationFrame;
 import view.MainFrame;
+import model.InventoryItem;
+import model.InventoryItemDB;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
 
 public class MainController {
 	private static Part newPart;
+	private static InventoryItem item;
 	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
+	private static InventoryAtLocationFrame inventoryLocationFrame;
+	private static InventoryItemDB inventoryDB;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
 		listPartsFrame = new MainFrame();
 		initializeList();
+		
+	}
+	//This is to set the inventory frame the current frame is working with and be able to control
+	public static void setInventoryLocation(InventoryAtLocationFrame frame){
+		inventoryLocationFrame = frame;
+	}
+	//Returns to inventoryatlocationframe the list to display 
+	public static ArrayList<InventoryItem> getInventoryAtLocation(String location){
+		return(inventoryDB.fetchByLocation(location));
+		
 		
 	}
 	public static void initializeList(){
@@ -33,21 +49,77 @@ public class MainController {
 		}
 		
 	}
-	public static void deletePart(Part deletePart){
+	public static void deletePart(Part deleteItem){
 		
 		//Remove from array list
-		list.removePart(list.findPart(deletePart.getPartName()));
+		list.removePart(list.findPart(deleteItem.getPartName()));
 		PartDB.deletePart(newPart);
 		
 		//Remove from MainFrame
-		 listPartsFrame.container.remove(deletePart.listUI.getPartQuantityLabel());
-		 listPartsFrame.container.remove(deletePart.listUI.getPartUnitLabel());
-    	 listPartsFrame.container.remove(deletePart.listUI.getPartNameLabel());
-    	 listPartsFrame.container.remove(deletePart.listUI.getDeleteButton());
-    	 listPartsFrame.container.remove(deletePart.listUI.getDetailsButton()); 
+		 listPartsFrame.container.remove(deleteItem.listUI.getPartQuantityLabel());
+		 listPartsFrame.container.remove(deleteItem.listUI.getPartUnitLabel());
+    	 listPartsFrame.container.remove(deleteItem.listUI.getPartNameLabel());
+    	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
+    	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
     	 listPartsFrame.container.revalidate();
     	 
 	}
+	
+	//Deletes the inventory item from that frame
+	public static void deleteInventoryItem(InventoryItem deleteInventoryPart){
+		
+		//Remove from array list
+		InventoryItemDB.deleteInventoryItem(deleteInventoryPart); 
+		
+		//Remove from MainFrame
+		 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartQuantityLabel());
+		 //listPartsFrame.container.remove(deletePart.partUI.getPartUnitLabel());
+    	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartNameLabel());
+    	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDeleteButton());
+    	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDetailsButton()); 
+    	 inventoryLocationFrame.container.revalidate();
+    	 
+	}
+	/*
+public static Part addInventoryItem(String[] stringArray, Part addInventoryItem){
+	newPart = addInventoryItem;
+	
+	//Error check for for duplicates locally first before sending to model
+	//to avoid loosing original part name and num
+	if(errorCheckPName(stringArray[0], "0")){
+		newPart.setPartName(stringArray[0]);
+	}
+	
+	if(errorCheckpNum(stringArray[1], "0")){
+		newPart.setPartNum(stringArray[1]);
+	}
+		
+	//Error check with model 
+	newPart.setPartName(stringArray[0]);
+	newPart.setPartNum(stringArray[1]);
+	newPart.setVendorName(stringArray[2]);
+	newPart.setQuantity(stringArray[3]);
+	newPart.setUnit(stringArray[4]);
+	newPart.setExternalNum(stringArray[5]);
+	newPart.setLocation(stringArray[6]);
+	
+	
+	newPart.listUI.setPartQuantityLabel((Integer.toString(newPart.getQuantity())));
+	newPart.listUI.setPartUnitLabel(newPart.getUnit());
+	newPart.listUI.setPartNameLabel(newPart.getPartName());
+	
+	newPart = PartDB.addPart(newPart);
+	
+	if(newPart.getErrorCount() == 0 && newPart.getIsNew() == true){
+		//Add part to mainFrame
+		listPartsFrame.addPart(newPart);
+		//Add part to list
+		list.addPart(newPart);		
+	}
+	
+	return newPart;
+		
+}*/
 	
 	public static Part addPart(String[] stringArray, Part addPart){
 		newPart = addPart;

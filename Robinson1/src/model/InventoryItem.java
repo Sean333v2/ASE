@@ -2,6 +2,9 @@ package model;
 
 import controller.MainController;
 
+
+import view.inventoryUI;
+
 /*
 Inventory Item: an instance of a Part at a Location with a given Quantity. Id: automatically generated unique id
 Part: the part at that Location (should be a link to an instance of Part) Location: (same as before)
@@ -14,6 +17,7 @@ public class InventoryItem{
 	private Part part;
 	private int itemId;
 	private int partId;
+	public inventoryUI partUI;
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	private String[] errorList = new String[4];
 	private int errorCount;
@@ -22,6 +26,7 @@ public class InventoryItem{
 		location = "Unknown";
 		setQuantity("0");
 	}
+	
 	public InventoryItem( int itemId, int partId, String location, String quantity){
 		this.quantity = null;
 		this.itemId = itemId;
@@ -62,7 +67,9 @@ public class InventoryItem{
 			return;
 		}
 	}
-
+	public Part getPart(){
+		return part;	
+	}
 	public void setQuantity(String quantity){
 		int quantityInt;
 		try{
