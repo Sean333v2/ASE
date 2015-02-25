@@ -61,9 +61,8 @@ public class InventoryItem{
 			setErrorCount(getErrorCount()+1);
 			return;
 		}
-
 	}
-	
+
 	public void setQuantity(String quantity){
 		int quantityInt;
 		try{
