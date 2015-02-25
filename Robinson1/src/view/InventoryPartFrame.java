@@ -8,52 +8,52 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
+import model.InventoryItem;
 import model.Part;
 
 public class InventoryPartFrame{
 	
-	public JFrame partFrame;
+	public JFrame inventoryFrame;
 	private JTextField quantity;
 	private JLabel name;
 	private JComboBox location;
 	private JLabel id;
-	
 	private int arguments = 8;
 	private String[] info = new String[arguments];
-	public Part mainPart;
+	public InventoryItem mainItem;
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
-	public InventoryPartFrame(Part p){
-		mainPart = p;
-		quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
-		name = new JLabel("Name: " +mainPart.getPartName());
+	public InventoryPartFrame(InventoryItem p){
+		mainItem = p;
+		quantity = new JTextField(mainItem.getQuantity());
+		name = new JLabel("Name: " +mainItem.getPart().getPartName());
 		location = new JComboBox(locationStrings);
-		location.setSelectedItem(mainPart.getLocation());
-		id = new JLabel("ID: "+mainPart.getPersonalId());
-		setUpGUI(p);
+		location.setSelectedItem(mainItem.getLocation());
+		id = new JLabel("ID: "+mainItem.getItemId());
+		setUpGUI();
 	}
 	
-	private void setUpGUI(Part p){
-		partFrame = new JFrame("Cabinetron: Part");
-		partFrame.setSize(300, 300);
-		partFrame.setLayout(new GridLayout(0, 2));       
-	    partFrame.addWindowListener(new WindowAdapter() {
+	private void setUpGUI(){
+		inventoryFrame = new JFrame("Cabinetron: Part");
+		inventoryFrame.setSize(300, 300);
+		inventoryFrame.setLayout(new GridLayout(0, 2));       
+	    inventoryFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-	            partFrame.dispose();
+	            inventoryFrame.dispose();
 	         }        
 	      });
 	    
 	    //Show Inventory Item on mainframe
-	    partFrame.add(id);
-	    partFrame.add(new JLabel("Name:"));
-	    partFrame.add(name);
-	    partFrame.add(new JLabel("Location: "));
-	    partFrame.add(location);
-	    partFrame.add(new JLabel("Quantity: "));
-	    partFrame.add(quantity);
+	    inventoryFrame.add(id);
+	    inventoryFrame.add(new JLabel("Name:"));
+	    inventoryFrame.add(name);
+	    inventoryFrame.add(new JLabel("Location: "));
+	    inventoryFrame.add(location);
+	    inventoryFrame.add(new JLabel("Quantity: "));
+	    inventoryFrame.add(quantity);
 	    
 	    
-	    partFrame.add(new JLabel(""));
+	    inventoryFrame.add(new JLabel(""));
 	    JButton updateButton = new JButton("Submit Edits");
 	   
 	    //Work on this
@@ -64,26 +64,26 @@ public class InventoryPartFrame{
 	        	 info[1] = quantity.getText();
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
-	        	 mainPart = MainController.updateInventory(mainPart, info);
+	        	 mainItem = MainController.updateInventory(mainItem, info);
 	       
-	        	 if(mainPart.getErrorCount() > 0){
-	        		 partFrame.dispose();
-	        		 AddFrame addFrame = new AddFrame(mainPart);
-	        		 addFrame.addFrame.setVisible(true);	 	
+	        	 if(mainItem.getErrorCount() > 0){
+	        		 inventoryFrame.dispose();
+	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
+	        		 inventoryaddFrame.addFrame.setVisible(true);	 	
 	        	 }
 	        	 else{
-	        		partFrame.dispose();
+	        		inventoryFrame.dispose();
 	        		 }
 	        	 
 	         }
 	      });
-	    partFrame.add(updateButton);
+	    inventoryFrame.add(updateButton);
 	}
 	
 	public void refresh(){
 		
-		name.setText(mainPart.getPartName());
-		quantity.setText(""+mainPart.getQuantity());
-		location.setSelectedItem(mainPart.getLocation());
+		name.setText(mainItem.getPart().getPartName());
+		quantity.setText(""+mainItem.getQuantity());
+		location.setSelectedItem(mainItem.getLocation());
 	}
 }

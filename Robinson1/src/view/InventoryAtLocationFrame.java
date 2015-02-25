@@ -35,9 +35,9 @@ public class InventoryAtLocationFrame{
 		JScrollPane scrPane = new JScrollPane(container);
 		JButton addButton = new JButton("Add Inventory Part");
 		
-		mainFrame.setSize(500,600);
+		mainFrame.setSize(550,600);
 		mainFrame.add(scrPane);
-		container.setLayout(new GridLayout(0, 5));
+		container.setLayout(new GridLayout(0, 4));
 		
 		//Set this window as window for maincontroller to work with
 		MainController.setInventoryLocation(this);
@@ -66,15 +66,16 @@ public class InventoryAtLocationFrame{
 		//Display items at a particular location if there already
 		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		for(int i=0; i < listItemsatLocation.size(); i++){
-			listItemsatLocation.get(i).partUI.setDeleteButton("Delete");
+			/*listItemsatLocation.get(i).partUI.setDeleteButton("Delete");
 			listItemsatLocation.get(i).partUI.setDetailsButton("Details");
 			listItemsatLocation.get(i).partUI.setPartQuantityLabel(listItemsatLocation.get(i).getQuantity());
-			listItemsatLocation.get(i).partUI.setPartQuantityLabel(listItemsatLocation.get(i).getPart().getPartName());
+			listItemsatLocation.get(i).partUI.setPartNameLabel(listItemsatLocation.get(i).getPart().getPartName());
 			container.add(listItemsatLocation.get(i).partUI.getPartQuantityLabel());
 			//container.add(listItemsatLocation.get(i).partUI.getPartUnitLabel());
 			container.add(listItemsatLocation.get(i).partUI.getPartNameLabel());
 		    container.add(listItemsatLocation.get(i).partUI.getDetailsButton());
-		    container.add(listItemsatLocation.get(i).partUI.getDeleteButton());
+		    container.add(listItemsatLocation.get(i).partUI.getDeleteButton());*/
+			addPart(listItemsatLocation.get(i));
 			
 		}
 		mainFrame.setVisible(true);
@@ -83,7 +84,12 @@ public class InventoryAtLocationFrame{
 	//This function adds part to the main frame
 	public void addPart(InventoryItem addInventoryPart){
 		//Do inventory frame
-	    final PartFrame partFrame = new PartFrame(addInventoryPart.getPart());
+	    final InventoryPartFrame partFrame = new InventoryPartFrame(addInventoryPart);
+	    addInventoryPart.partUI.setDeleteButton("Delete");
+	    addInventoryPart.partUI.setDetailsButton("Details");
+		addInventoryPart.partUI.setPartQuantityLabel(addInventoryPart.getQuantity());
+		addInventoryPart.partUI.setPartNameLabel(addInventoryPart.getPart().getPartName());
+		
 	    
 		//Add to mainframe part details & buttons
 		container.add(addInventoryPart.partUI.getPartQuantityLabel());
