@@ -28,17 +28,17 @@ public class InventoryAddFrame {
 		
 		setUpGUI();
 	}
-	public InventoryAddFrame(Part errorPart){
+	public InventoryAddFrame(InventoryItem errorItem){
 		quantity = new JTextField("");
 		partId = new JTextField("");
 		location = new JComboBox(locationStrings);
 		location.setSelectedItem("Unknown");
 		
-		quantity = new JTextField(""+errorPart.getQuantity());
-		partId = new JTextField(""+errorPart.getExternalNum());
-		location.setSelectedItem(errorPart.getLocation());
+		quantity = new JTextField(""+errorItem.getQuantity());
+		partId = new JTextField(""+errorItem.getPartId());
+		location.setSelectedItem(errorItem.getLocation());
 
-		setUpErrorGUI(errorPart);
+		setUpErrorGUI(errorItem);
 		
 	}
 
@@ -78,22 +78,20 @@ public class InventoryAddFrame {
 	        	InventoryItem newItem;
 				newItem = MainController.addIventoryItem(info, new InventoryItem());
 				
-				//show warning if item part/location combo already exists
-				String partLocationError = "ERROR: '"+ newItem.getPartId() +"' already exists";
-				if( newItem.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+				//show warning if item part/location combo already existsSADFSADHGRWHWQREHWERHWEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+				if( newItem.getErrorCount() == 1 && newItem.getErrorListAtIndex(0) == null){
        			 JOptionPane.showMessageDialog(addFrame,
-       					    "Part Name already exists",
+       					    "That part is already at that location!",
        					    "PName warning",
        					    JOptionPane.WARNING_MESSAGE);
        			
        			  
 	 
-       		 }
+       		 	}
 				
-				
-				if (newPart.getErrorCount() > 0 ) {
+				if (newItem.getErrorCount() > 0 ) {
 					addFrame.dispose();
-					AddFrame addFrame = new AddFrame (newPart);
+					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
 					addFrame.addFrame.setVisible(true);
 				} else {
 					addFrame.dispose();
@@ -106,7 +104,7 @@ public class InventoryAddFrame {
 	   
 	}
 
-	private void setUpErrorGUI(Part errorPart) {
+	private void setUpErrorGUI(InventoryItem errorItem) {
 		addFrame = new JFrame("***Try Again*** ");
 		addFrame.setSize(670, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
@@ -115,19 +113,11 @@ public class InventoryAddFrame {
 	            addFrame.dispose();
 	         }        
 	      });
-		addFrame.add(new JLabel("Name: " + errorPart.getErrorListIndex(0)));
-	    addFrame.add(name);
-		addFrame.add(new JLabel("Part Number: " + errorPart.getErrorListIndex(1)));
-	    addFrame.add(number);
-		addFrame.add(new JLabel("Vendor: " + errorPart.getErrorListIndex(2)));
-	    addFrame.add(vendor);
-	    addFrame.add(new JLabel("Quantity:  " +errorPart.getErrorListIndex(3)));
+		addFrame.add(new JLabel("PartId: " + errorItem.getErrorListAtIndex(1)));
+	    addFrame.add(partId);
+		addFrame.add(new JLabel("Quantity: " + errorItem.getErrorListAtIndex(2)));
 	    addFrame.add(quantity);
-	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(4)));
-	    addFrame.add(unit);
-	    addFrame.add(new JLabel("External Part Number: "+errorPart.getErrorListIndex(5)));
-	    addFrame.add(extnumber);
-	    addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
+		addFrame.add(new JLabel("Location: " + errorItem.getErrorListAtIndex(3)));
 	    addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
@@ -136,32 +126,24 @@ public class InventoryAddFrame {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Get the text fields and send to controller
 
-	        	 info[0] = name.getText();
-	        	 info[1] = number.getText();
-	        	 info[2] = vendor.getText();
-	        	 info[3] = quantity.getText();
-	        	 info[4] = (String)unit.getSelectedItem();
-	        	 info[5] = extnumber.getText();
-	        	 info[6] = (String)location.getSelectedItem();
+	        	 info[0] = partId.getText();
+	        	 info[1] = quantity.getText();
+	        	 info[2] = (String)location.getSelectedItem();
 	        	 
-	        	 name = new JTextField(name.getText());
-	        	 number = new JTextField(number.getText());
-	        	 vendor = new JTextField(vendor.getText());
+	        	 partId = new JTextField(partId.getText());
 	        	 quantity = new JTextField(quantity.getText());
-	        	 unit.setSelectedItem((String)unit.getSelectedItem());
-	        	 extnumber = new JTextField(extnumber.getText());
 	        	 location.setSelectedItem((String)location.getSelectedItem());
 
 	        	
-	        	 Part newPart;
+	        	 InventoryItem newItem;
 				// If there is a flag that this is an update
-				if (errorPart.getIsNew() == false)
-					newPart = MainController.updatePart(info, errorPart);
+				if (errorItem.getItemId() > 0)
+					newItem = MainController.updateInventoryItem(info, errorItem);
 				else
-					newPart = MainController.addPart(info,new Part());
-				if (newPart.getErrorCount() > 0) {
+					newItem = MainController.addInventoryItem(info,new InventoryItem());
+				if (newItem.getErrorCount() > 0) {
 					addFrame.dispose();
-					AddFrame addFrame = new AddFrame(newPart);
+					InventoryAddFrame addFrame = new InventoryAddFrame(newItem);
 					addFrame.addFrame.setVisible(true);
 				} else {
 					addFrame.dispose();

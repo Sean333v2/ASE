@@ -16,7 +16,7 @@ public class InventoryItem{
 	private int partId;
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	private String[] errorList = new String[4];
-	private int errorCount;
+	private int errorCount = 0;
 	
 	public InventoryItem(){
 		location = "Unknown";
@@ -129,6 +129,9 @@ public class InventoryItem{
 		errorCount = c;
 	}
 
+	public String getErrorListAtIndex(int index){
+		return errorList[index];
+	}
 
 	
 
