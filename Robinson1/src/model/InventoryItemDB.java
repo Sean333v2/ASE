@@ -40,7 +40,7 @@ public class InventoryItemDB {
 		ResultSet rs = null;
         try {
         	Connection conn = Database.getConnection();
-        	stmt = conn.prepareStatement("SELECT * FROM inventoryItems ORDER BY inventoryItems.itemId WHERE location=?");//This says to get all rows in inventoryItems table.
+        	stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE location=? ORDER BY itemId");//This says to get all rows in inventoryItems table.
         	stmt.setString(1,location);
             rs = stmt.executeQuery();
             rs.first();//Just to make sure the cursor is at the first row.
@@ -63,7 +63,7 @@ public class InventoryItemDB {
 	
 	//Returns null if something went wrong with the add
 	//Check for errors before calling this!!!
-	public static Part addInventoryItem(InventoryItem i){
+	public static InventoryItem addInventoryItem(InventoryItem i){
 		InventoryItem result = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -76,7 +76,7 @@ public class InventoryItemDB {
 			stmt = conn.prepareStatement("INSERT INTO inventoryItems (partId, location, quantity)"+
 										 "VALUES (?, ?, ?);");
 			//Sets the variables from p into the query.
-			stmt.setString(1, ""+i.getPart().getPersonalId());
+			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
 			stmt.execute();
@@ -84,7 +84,7 @@ public class InventoryItemDB {
 			//The rest of the code gets back the information from the new row that was just added.
 			//This will give us an ID to put into the part object.
 			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? AND location = ?");
-			stmt.setString(1, i.getPartId());
+			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			rs = stmt.executeQuery();
 			rs.first();
@@ -100,8 +100,8 @@ public class InventoryItemDB {
 		PreparedStatement stmt = null;
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("DELETE FROM parts WHERE partId = ? and location=? LIMIT 1");
-			stmt.setString(1, i.getPartId());
+			stmt = conn.prepareStatement("DELETE FROM inventoryItems WHERE partId = ? AND location=? LIMIT 1");
+			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.execute();
 		}
@@ -110,22 +110,22 @@ public class InventoryItemDB {
 		}
 	}
 	
-	public static Part updatePart(InventoryItem i){
+	public static InventoryItem updatePart(InventoryItem i){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Part result = null;
+		InventoryItem result = null;
 		if(i.getErrorCount() > 0)
 			return null;
 		try{
 			Connection conn = Database.getConnection();
 			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=?");
-			stmt.setString(1, i.getPartId());
+			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
 			stmt.execute();
 			
 			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
-			stmt.setString(1, i.getPartId());
+			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			rs = stmt.executeQuery();
 			rs.first();

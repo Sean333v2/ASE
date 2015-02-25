@@ -16,7 +16,7 @@ create table inventoryItems (
         itemId       	int primary key auto_increment,
         partId			int,
 		quantity		varchar(50),
-		Location		ENUM('Facility 1 Warehouse 1', 'Facility 1 Warehouse 2', 'Facility 2') NOT NULL,
+		location		ENUM('Facility 1 Warehouse 1', 'Facility 1 Warehouse 2', 'Facility 2') NOT NULL,
 		FOREIGN KEY (partId) REFERENCES parts(partId)
 );
 

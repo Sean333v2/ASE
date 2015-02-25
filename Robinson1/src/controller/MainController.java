@@ -9,7 +9,7 @@ import model.PartsList;
 
 public class MainController {
 	private static Part newPart;
-	private static PartsList list = new PartsList();
+	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
 	
 	public static void main(String args[]){

@@ -64,8 +64,8 @@ public class InventoryAddFrame {
 	    submitButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Get the text fields and send to controller
-	        	 info[0] = partId.getText();
-	        	 info[1] = quantity.getText();
+	        	 info[0] = ""+partId.getText();
+	        	 info[1] = ""+quantity.getText();
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
 	        	 
@@ -76,11 +76,11 @@ public class InventoryAddFrame {
 	        	 	
 	        	//Get Error report to possibly show in frame
 	        	InventoryItem newItem;
-				newItem = MainController.addPart(info, new Part());
+				newItem = MainController.addIventoryItem(info, new InventoryItem());
 				
-				//show warning if part already exists
-				String partNameError = "ERROR: '"+ newPart.getPartName()+"' already exists";
-				if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+				//show warning if item part/location combo already exists
+				String partLocationError = "ERROR: '"+ newItem.getPartId() +"' already exists";
+				if( newItem.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "Part Name already exists",
        					    "PName warning",

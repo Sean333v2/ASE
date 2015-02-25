@@ -10,6 +10,14 @@ public class PartsList {
 		list = new ArrayList<Part>();
 	}
 
+	public boolean findPartById(int id){
+		for (int i = 0; i < list.size(); i++)
+			if (list.get(i).getPersonalId().equals(""+id))
+				return true;
+			
+		return false;
+	}
+	
 	public Part findPart(String s) {
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getPartName().equals(s))
