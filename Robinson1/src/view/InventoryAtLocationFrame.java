@@ -84,7 +84,7 @@ public class InventoryAtLocationFrame{
 	//This function adds part to the main frame
 	public void addPart(InventoryItem addInventoryPart){
 		//Do inventory frame
-	    final PartFrame partFrame = new PartFrame(addInventoryPart.getPart());
+	    final InventoryPartFrame partFrame = new InventoryPartFrame(addInventoryPart);
 	    addInventoryPart.partUI.setDeleteButton("Delete");
 	    addInventoryPart.partUI.setDetailsButton("Details");
 		addInventoryPart.partUI.setPartQuantityLabel(addInventoryPart.getQuantity());

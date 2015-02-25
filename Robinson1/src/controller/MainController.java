@@ -216,7 +216,7 @@ public static Part addInventoryItem(String[] stringArray, Part addInventoryItem)
 		}
 		return true;
 	}
-	public static Part updateInventory(Part mainPart, String[] info) {
+	public static InventoryItem updateInventory(InventoryItem item, String[] info) {
 		// Create function that will update database
 		return null;
 	}

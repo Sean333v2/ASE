@@ -17,8 +17,8 @@ public class PartDB {
         	Connection conn = Database.getConnection();
         	stmt = conn.prepareStatement("SELECT * FROM parts ORDER BY parts.partId");//This says to get all rows in parts table.
             rs = stmt.executeQuery();
-            rs.first();//Just to make sure the cursor is at the first row.
-            
+            if(!rs.first())//Just to make sure the cursor is at the first row.
+            	return result;
             //Add the first row to the list of parts
             result.add(new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             		rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit")));
