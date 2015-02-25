@@ -25,6 +25,8 @@ public class InventoryItem{
 	public InventoryItem(){
 		location = "Unknown";
 		setQuantity("0");
+		partUI = new inventoryUI();
+		errorList[0] = null;
 	}
 	
 	public InventoryItem( int itemId, int partId, String location, String quantity){
@@ -33,6 +35,8 @@ public class InventoryItem{
 		setPartId(partId);
 		setLocation(location);
 		setQuantity(quantity);
+		partUI = new inventoryUI();
+		errorList[0] = null;
 	}
 	
 	public InventoryItem(int partId, String location, String quantity){
@@ -40,6 +44,8 @@ public class InventoryItem{
 		setPartId(partId);
 		setLocation(location);
 		setQuantity(quantity);
+		partUI = new inventoryUI();
+		errorList[0] = null;
 	}
 	
 	public int getItemId(){
@@ -56,8 +62,10 @@ public class InventoryItem{
 	
 	public void setPartId(int partId){
 		try{
-			if(MainController.list.findPartById(partId))
+			if(MainController.list.findPartById(partId)){
 				this.partId = partId;
+				part = MainController.list.getPartById(this.partId);
+			}
 			else
 				throw new IllegalArgumentException("PartId does not exist");
 		}

@@ -43,7 +43,8 @@ public class InventoryItemDB {
         	stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE location=? ORDER BY itemId");//This says to get all rows in inventoryItems table.
         	stmt.setString(1,location);
             rs = stmt.executeQuery();
-            rs.first();//Just to make sure the cursor is at the first row.
+            if(!rs.first())//Just to make sure the cursor is at the first row.
+            	return result;
             
             //Add the first row to the list of items
             result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
