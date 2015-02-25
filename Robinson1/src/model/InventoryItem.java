@@ -20,10 +20,9 @@ public class InventoryItem{
 	public InventoryItem( int itemId, int partId, String location, String quantity){
 		this.itemId = itemId;
 		this.quantity = quantity;
-		this.location = location;
-		this.quantity = quantity;
+		this.location = location;	
 	}
-	
+
 	public void setQuantity(String quantity){
 		this.quantity = quantity;
 	}
