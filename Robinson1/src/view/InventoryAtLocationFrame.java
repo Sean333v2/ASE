@@ -17,7 +17,7 @@ import model.PartsList;
 
 
 public class InventoryAtLocationFrame{
-	private static JFrame mainFrame;
+	public static JFrame mainFrame;
 	public JPanel container;
 	private String location;
 	private ArrayList<InventoryItem> listItemsatLocation;
@@ -84,7 +84,7 @@ public class InventoryAtLocationFrame{
 	//This function adds part to the main frame
 	public void addPart(InventoryItem addInventoryPart){
 		//Do inventory frame
-	    final PartFrame partFrame = new PartFrame(addPart);
+	    final PartFrame partFrame = new PartFrame(addInventoryPart.getPart());
 	    
 		//Add to mainframe part details & buttons
 		container.add(addInventoryPart.partUI.getPartQuantityLabel());
@@ -104,7 +104,7 @@ public class InventoryAtLocationFrame{
 	    addInventoryPart.partUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deleteInventoryPart(addInventoryPart);
+	        	 MainController.deleteInventoryItem(addInventoryPart);
 	        	 if( partFrame.partFrame.isShowing() )
 	        		 partFrame.partFrame.dispose();
  
@@ -121,10 +121,10 @@ public class InventoryAtLocationFrame{
 		container.removeAll();
 		mainFrame.dispose();
 		prepareGUI();
-		
+		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI
-		for(int i=0; i< list.getAmount(); i++){
-			addPart(list.list.get(i));
+		for(int i=0; i< listItemsatLocation.size(); i++){
+			addPart(listItemsatLocation.get(i));
 		}
 
 	
