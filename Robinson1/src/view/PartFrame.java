@@ -77,8 +77,8 @@ public class PartFrame{
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
 	        	// info[3] = quantity.getText();
-	        	 info[4] = (String)unit.getSelectedItem();
-	        	 info[5] = extnumber.getText();
+	        	 info[3] = (String)unit.getSelectedItem();
+	        	 info[4] = extnumber.getText();
 	        	// info[6] = (String)location.getSelectedItem();
 	        	 String originalName = newPart.getPartName();
 	        	 mainPart = MainController.updatePart(info,mainPart);

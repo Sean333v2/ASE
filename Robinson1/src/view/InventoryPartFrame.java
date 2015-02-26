@@ -8,6 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
+import model.InventoryItem;
 import model.Part;
 
 public class InventoryPartFrame{
@@ -20,10 +21,10 @@ public class InventoryPartFrame{
 	
 	private int arguments = 8;
 	private String[] info = new String[arguments];
-	public Part mainPart;
+	public InventoryItem mainPart;
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
-	public InventoryPartFrame(Part p){
+	public InventoryPartFrame(InventoryItem p){
 		mainPart = p;
 		quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
 		name = new JLabel("Name: " +mainPart.getPartName());
@@ -64,7 +65,7 @@ public class InventoryPartFrame{
 	        	 info[1] = quantity.getText();
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
-	        	 mainPart = MainController.updateInventory(mainPart, info);
+	        	 mainPart = MainController.updateInventoryItem(info, mainPart);
 	       
 	        	 if(mainPart.getErrorCount() > 0){
 	        		 partFrame.dispose();
