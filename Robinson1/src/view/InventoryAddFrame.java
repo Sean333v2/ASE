@@ -15,24 +15,26 @@ public class InventoryAddFrame {
 	private JTextField quantity;
 	private JTextField partId;
 	private JComboBox location;
+	private String itemlocation;
 	private int arguments = 7;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 
-	public InventoryAddFrame(){
+	public InventoryAddFrame(String location){
+		itemlocation = location;
 		quantity = new JTextField("");
 		partId = new JTextField("");
-		location = new JComboBox(locationStrings);
-		location.setSelectedItem("Unknown");
+		//location = new JComboBox(locationStrings);
+		//location.setSelectedItem("Unknown");
 		
 		setUpGUI();
 	}
 	public InventoryAddFrame(InventoryItem errorItem){
 		quantity = new JTextField("");
 		partId = new JTextField("");
-		location = new JComboBox(locationStrings);
-		location.setSelectedItem("Unknown");
+		//location = new JComboBox(locationStrings);
+		//location.setSelectedItem("Unknown");
 		
 		quantity = new JTextField(""+errorItem.getQuantity());
 		partId = new JTextField(""+errorItem.getPartId());
@@ -43,7 +45,7 @@ public class InventoryAddFrame {
 	}
 
 	private void setUpGUI(){
-		addFrame = new JFrame("Cabinetron: Add Part");
+		addFrame = new JFrame("Cabinetron: Add Part in "+itemlocation );
 		addFrame.setSize(300, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
 	    addFrame.addWindowListener(new WindowAdapter() {
@@ -56,8 +58,8 @@ public class InventoryAddFrame {
 	    addFrame.add(partId);
 	    addFrame.add(new JLabel("Quantity:"));
 	    addFrame.add(quantity);
-	    addFrame.add(new JLabel("Location: "));
-	    addFrame.add(location);
+	    //addFrame.add(new JLabel("Location: "));
+	    //addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton); 
 	    
@@ -66,7 +68,7 @@ public class InventoryAddFrame {
 	        	 //Get the text fields and send to controller
 	        	 info[0] = ""+partId.getText();
 	        	 info[1] = ""+quantity.getText();
-	        	 info[2] = (String)location.getSelectedItem();
+	        	 info[2] = itemlocation;
 	        	 
 	        	 
 	        	 partId = new JTextField(partId.getText());
@@ -88,7 +90,9 @@ public class InventoryAddFrame {
        			  
 	 
        		 	}
-				
+				for(int i=0; i < newItem.getErrorCount(); i++){
+					System.out.println(newItem.getErrorListAtIndex(i));
+				}
 				if (newItem.getErrorCount() > 0 ) {
 					addFrame.dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
@@ -117,8 +121,8 @@ public class InventoryAddFrame {
 	    addFrame.add(partId);
 		addFrame.add(new JLabel("Quantity: " + errorItem.getErrorListAtIndex(2)));
 	    addFrame.add(quantity);
-		addFrame.add(new JLabel("Location: " + errorItem.getErrorListAtIndex(3)));
-	    addFrame.add(location);
+		//addFrame.add(new JLabel("Location: " + errorItem.getErrorListAtIndex(3)));
+	    //addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -128,11 +132,11 @@ public class InventoryAddFrame {
 
 	        	 info[0] = partId.getText();
 	        	 info[1] = quantity.getText();
-	        	 info[2] = (String)location.getSelectedItem();
+	        	 info[2] = itemlocation;
 	        	 
 	        	 partId = new JTextField(partId.getText());
 	        	 quantity = new JTextField(quantity.getText());
-	        	 location.setSelectedItem((String)location.getSelectedItem());
+	        	// location.setSelectedItem((String)location.getSelectedItem());
 
 	        	
 	        	 InventoryItem newItem;
