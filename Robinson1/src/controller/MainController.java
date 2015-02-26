@@ -99,8 +99,6 @@ public class MainController {
 		item.setQuantity(stringArray[1]);
 		item.setLocation(stringArray[2]);
 	
-		item.partUI.setPartQuantityLabel(item.getQuantity());
-		item.partUI.setPartNameLabel(item.getPart().getPartName());
 	
 		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation()))
 		{
@@ -111,6 +109,8 @@ public class MainController {
 			item = InventoryItemDB.addInventoryItem(item);
 	
 		if(item.getErrorCount() == 0 && item.getItemId() > 0){
+			item.partUI.setPartQuantityLabel(item.getQuantity());
+			item.partUI.setPartNameLabel(item.getPart().getPartName());
 			inventoryLocationFrame.refresh();
 			//System.out.println("Something");
 	}
@@ -143,13 +143,16 @@ public class MainController {
 		newPart.listUI.setPartUnitLabel(newPart.getUnit());
 		newPart.listUI.setPartNameLabel(newPart.getPartName());
 		
-		if(PartDB.addPart(newPart) == null)
+		Part tester = PartDB.addPart(newPart);
+		if(tester == null)
 			return newPart;
+		else
+			newPart = tester;
 		
 		
 		
 		if(newPart.getErrorCount() == 0){
-			newPart = PartDB.addPart(newPart);
+			//newPart = PartDB.addPart(newPart);
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
 			//Add part to list
@@ -189,13 +192,15 @@ public class MainController {
 		updatePart.setUnit(stringArray[3]);
 		updatePart.setExternalNum(stringArray[4]);
 		
-		if(errorCheckpNum(stringArray[1], "0")){
+		if(errorCheckpNum(stringArray[1], updatePart.getPersonalId())){
 			updatePart.setPartNum(stringArray[1]);
 		}
-		if(PartDB.updatePart(updatePart) == null ){
+		Part tester = PartDB.updatePart(updatePart);
+		if(tester == null ){
 			return updatePart;
 		}
-		updatePart = PartDB.updatePart(updatePart);
+		else
+			updatePart = tester;
 		
 		if(updatePart.getErrorCount() == 0){
 			listPartsFrame.refresh();	
