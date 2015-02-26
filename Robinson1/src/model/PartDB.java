@@ -64,7 +64,8 @@ public class PartDB {
 			stmt = conn.prepareStatement("SELECT * FROM parts WHERE partNumber = ?");
 			stmt.setString(1, p.getPartNum());
 			rs = stmt.executeQuery();
-			rs.first();
+			if(!rs.first())
+				return addedPart;
 			addedPart = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
 		}
@@ -91,8 +92,9 @@ public class PartDB {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Part result = null;
-		if(p.getErrorCount() > 0)
+		if(p.getErrorCount() > 0){
 			return null;
+		}
 		try{
 			Connection conn = Database.getConnection();
 			stmt = conn.prepareStatement("UPDATE parts SET partName=?, partNumber=?, externalNumber=?, vendorName=?, unit=? WHERE partId=?");
@@ -107,7 +109,9 @@ public class PartDB {
 			stmt = conn.prepareStatement("SELECT * FROM parts WHERE partId = ?");
 			stmt.setString(1, p.getPersonalId());
 			rs = stmt.executeQuery();
-			rs.first();
+			if(!rs.first()){
+				return result;
+			}
 			result = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
 		}

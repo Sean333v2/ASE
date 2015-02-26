@@ -111,7 +111,7 @@ public class InventoryItemDB {
 		}
 	}
 	
-	public static InventoryItem updatePart(InventoryItem i){
+	public static InventoryItem updateInventoryItem(InventoryItem i){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		InventoryItem result = null;
@@ -136,5 +136,24 @@ public class InventoryItemDB {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static boolean findInventoryItemByPartIdAndLocation(int partId, String location){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			Connection conn = Database.getConnection();
+			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
+			stmt.setString(1, ""+partId);
+			stmt.setString(2, location);
+			rs = stmt.executeQuery();
+			if(!rs.first())
+				return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

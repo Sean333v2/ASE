@@ -16,7 +16,6 @@ public class MainController {
 	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
-	private static InventoryItemDB inventoryDB;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
@@ -30,7 +29,7 @@ public class MainController {
 	}
 	//Returns to inventoryatlocationframe the list to display 
 	public static ArrayList<InventoryItem> getInventoryAtLocation(String location){
-		return(inventoryDB.fetchByLocation(location));
+		return(InventoryItemDB.fetchByLocation(location));
 		
 		
 	}
@@ -51,18 +50,27 @@ public class MainController {
 	}
 	public static void deletePart(Part deleteItem){
 		
-		//Remove from array list
+		//Remove from array list		
+		 
+		 //Check if part exists in item
+		 ArrayList<InventoryItem> inventoryList = InventoryItemDB.fetchAll();
+		 for(int i=0; i< inventoryList.size(); i++){
+			 if((""+inventoryList.get(i).getPartId()).equals(deleteItem.getPersonalId())){
+				 System.out.println("Delete");
+				 deleteInventoryItem(inventoryList.get(i));
+				 
+			 }
+		 }
+		 PartDB.deletePart(deleteItem);
 		list.removePart(list.findPart(deleteItem.getPartName()));
-		PartDB.deletePart(newPart);
-		
+
 		//Remove from MainFrame
-		 listPartsFrame.container.remove(deleteItem.listUI.getPartQuantityLabel());
 		 listPartsFrame.container.remove(deleteItem.listUI.getPartUnitLabel());
     	 listPartsFrame.container.remove(deleteItem.listUI.getPartNameLabel());
     	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
     	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
     	 listPartsFrame.container.revalidate();
-    	 
+    	
 	}
 	
 	//Deletes the inventory item from that frame
@@ -80,46 +88,34 @@ public class MainController {
     	 inventoryLocationFrame.container.revalidate();
     	 
 	}
-	/*
-public static Part addInventoryItem(String[] stringArray, Part addInventoryItem){
-	newPart = addInventoryItem;
 	
-	//Error check for for duplicates locally first before sending to model
-	//to avoid loosing original part name and num
-	if(errorCheckPName(stringArray[0], "0")){
-		newPart.setPartName(stringArray[0]);
-	}
-	
-	if(errorCheckpNum(stringArray[1], "0")){
-		newPart.setPartNum(stringArray[1]);
-	}
+	public static InventoryItem addInventoryItem(String[] stringArray, InventoryItem addInventoryItem){
+		item = addInventoryItem;
 		
 	//Error check with model 
-	newPart.setPartName(stringArray[0]);
-	newPart.setPartNum(stringArray[1]);
-	newPart.setVendorName(stringArray[2]);
-	newPart.setQuantity(stringArray[3]);
-	newPart.setUnit(stringArray[4]);
-	newPart.setExternalNum(stringArray[5]);
-	newPart.setLocation(stringArray[6]);
+		item.setPartId(Integer.parseInt(stringArray[0]));
+		item.setQuantity(stringArray[1]);
+		item.setLocation(stringArray[2]);
 	
+		item.partUI.setPartQuantityLabel(item.getQuantity());
+		item.partUI.setPartNameLabel(item.getPart().getPartName());
 	
-	newPart.listUI.setPartQuantityLabel((Integer.toString(newPart.getQuantity())));
-	newPart.listUI.setPartUnitLabel(newPart.getUnit());
-	newPart.listUI.setPartNameLabel(newPart.getPartName());
+		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation()))
+		{
+			item.setErrorCount(item.getErrorCount()+1);
+			item.setErrorListAtIndex(0, "Part and Location combination already exits!");
+		}
+		else
+			item = InventoryItemDB.addInventoryItem(item);
 	
-	newPart = PartDB.addPart(newPart);
-	
-	if(newPart.getErrorCount() == 0 && newPart.getIsNew() == true){
-		//Add part to mainFrame
-		listPartsFrame.addPart(newPart);
-		//Add part to list
-		list.addPart(newPart);		
+		if(item.getErrorCount() == 0 && item.getItemId() > 0){
+			inventoryLocationFrame.refresh();
+			System.out.println("Something");
 	}
 	
-	return newPart;
+		return item;
 		
-}*/
+	}
 	
 	public static Part addPart(String[] stringArray, Part addPart){
 		newPart = addPart;
@@ -137,10 +133,8 @@ public static Part addInventoryItem(String[] stringArray, Part addInventoryItem)
 		newPart.setPartName(stringArray[0]);
 		newPart.setPartNum(stringArray[1]);
 		newPart.setVendorName(stringArray[2]);
-		newPart.setQuantity(stringArray[3]);
-		newPart.setUnit(stringArray[4]);
-		newPart.setExternalNum(stringArray[5]);
-		newPart.setLocation(stringArray[6]);
+		newPart.setUnit(stringArray[3]);
+		newPart.setExternalNum(stringArray[4]);
 		
 		
 		newPart.listUI.setPartQuantityLabel((Integer.toString(newPart.getQuantity())));
@@ -149,7 +143,8 @@ public static Part addInventoryItem(String[] stringArray, Part addInventoryItem)
 		
 		newPart = PartDB.addPart(newPart);
 		
-		if(newPart.getErrorCount() == 0 && newPart.getIsNew() == true){
+		
+		if(newPart.getErrorCount() == 0){
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
 			//Add part to list
@@ -159,22 +154,36 @@ public static Part addInventoryItem(String[] stringArray, Part addInventoryItem)
 		return newPart;
 			
 	}
+	
+	public static InventoryItem updateInventoryItem(String[] stringArray, InventoryItem updateItem){
+		//Initialize error to check again in this method.
+		updateItem.setErrorCount(0);
+		updateItem.setPartId(Integer.parseInt(stringArray[1]));
+		updateItem.setQuantity(stringArray[2]);
+		updateItem.setLocation(stringArray[3]);
+		
+		updateItem = InventoryItemDB.updateInventoryItem(updateItem);
+		
+		if(updateItem.getErrorCount() == 0)
+			inventoryLocationFrame.refresh();
+		
+		
+		return updateItem;
+	}
+	
 	public static Part updatePart(String[] stringArray, Part updatePart ){
 		//Initialize error to check again in this method
 		updatePart.setErrorCount(0);
-		/*newPart.setPartName(stringArray[0]);
-		newPart.setPartNum(stringArray[1]);
-		newPart.setVendorName(stringArray[2]);
-		newPart.setUnit(stringArray[4]);
-		newPart.setExternalNum(stringArray[5]);
-		newPart.setLocation(stringArray[6]);
-		*/
+		updatePart.setPartName(stringArray[0]);
+		updatePart.setPartNum(stringArray[1]);
+		updatePart.setVendorName(stringArray[2]);
+		updatePart.setUnit(stringArray[3]);
+		updatePart.setExternalNum(stringArray[4]);
 		
-		//Set flag to know this is an update instance
-		updatePart.setIsNew(false);
-		updatePart = addPart(stringArray, updatePart);
 		
-		if(newPart.getErrorCount() == 0){
+		updatePart = PartDB.updatePart(updatePart);
+		
+		if(updatePart.getErrorCount() == 0){
 			listPartsFrame.refresh(list);	
 		}
 		
@@ -216,8 +225,5 @@ public static Part addInventoryItem(String[] stringArray, Part addInventoryItem)
 		}
 		return true;
 	}
-	public static InventoryItem updateInventory(InventoryItem item, String[] info) {
-		// Create function that will update database
-		return null;
-	}
+
 }

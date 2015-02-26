@@ -52,7 +52,7 @@ public class InventoryAtLocationFrame{
 		
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 AddFrame addFrame = new AddFrame();
+	        	 InventoryAddFrame addFrame = new InventoryAddFrame();
 	             addFrame.addFrame.setVisible(true);
 	         }
 	      });

@@ -13,7 +13,7 @@ public class InventoryItem{
 	private String location;
 	private String quantity;
 	private Part part;
-	private int itemId;
+	private int itemId = -1;
 	private int partId;
 	public inventoryUI partUI;
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
@@ -22,7 +22,7 @@ public class InventoryItem{
 	
 	public InventoryItem(){
 		location = "Unknown";
-		setQuantity("0");
+		this.quantity = null;
 		partUI = new inventoryUI();
 		errorList[0] = null;
 	}
@@ -143,6 +143,10 @@ public class InventoryItem{
 
 	public String getErrorListAtIndex(int index){
 		return errorList[index];
+	}
+
+	public void setErrorListAtIndex(int i, String string) {
+		errorList[i] = string;
 	}
 
 	

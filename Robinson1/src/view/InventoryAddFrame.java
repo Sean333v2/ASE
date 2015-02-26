@@ -76,9 +76,9 @@ public class InventoryAddFrame {
 	        	 	
 	        	//Get Error report to possibly show in frame
 	        	InventoryItem newItem;
-				newItem = MainController.addIventoryItem(info, new InventoryItem());
+				newItem = MainController.addInventoryItem(info, new InventoryItem());
 				
-				//show warning if item part/location combo already existsSADFSADHGRWHWQREHWERHWEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+				//show warning if item part/location combo already exists
 				if( newItem.getErrorCount() == 1 && newItem.getErrorListAtIndex(0) == null){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "That part is already at that location!",
