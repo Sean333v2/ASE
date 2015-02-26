@@ -66,10 +66,11 @@ public class InventoryFrame{
 	        	 }
 	        	 else{
 	        		 //Open inventory frame at that location
+	        		//Close frame
+		             InventoryFrame.dispose();
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
 		             InventoryAtLocationFrame.mainFrame.setVisible(true);
-		             //Close frame
-		             InventoryFrame.dispose();
+		             
 	        		//Get from database the parts from this location
 	        		 
 	        	 }	 

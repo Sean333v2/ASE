@@ -53,9 +53,18 @@ public class InventoryPartFrame{
 	    inventoryFrame.add(location);
 	    inventoryFrame.add(new JLabel("Quantity: "));
 	    inventoryFrame.add(quantity);
-	    inventoryFrame.add(new JLabel(""));
+	    
 	    JButton updateButton = new JButton("Submit Edits");
-	   
+	    JButton partButton = new JButton("Part Details");
+	    
+	    
+	    partButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainItem.getPart().listUI.getDetailsButton().doClick();
+				
+			}
+	    });
+	
 	    //Work on this
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -88,6 +97,7 @@ public class InventoryPartFrame{
 	         }
 	      });
 	    inventoryFrame.add(updateButton);
+	    inventoryFrame.add(partButton);
 	}
 	
 	public void refresh(){
