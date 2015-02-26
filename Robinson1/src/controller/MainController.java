@@ -176,6 +176,9 @@ public class MainController {
 	}
 	
 	public static Part updatePart(String[] stringArray, Part updatePart ){
+		updatePart.setIsNew(false);
+		newPart = updatePart;
+		
 		//Initialize error to check again in this method
 		updatePart.setErrorCount(0);
 		updatePart.setPartName(stringArray[0]);
@@ -184,7 +187,12 @@ public class MainController {
 		updatePart.setUnit(stringArray[3]);
 		updatePart.setExternalNum(stringArray[4]);
 		
-		
+		if(errorCheckpNum(stringArray[1], "0")){
+			updatePart.setPartNum(stringArray[1]);
+		}
+		if(PartDB.updatePart(updatePart) == null ){
+			return updatePart;
+		}
 		updatePart = PartDB.updatePart(updatePart);
 		
 		if(updatePart.getErrorCount() == 0){
@@ -215,7 +223,7 @@ public class MainController {
 	}
 	
 	//Error check if name already exists
-	private static boolean errorCheckPName(String partName, String id){
+	public static boolean errorCheckPName(String partName, String id){
 		try{
 			for(int i=0; i < list.getAmount(); i++){
 				if(list.list.get(i).getPartName().equals(partName) && !list.list.get(i).getPersonalId().equals(id)){
@@ -230,8 +238,8 @@ public class MainController {
 		}
 		return true;
 	}
-	public static boolean nameExists(String name, String id){
-		if(list.findPart(name) == null && !list.findPartById(Integer.parseInt(id)))
+	public static boolean nameExists(String name){
+		if(list.findPart(name) == null)
 			return false;
 		return true;
 		

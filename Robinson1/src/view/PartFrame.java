@@ -56,12 +56,8 @@ public class PartFrame{
 	    partFrame.add(number);
 	    partFrame.add(new JLabel("Vendor:"));
 	    partFrame.add(vendor);
-	   //partFrame.add(new JLabel("Quantity: "));
-	  //  partFrame.add(quantity);
 	    partFrame.add(new JLabel("Unit: "));
 	    partFrame.add(unit);
-	   // partFrame.add(new JLabel("Location: "));
-	   // partFrame.add(location);
 	    partFrame.add(new JLabel("External Part Number: "));
 	    partFrame.add(extnumber);
 	    partFrame.add(id);
@@ -76,22 +72,22 @@ public class PartFrame{
 	        	 info[0] = name.getText();
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
-	        	// info[3] = quantity.getText();
 	        	 info[3] = (String)unit.getSelectedItem();
 	        	 info[4] = extnumber.getText();
-	        	// info[6] = (String)location.getSelectedItem();
 	        	 String originalName = newPart.getPartName();
-	        	 mainPart = MainController.updatePart(info,mainPart);
+	        	 mainPart = MainController.updatePart(info,newPart);
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
         
 	       
-	        	 if( !MainController.nameExists(newPart.getPartName(), newPart.getPersonalId()) ){
+	        	 if( !MainController.errorCheckPName(mainPart.getPartName(), mainPart.getPersonalId()) ){
 	       			 JOptionPane.showMessageDialog(partFrame,
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
+	       			 	partFrame.dispose();
+	       			 	mainPart.listUI.getDetailsButton().doClick();
 					}
 	       			
 	       			

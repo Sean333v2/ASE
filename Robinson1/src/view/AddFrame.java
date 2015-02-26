@@ -48,9 +48,9 @@ public class AddFrame {
 		if ("".equals(errorPart.getErrorListIndex(2)))
 			vendor = new JTextField(errorPart.getVendorName());
 	
-		if ("".equals(errorPart.getErrorListIndex(4)))
+		if ("".equals(errorPart.getErrorListIndex(3)))
 			unit.setSelectedItem(errorPart.getUnit());
-		if ("".equals(errorPart.getErrorListIndex(5)))
+		if ("".equals(errorPart.getErrorListIndex(4)))
 			extnumber = new JTextField(""+errorPart.getExternalNum());
 
 		
@@ -113,7 +113,7 @@ public class AddFrame {
 				
 				//show warning if part already exists
 				
-				if( MainController.nameExists(newPart.getPartName(),newPart.getPersonalId()) ){
+				if( MainController.nameExists(newPart.getPartName()) ){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "Part Name already exists",
        					    "PName warning",
@@ -178,10 +178,27 @@ public class AddFrame {
 	        	
 	        	 Part newPart;
 				// If there is a flag that this is an update
-				if (errorPart.getIsNew() == false)
+				if (errorPart.getIsNew() == false){
 					newPart = MainController.updatePart(info, errorPart);
-				else
+					if( !MainController.errorCheckPName(errorPart.getPartName(), errorPart.getPersonalId()) ){
+		       			 JOptionPane.showMessageDialog(addFrame,
+		       					    "Part Name already exists",
+		       					    "PName warning",
+		       					    JOptionPane.WARNING_MESSAGE);
+		       			 	addFrame.dispose();
+		       			 	errorPart.listUI.getDetailsButton().doClick();
+					}
+				}
+				else{
 					newPart = MainController.addPart(info,new Part());
+					if( MainController.nameExists(newPart.getPartName()) ){
+		       			 JOptionPane.showMessageDialog(addFrame,
+		       					    "Part Name already exists",
+		       					    "PName warning",
+		       					    JOptionPane.WARNING_MESSAGE);
+						}
+					
+				}
 				if (newPart.getErrorCount() > 0) {
 					addFrame.dispose();
 					AddFrame addFrame = new AddFrame(newPart);
