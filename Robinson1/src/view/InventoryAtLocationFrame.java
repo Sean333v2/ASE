@@ -117,11 +117,11 @@ public class InventoryAtLocationFrame{
 		container.removeAll();
 		mainFrame.dispose();
 		prepareGUI();
-		listItemsatLocation = MainController.getInventoryAtLocation(location);
+		/*listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI
 		for(int i=0; i< listItemsatLocation.size(); i++){
 			addPart(listItemsatLocation.get(i));
-		}
+		}*/
 
 	
 }

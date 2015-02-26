@@ -18,13 +18,15 @@ public class InventoryPartFrame{
 	private JLabel name;
 	private JComboBox location;
 	private JLabel id;
+	private int partId;
 	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public InventoryItem mainItem;
-	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2"};
 	
 	
 	public InventoryPartFrame(InventoryItem p){
+		partId = p.getPartId();
 		mainItem = p;
 		quantity = new JTextField(mainItem.getQuantity());
 		name = new JLabel("Name: " +mainItem.getPart().getPartName());
@@ -69,7 +71,7 @@ public class InventoryPartFrame{
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	        	 
-	        	 info[0] = name.getText();   	 
+	        	 info[0] = ""+partId ;  	 
 	        	 info[1] = quantity.getText();
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 

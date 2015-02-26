@@ -119,10 +119,11 @@ public class InventoryItemDB {
 			return null;
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=?");
+			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=? WHERE itemId=?");
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
+			stmt.setString(4, ""+i.getItemId());
 			stmt.execute();
 			
 			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
@@ -148,7 +149,7 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+partId);
 			stmt.setString(2, location);
 			rs = stmt.executeQuery();
-			if(!rs.first())
+			if(rs.first())
 				return true;
 		}
 		catch(Exception e){

@@ -55,10 +55,12 @@ public class MainController {
 		 //Check if part exists in item
 		 ArrayList<InventoryItem> inventoryList = InventoryItemDB.fetchAll();
 		 for(int i=0; i< inventoryList.size(); i++){
-			 if((""+inventoryList.get(i).getPartId()).equals(deleteItem.getPersonalId())){
+			 int k = Integer.parseInt(deleteItem.getPersonalId());
+			 if((inventoryList.get(i).getPartId()) == k){
 				 System.out.println("Delete");
+				 /*if(InventoryAtLocationFrame.mainFrame.isActive())
+					 InventoryAtLocationFrame.mainFrame.dispose();*/
 				 deleteInventoryItem(inventoryList.get(i));
-				 
 			 }
 		 }
 		 PartDB.deletePart(deleteItem);
@@ -80,11 +82,11 @@ public class MainController {
 		InventoryItemDB.deleteInventoryItem(deleteInventoryPart); 
 		
 		//Remove from MainFrame
-		 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartQuantityLabel());
+		 /*inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartQuantityLabel());
 		 //listPartsFrame.container.remove(deletePart.partUI.getPartUnitLabel());
     	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartNameLabel());
     	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDeleteButton());
-    	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDetailsButton()); 
+    	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDetailsButton()); */
     	 inventoryLocationFrame.container.revalidate();
     	 
 	}
@@ -162,9 +164,9 @@ public class MainController {
 	public static InventoryItem updateInventoryItem(String[] stringArray, InventoryItem updateItem){
 		//Initialize error to check again in this method.
 		updateItem.setErrorCount(0);
-		updateItem.setPartId(Integer.parseInt(stringArray[1]));
-		updateItem.setQuantity(stringArray[2]);
-		updateItem.setLocation(stringArray[3]);
+		updateItem.setPartId(Integer.parseInt(stringArray[0]));
+		updateItem.setQuantity(stringArray[1]);
+		updateItem.setLocation(stringArray[2]);
 		
 		updateItem = InventoryItemDB.updateInventoryItem(updateItem);
 		
