@@ -18,7 +18,7 @@ public class MainController {
 	private static InventoryAtLocationFrame inventoryLocationFrame;
 	
 	public static void main(String args[]){
-		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");
+		System.out.println("CS 4743 Assignment 3 by Barbara Davila and Sean Gallagher");
 		listPartsFrame = new MainFrame();
 		initializeList();
 		
