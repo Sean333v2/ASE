@@ -38,8 +38,9 @@ public class InventoryAddFrame {
 		
 		quantity = new JTextField(""+errorItem.getQuantity());
 		partId = new JTextField(""+errorItem.getPartId());
-		location.setSelectedItem(errorItem.getLocation());
-
+		//location.setSelectedItem(errorItem.getLocation());
+		itemlocation = errorItem.getLocation();
+		
 		setUpErrorGUI(errorItem);
 		
 	}
@@ -73,7 +74,7 @@ public class InventoryAddFrame {
 	        	 
 	        	 partId = new JTextField(partId.getText());
 	        	 quantity = new JTextField(quantity.getText());
-	        	 location.setSelectedItem((String)location.getSelectedItem());
+	        	 //location.setSelectedItem((String)location.getSelectedItem());
 	        	 
 	        	 	
 	        	//Get Error report to possibly show in frame
@@ -81,7 +82,7 @@ public class InventoryAddFrame {
 				newItem = MainController.addInventoryItem(info, new InventoryItem());
 				
 				//show warning if item part/location combo already exists
-				if( newItem.getErrorCount() == 1 && newItem.getErrorListAtIndex(0) == null){
+				/*if( newItem.getErrorCount() == 1 && newItem.getErrorListAtIndex(0) != null){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "That part is already at that location!",
        					    "PName warning",
@@ -89,7 +90,7 @@ public class InventoryAddFrame {
        			
        			  
 	 
-       		 	}
+       		 	}*/
 				for(int i=0; i < newItem.getErrorCount(); i++){
 					System.out.println(newItem.getErrorListAtIndex(i));
 				}
