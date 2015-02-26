@@ -102,7 +102,7 @@ public class MainController {
 	
 		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation()))
 		{
-			item.setErrorCount(item.getErrorCount()+1);
+			item.setErrorCount(item.getErrorCount() + 1);
 			item.setErrorListAtIndex(0, "Part and Location combination already exits!");
 		}
 		else
@@ -110,7 +110,7 @@ public class MainController {
 	
 		if(item.getErrorCount() == 0 && item.getItemId() > 0){
 			inventoryLocationFrame.refresh();
-			System.out.println("Something");
+			//System.out.println("Something");
 	}
 	
 		return item;
@@ -121,9 +121,9 @@ public class MainController {
 		newPart = addPart;
 		//Error check for for duplicates locally first before sending to model
 		//to avoid loosing original part name and num
-		if(errorCheckPName(stringArray[0], "0")){
-			newPart.setPartName(stringArray[0]);
-		}
+		//if(errorCheckPName(stringArray[0], "0")){
+			//newPart.setPartName(stringArray[0]);
+	//	}
 		
 		if(errorCheckpNum(stringArray[1], "0")){
 			newPart.setPartNum(stringArray[1]);
@@ -141,14 +141,18 @@ public class MainController {
 		newPart.listUI.setPartUnitLabel(newPart.getUnit());
 		newPart.listUI.setPartNameLabel(newPart.getPartName());
 		
-		newPart = PartDB.addPart(newPart);
+		if(PartDB.addPart(newPart) == null)
+			return newPart;
+		
 		
 		
 		if(newPart.getErrorCount() == 0){
+			newPart = PartDB.addPart(newPart);
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
 			//Add part to list
-			list.addPart(newPart);		
+			list.addPart(newPart);	
+			//listPartsFrame.refresh();
 		}
 		
 		return newPart;
@@ -184,7 +188,7 @@ public class MainController {
 		updatePart = PartDB.updatePart(updatePart);
 		
 		if(updatePart.getErrorCount() == 0){
-			listPartsFrame.refresh(list);	
+			listPartsFrame.refresh();	
 		}
 		
 		return updatePart;
@@ -197,6 +201,7 @@ public class MainController {
 		try{
 			for(int i=0; i < list.getAmount(); i++){
 				if(list.list.get(i).getPartNum().equals(partNum) && !list.list.get(i).getPersonalId().equals(id)){
+					//System.out.println("HERE");
 					throw new IllegalArgumentException("'"+ partNum+"' already exists" );
 				}
 			}
@@ -224,6 +229,12 @@ public class MainController {
 			return false;
 		}
 		return true;
+	}
+	public static boolean nameExists(String name, String id){
+		if(list.findPart(name) == null && !list.findPartById(Integer.parseInt(id)))
+			return false;
+		return true;
+		
 	}
 
 }

@@ -11,18 +11,15 @@ import controller.MainController;
 public class AddFrame {
 	
 	public JFrame addFrame;
-	//private JTextField quantity;
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
 	private JTextField extnumber;
 	private JComboBox unit;
-	//private JComboBox location;
 	private int arguments = 7;
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
-	//String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
-
+	
 	public AddFrame(){
 	
 		name = new JTextField("");
@@ -105,10 +102,9 @@ public class AddFrame {
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
-	        	 //quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
-	        	 //location.setSelectedItem((String)location.getSelectedItem());
+	        	 
 	        	 
 	        	 	
 	        	//Get Error report to possibly show in frame
@@ -116,13 +112,13 @@ public class AddFrame {
 				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
-				String partNameError = "ERROR: '"+ newPart.getPartName()+"' already exists";
-				if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+				
+				if( MainController.nameExists(newPart.getPartName(),newPart.getPersonalId()) ){
        			 JOptionPane.showMessageDialog(addFrame,
        					    "Part Name already exists",
        					    "PName warning",
        					    JOptionPane.WARNING_MESSAGE);
-       		 }
+				}
 				
 				
 				if (newPart.getErrorCount() > 0 ) {
@@ -155,14 +151,10 @@ public class AddFrame {
 	    addFrame.add(number);
 		addFrame.add(new JLabel("Vendor: " + errorPart.getErrorListIndex(2)));
 	    addFrame.add(vendor);
-	    //addFrame.add(new JLabel("Quantity:  " +errorPart.getErrorListIndex(3)));
-	    //addFrame.add(quantity);
-	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(4)));
+	    addFrame.add(new JLabel("Unit: "+errorPart.getErrorListIndex(3)));
 	    addFrame.add(unit);
-	    addFrame.add(new JLabel("External Part Number: "+errorPart.getErrorListIndex(5)));
+	    addFrame.add(new JLabel("External Part Number: "+errorPart.getErrorListIndex(4)));
 	    addFrame.add(extnumber);
-	    //addFrame.add(new JLabel("Location: "+errorPart.getErrorListIndex(6)));
-	   // addFrame.add(location);
 	    JButton submitButton = new JButton("Submit");
 	    addFrame.add(submitButton);
 	    
@@ -173,18 +165,15 @@ public class AddFrame {
 	        	 info[0] = name.getText();
 	        	 info[1] = number.getText();
 	        	 info[2] = vendor.getText();
-	        	// info[3] = quantity.getText();
-	        	 info[4] = (String)unit.getSelectedItem();
-	        	 info[5] = extnumber.getText();
-	        	 //info[6] = (String)location.getSelectedItem();
-	        	 
+	        	 info[3] = (String)unit.getSelectedItem();
+	        	 info[4] = extnumber.getText();
+
 	        	 name = new JTextField(name.getText());
 	        	 number = new JTextField(number.getText());
 	        	 vendor = new JTextField(vendor.getText());
-	        	// quantity = new JTextField(quantity.getText());
 	        	 unit.setSelectedItem((String)unit.getSelectedItem());
 	        	 extnumber = new JTextField(extnumber.getText());
-	        	 //location.setSelectedItem((String)location.getSelectedItem());
+	        	 
 
 	        	
 	        	 Part newPart;

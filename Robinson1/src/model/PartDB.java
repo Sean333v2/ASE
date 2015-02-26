@@ -17,8 +17,11 @@ public class PartDB {
         	Connection conn = Database.getConnection();
         	stmt = conn.prepareStatement("SELECT * FROM parts ORDER BY parts.partId");//This says to get all rows in parts table.
             rs = stmt.executeQuery();
-            if(!rs.first())//Just to make sure the cursor is at the first row.
+            if(!rs.first()){//Just to make sure the cursor is at the first row.
+            	//System.out.println("First return");
             	return result;
+            	
+            }
             //Add the first row to the list of parts
             result.add(new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             		rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit")));
@@ -64,8 +67,11 @@ public class PartDB {
 			stmt = conn.prepareStatement("SELECT * FROM parts WHERE partNumber = ?");
 			stmt.setString(1, p.getPartNum());
 			rs = stmt.executeQuery();
-			if(!rs.first())
+			if(!rs.first()){
+				//System.out.println("Second return ");
 				return addedPart;
+				
+			}
 			addedPart = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
 		}

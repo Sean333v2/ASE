@@ -86,21 +86,16 @@ public class PartFrame{
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
         
-	        	//show warning if part already exists
-					String partNameError = "ERROR: '"+ newPart.getPartName()+"' already exists";
-					if( newPart.getErrorCount() == 1 && newPart.getErrorListIndex(0).equals(partNameError) ){
+	       
+	        	 if( !MainController.nameExists(newPart.getPartName(), newPart.getPersonalId()) ){
 	       			 JOptionPane.showMessageDialog(partFrame,
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-	       			partFrame.dispose();
-	       			newPart.setPartName(originalName);
-	       			newPart.listUI.getDetailsButton().doClick();
-	       			
-	       			
-	       			 
 					}
-					else if (newPart.getErrorCount() > 0) {
+	       			
+	       			
+					if (newPart.getErrorCount() > 0) {
 						partFrame.dispose();
 						AddFrame addFrame = new AddFrame (newPart);
 						addFrame.addFrame.setVisible(true);

@@ -4,11 +4,13 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import controller.MainController;
 import model.Part;
+import model.PartDB;
 import model.PartsList;
 
 
@@ -112,12 +114,13 @@ public class MainFrame{
 	   
 	}
 	
-	public void refresh(PartsList list){
+	public void refresh(){
 		container.removeAll();
 		mainFrame.dispose();
 		prepareGUI();
-		for(int i=0; i< list.getAmount(); i++){
-			addPart(list.list.get(i));
+		ArrayList<Part> partsList = PartDB.fetchAll();
+		for(int i=0; i< partsList.size(); i++){
+			addPart(partsList.get(i));
 		}
 	
 }
