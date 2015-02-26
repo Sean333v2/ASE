@@ -47,14 +47,7 @@ public class InventoryFrame{
 		locationBox.setSelectedItem("Unknown");
 		
 		
-		JButton addButton = new JButton("Add Part");
 		
-		addButton.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	        	 AddFrame addFrame = new AddFrame();
-	             addFrame.addFrame.setVisible(true);
-	         }
-	      });
 		JButton submitButton = new JButton("Submit");
 		
 		submitButton.addActionListener(new ActionListener() {
@@ -82,7 +75,6 @@ public class InventoryFrame{
 		container.add(new JLabel("Choose location: "));
 	    container.add(locationBox);
 	    container.add(submitButton);
-		container.add(addButton);
 		container.add(new JLabel(""));
 		InventoryFrame.setVisible(true);
 		
