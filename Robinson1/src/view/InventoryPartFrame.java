@@ -22,7 +22,7 @@ public class InventoryPartFrame{
 	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public InventoryItem mainItem;
-	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
+	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2"};
 	
 	
 	public InventoryPartFrame(InventoryItem p){
