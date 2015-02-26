@@ -49,7 +49,7 @@ public class MainController {
 		
 	}
 	public static void deletePart(Part deleteItem){
-		
+		boolean isQuantityZero = false;
 		//Remove from array list		
 		 
 		 //Check if part exists in item
@@ -57,29 +57,34 @@ public class MainController {
 		 for(int i=0; i< inventoryList.size(); i++){
 			 int k = Integer.parseInt(deleteItem.getPersonalId());
 			 if((inventoryList.get(i).getPartId()) == k){
-				 System.out.println("Delete");
-				 /*if(InventoryAtLocationFrame.mainFrame.isActive())
-					 InventoryAtLocationFrame.mainFrame.dispose();*/
-				 deleteInventoryItem(inventoryList.get(i));
+				 if(inventoryList.get(i).getQuantity().equals("0")){
+					 System.out.println("Delete");
+					 isQuantityZero = true;
+					 /*if(InventoryAtLocationFrame.mainFrame.isActive())
+						 InventoryAtLocationFrame.mainFrame.dispose();*/
+					 deleteInventoryItem(inventoryList.get(i));
+				 }
 			 }
 		 }
-		 PartDB.deletePart(deleteItem);
-		list.removePart(list.findPart(deleteItem.getPartName()));
+		 if(isQuantityZero){
+			 PartDB.deletePart(deleteItem);
+			list.removePart(list.findPart(deleteItem.getPartName()));
 
-		//Remove from MainFrame
-		 listPartsFrame.container.remove(deleteItem.listUI.getPartUnitLabel());
-    	 listPartsFrame.container.remove(deleteItem.listUI.getPartNameLabel());
-    	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
-    	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
-    	 listPartsFrame.container.revalidate();
-    	
+			//Remove from MainFrame
+			 listPartsFrame.container.remove(deleteItem.listUI.getPartUnitLabel());
+	    	 listPartsFrame.container.remove(deleteItem.listUI.getPartNameLabel());
+	    	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
+	    	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
+	    	 listPartsFrame.container.revalidate();
+		 } 
 	}
 	
 	//Deletes the inventory item from that frame
 	public static void deleteInventoryItem(InventoryItem deleteInventoryPart){
 		
 		//Remove from array list
-		InventoryItemDB.deleteInventoryItem(deleteInventoryPart); 
+		if(deleteInventoryPart.getQuantity().equals("0"))
+			InventoryItemDB.deleteInventoryItem(deleteInventoryPart); 
 		
 		//Remove from MainFrame
 		 /*inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartQuantityLabel());
