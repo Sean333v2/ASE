@@ -73,7 +73,7 @@ public class InventoryPartFrame{
 	        	 info[1] = quantity.getText();
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
-	        	 mainItem = MainController.updateInventory(mainItem, info);
+	        	 mainItem = MainController.updateInventoryItem(info, mainItem);
 	        	 String partNameError = "ERROR: '"+ mainItem.getPart().getPartName()+"' already exists";
 					if( mainItem.getErrorCount() == 1 && mainItem.getErrorListAtIndex(0).equals(partNameError) ){
 	       			 JOptionPane.showMessageDialog(inventoryFrame,
