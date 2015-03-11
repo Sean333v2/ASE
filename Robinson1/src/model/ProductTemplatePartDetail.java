@@ -9,7 +9,7 @@ public class ProductTemplatePartDetail{
 	private int errorCount = 0;
 	
 	public ProductTemplatePartDetail(ProductTemplate productTemplate, Part part, String quantity){
-		setProductTemplateid(productTemplate.getProductID());
+		setProductTemplateid(productTemplate.getProductId());
 		setPartId(part.getPersonalId());
 		setQuantity(quantity);	
 	}
