@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 
 import model.Part;
 import model.PartDB;
+import model.ProductTemplate;
 import controller.MainController;
 
 public class ProductFrame {
@@ -25,10 +26,7 @@ public class ProductFrame {
 		public ProductFrame(){
 			prepareGUI();
 		}
-		
 
-		
-		
 		private void prepareGUI(){
 			
 			//Allocate memory
@@ -46,11 +44,10 @@ public class ProductFrame {
 			
 			//Add buttons and labels to UI
 			
-			
-			container.add(new JLabel("Product Name"));
+			container.add(new JLabel("Id"));
+			container.add(new JLabel("Product Number"));
 			container.add(addButton);
-			
-			
+
 			
 			//Listeners
 			productFrame.addWindowListener(new WindowAdapter() {
@@ -61,51 +58,50 @@ public class ProductFrame {
 			
 			addButton.addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
+		        	 //add product
 		        	 AddFrame addFrame = new AddFrame();
 		             addFrame.addFrame.setVisible(true);
 		         }
 		      });
 			
-			//mainFrame.setVisible(true);
-			
-			
+			//mainFrame.setVisible(true);	
 		}
 		
 		
-		public void addPart(Part addPart){
-		    final PartFrame partFrame = new PartFrame(addPart);
+		public void addProduct(ProductTemplate addProduct){
+			//Generating a part frame for this part
+		    final ProductDetailFrame productDetailFrame = new ProductDetailFrame(addProduct);
 		    
-		    addPart.listUI.setDeleteButton("Delete");
-		    addPart.listUI.setDetailsButton("Details");
-		    addPart.listUI.setPartUnitLabel(addPart.getUnit());
-		    addPart.listUI.setPartNameLabel(addPart.getPartName());
+		    addProduct.listUI.setEditButton("Edit");
+		    addProduct.listUI.setDetailsButton("Details");
+		    addProduct.listUI.setProductIdLabel(addProduct.getProductId());
+		    addProduct.listUI.setProductNumLabel(addProduct.getProductNum());
 			//Adds all to necessary fields to the  main frame
 			//container.add(addPart.listUI.getPartQuantityLabel());
-			container.add(addPart.listUI.getPartUnitLabel());
-			container.add(addPart.listUI.getPartNameLabel());
-			container.add(addPart.listUI.getDetailsButton());
-			container.add(addPart.listUI.getDeleteButton());
+			container.add(addProduct.listUI.getProductIdLabel());
+			container.add(addProduct.listUI.getProductNumLabel());
+			container.add(addProduct.listUI.getEditButton());
+			container.add(addProduct.listUI.getDetailsButton());
+			
 			
 			//Lsiteners on buttons
 			
-		    addPart.listUI.getDetailsButton().addActionListener(new ActionListener() {
+		    addProduct.listUI.getDetailsButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
-		        	 /*
-		        	if(partFrame.partFrame.isActive())
-		        		partFrame.partFrame.dispose();*/
-		        	partFrame.refresh();
-		            partFrame.partFrame.setVisible(true);
+		        	//Close this frame
+		        	 productFrame.dispose();
+		        	productDetailFrame.refresh();
+		            productDetailFrame.partFrame.setVisible(true);
 		         }
 		      });
 		    
-		    addPart.listUI.getDeleteButton().addActionListener(new ActionListener() {
+		    addProduct.listUI.getEditButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
-		        	 //Delete Part
-		        	 MainController.deletePart(addPart);
-		        	 if( partFrame.partFrame.isShowing() )
-		        		 partFrame.partFrame.dispose();	 
+		        	 //Show details 
 		         }
 		      });
+		   
+		    
 		    productFrame.setVisible(true);
 		   
 		}
@@ -114,9 +110,9 @@ public class ProductFrame {
 			container.removeAll();
 			productFrame.dispose();
 			prepareGUI();
-			ArrayList<Part> partsList = PartDB.fetchAll();
-			for(int i=0; i< partsList.size(); i++){
-				addPart(partsList.get(i));
+			ArrayList<ProductTemplate> productList = ProductTemplateDB.fetchAll();
+			for(int i=0; i< productList.size(); i++){
+				addProduct(productList.get(i));
 			}
 		
 	

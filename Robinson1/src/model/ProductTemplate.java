@@ -1,5 +1,12 @@
 package model;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+import view.listPart;
+import view.productTemplateListUI;
+
+
 
 
 public class ProductTemplate {
@@ -9,13 +16,20 @@ public class ProductTemplate {
 	private int arguments = 3;
 	private String[] errorList = new String[arguments];
 	private int errorCount =0;
+	public productTemplateListUI listUI;
+	
 	
 	public ProductTemplate(String productID, String productNum, String productDescription){
-		setProductID(productID);
+		initializeErrorList();
+		setProductId(productID);
 		setProductNum(productNum);
 		setProductDescription(productDescription);
 	}
-	
+	private void initializeErrorList(){
+		for(int i=0; i < arguments;i++){
+			errorList[i] = "";
+		}
+	}
 	public void setErrorListAtIndex(int index, String error){
 			errorList[index] = error;
 			setErrorCount(getErrorCount()+1);
@@ -23,11 +37,12 @@ public class ProductTemplate {
 	public String[] getErrorList(){
 		return errorList;
 	}
-	public String getProductID() {
+	public String getProductId() {
 		return productID;
 	}
-	public void setProductID(String productID) {
+	public void setProductId(String productID) {
 		this.productID = productID;
+		
 	}
 	public String getProductNum() {
 		return productNum;
@@ -36,6 +51,7 @@ public class ProductTemplate {
 		try{
 			if( productNum.length() < 20  ){
 				this.productNum = productNum;
+			
 			}
 			else{
 				throw new IllegalArgumentException("'" + productNum + "' is longer than 20");
@@ -56,8 +72,11 @@ public class ProductTemplate {
 	public void setProductDescription(String productDescription) {
 		try{
 			if( productDescription.length() < 255  ){
-				if( productDescription.substring(0, 1).toLowerCase().equals("a") )
+				if( productDescription.substring(0, 1).toLowerCase().equals("a") ){
 					this.productDescription = productDescription;
+					
+				}
+					
 				else{
 					throw new IllegalArgumentException("'" + productDescription + "' needs to begin with \"a\"");
 				}
@@ -79,6 +98,35 @@ public class ProductTemplate {
 	public void setErrorCount(int errorCount) {
 		this.errorCount = errorCount;
 	}
+
+	/*public JButton getProductUIField() {
+		return productUIField;
+	}
+
+	private void setProductUIField(String productDescription) {
+		productUIField = new JButton(productDescription);
+		productUIField.setBorderPainted(false);
+		productUIField.setOpaque(false);
+		
+		
+	}
+
+	public JLabel getProductNumLabel() {
+		return productNumLabel;
+	}
+
+	public void setProductNumLabel(String productNumLabel) {
+		
+		this.productNumLabel = new JLabel(productNumLabel);
+	}
+
+	public JLabel getProductidLabel() {
+		return productidLabel;
+	}
+
+	public void setProductidLabel(String productidLabel) {
+		this.productidLabel = new JLabel(productidLabel);
+	}*/
 	
 	
 }
