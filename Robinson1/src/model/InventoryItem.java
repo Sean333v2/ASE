@@ -3,6 +3,8 @@ package model;
 import controller.MainController;
 import view.inventoryUI;
 
+import java.sql.Timestamp;
+
 /*
 Inventory Item: an instance of a Part at a Location with a given Quantity. Id: automatically generated unique id
 Part: the part at that Location (should be a link to an instance of Part) Location: (same as before)
@@ -19,12 +21,24 @@ public class InventoryItem{
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	private String[] errorList = new String[4];
 	private int errorCount = 0;
+	private Timestamp time;
 	
 	public InventoryItem(){
 		location = "Unknown";
 		this.quantity = null;
 		partUI = new inventoryUI();
 		errorList[0] = null;
+	}
+	
+	public InventoryItem( int itemId, int partId, String location, String quantity, Timestamp t){
+		this.quantity = null;
+		this.itemId = itemId;
+		setPartId(partId);
+		setLocation(location);
+		setQuantity(quantity);
+		partUI = new inventoryUI();
+		errorList[0] = null;
+		time = t;
 	}
 	
 	public InventoryItem( int itemId, int partId, String location, String quantity){
@@ -44,6 +58,14 @@ public class InventoryItem{
 		setQuantity(quantity);
 		partUI = new inventoryUI();
 		errorList[0] = null;
+	}
+	
+	public Timestamp getTime(){
+		return this.time;
+	}
+	
+	public void setTime(Timestamp t){
+		this.time = t;
 	}
 	
 	public int getItemId(){

@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import controller.MainController;
 import model.InventoryItem;
+import model.InventoryItemDB;
 import model.Part;
 
 public class InventoryPartFrame{
@@ -76,6 +77,14 @@ public class InventoryPartFrame{
 	        	 info[2] = (String)location.getSelectedItem();
 	        	 
 	        	 mainItem = MainController.updateInventoryItem(info, mainItem);
+	        	 if(MainController.timeFlag){
+	        		 InventoryItem temp = InventoryItemDB.getInventoryItemByPartIdAndLocation(mainItem.getPartId(), mainItem.getLocation());
+	        		 mainItem.setLocation(temp.getLocation());
+	        		 mainItem.setPartId(temp.getPartId());
+	        		 mainItem.setQuantity(temp.getQuantity());
+	        		 mainItem.setTime(temp.getTime());
+	        	 }
+	        		 
 	        	 String partNameError = "ERROR: '"+ mainItem.getPart().getPartName()+"' already exists";
 					if( mainItem.getErrorCount() == 1 && mainItem.getErrorListAtIndex(0).equals(partNameError) ){
 	       			 JOptionPane.showMessageDialog(inventoryFrame,
@@ -90,11 +99,30 @@ public class InventoryPartFrame{
 	        	 if(mainItem.getErrorCount() > 0){
 	        		 inventoryFrame.dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
-	        		 inventoryaddFrame.addFrame.setVisible(true);	 	
+	        		 inventoryaddFrame.addFrame.setVisible(true);
+	        		 if(MainController.timeFlag){
+							MainController.timeFlag = false;
+							JOptionPane.showMessageDialog(inventoryaddFrame.addFrame,
+		       					    "Data has already been modified! Refreshing data!",
+		       					    "WARNING",
+		       					    JOptionPane.WARNING_MESSAGE);
+							
+						}
 	        	 }
 	        	 else{
-	        		inventoryFrame.dispose();
-	        		 }
+	        		 if(MainController.timeFlag){
+							MainController.timeFlag = false;
+							JOptionPane.showMessageDialog(inventoryFrame,
+		       					    "Data has already been modified! Refreshing data!",
+		       					    "WARNING",
+		       					    JOptionPane.WARNING_MESSAGE);
+			        		 inventoryFrame.dispose();
+			        		 mainItem.partUI.getDetailsButton().doClick();
+						}
+	        		 else
+	        			 inventoryFrame.dispose();
+
+	        	}
 	        	 
 	         }
 	      });

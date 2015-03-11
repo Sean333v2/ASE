@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class InventoryItemDB {
@@ -20,12 +21,12 @@ public class InventoryItemDB {
             	return result;
             //Add the first row to the list of items
             result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
-            		rs.getString("quantity")));
+            		rs.getString("quantity"), rs.getTimestamp("time")));
             
             //Add the rest of the rows to the list of items.
             while(rs.next()){
             	result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
-                		rs.getString("quantity")));
+                		rs.getString("quantity"), rs.getTimestamp("time")));
             }
             conn.close();
         } catch (SQLException e) {
@@ -48,12 +49,12 @@ public class InventoryItemDB {
             
             //Add the first row to the list of items
             result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
-            		rs.getString("quantity")));
+            		rs.getString("quantity"), rs.getTimestamp("time")));
             
             //Add the rest of the rows to the list of items.
             while(rs.next()){
             	result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
-                		rs.getString("quantity")));
+                		rs.getString("quantity"), rs.getTimestamp("time")));
             }
             conn.close();
 
@@ -75,12 +76,13 @@ public class InventoryItemDB {
 			Connection conn = Database.getConnection();
 			
 			//Added a new row into the parts table with the data from p.
-			stmt = conn.prepareStatement("INSERT INTO inventoryItems (partId, location, quantity)"+
-										 "VALUES (?, ?, ?);");
+			stmt = conn.prepareStatement("INSERT INTO inventoryItems (partId, location, quantity, time)"+
+										 "VALUES (?, ?, ?, ?);");
 			//Sets the variables from p into the query.
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
+			stmt.setTimestamp(4, i.getTime());
 			stmt.execute();
 			
 			//The rest of the code gets back the information from the new row that was just added.
@@ -90,7 +92,7 @@ public class InventoryItemDB {
 			stmt.setString(2, i.getLocation());
 			rs = stmt.executeQuery();
 			rs.first();
-			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"));
+			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"), rs.getTimestamp("time"));
             conn.close();
 
 		}
@@ -124,11 +126,12 @@ public class InventoryItemDB {
 			return null;
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=? WHERE itemId=?");
+			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=?, time=? WHERE itemId=?");
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
-			stmt.setString(4, ""+i.getItemId());
+			stmt.setString(5, ""+i.getItemId());
+			stmt.setTimestamp(4, i.getTime());
 			stmt.execute();
 			
 			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
@@ -136,7 +139,7 @@ public class InventoryItemDB {
 			stmt.setString(2, i.getLocation());
 			rs = stmt.executeQuery();
 			rs.first();
-			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"));
+			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"), rs.getTimestamp("time"));
             conn.close();
 
 		}
@@ -156,13 +159,59 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+partId);
 			stmt.setString(2, location);
 			rs = stmt.executeQuery();
-            conn.close();
-			if(rs.first())
+			if(rs.first()){
+	            conn.close();
 				return true;
+			}
+            conn.close();
+
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public static InventoryItem getInventoryItemByPartIdAndLocation(int partId, String location){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		InventoryItem result = null;
+		try{
+			Connection conn = Database.getConnection();
+			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
+			stmt.setString(1, ""+partId);
+			stmt.setString(2, location);
+			rs = stmt.executeQuery();
+			rs.first();
+			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"), rs.getTimestamp("time"));
+            conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static Timestamp getTimestamp(InventoryItem i){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Timestamp time = null;
+		
+		try{
+			Connection conn = Database.getConnection();
+			stmt = conn.prepareStatement("SELECT inventoryItems.time FROM inventoryItems WHERE partId=? AND location=?");
+			stmt.setString(1, ""+i.getPartId());
+			stmt.setString(2, i.getLocation());
+			rs = stmt.executeQuery();
+			if(!rs.first())
+				return time;
+			time = rs.getTimestamp("time");
+			conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return time;
 	}
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import view.InventoryAtLocationFrame;
@@ -18,6 +20,7 @@ public class MainController {
 	private static MainFrame listPartsFrame;
 	private static ProductFrame productFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
+	public static boolean timeFlag = false;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
@@ -183,6 +186,17 @@ public class MainController {
 		updateItem.setPartId(Integer.parseInt(stringArray[0]));
 		updateItem.setQuantity(stringArray[1]);
 		updateItem.setLocation(stringArray[2]);
+		
+		Timestamp oldTime = InventoryItemDB.getTimestamp(updateItem);
+		LocalDateTime dateTime = LocalDateTime.now();
+		Timestamp newTime = Timestamp.valueOf(dateTime);
+		if(updateItem.getTime().equals(oldTime)){
+			updateItem.setTime(newTime);
+		}
+		else{
+			timeFlag = true;
+			return updateItem;
+		}
 		
 		updateItem = InventoryItemDB.updateInventoryItem(updateItem);
 		
