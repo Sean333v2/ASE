@@ -126,12 +126,12 @@ public class InventoryItemDB {
 			return null;
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=? time=? WHERE itemId=?");
+			stmt = conn.prepareStatement("UPDATE inventoryItems SET partId=?, location=?, quantity=?, time=? WHERE itemId=?");
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.setString(3, i.getQuantity());
-			stmt.setString(4, ""+i.getItemId());
-			stmt.setTimestamp(5, i.getTime());
+			stmt.setString(5, ""+i.getItemId());
+			stmt.setTimestamp(4, i.getTime());
 			stmt.execute();
 			
 			stmt = conn.prepareStatement("SELECT * FROM inventoryItems WHERE partId = ? and location=?");
@@ -159,9 +159,13 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+partId);
 			stmt.setString(2, location);
 			rs = stmt.executeQuery();
-            conn.close();
-			if(rs.first())
+			if(rs.first()){
+	            conn.close();
 				return true;
+			}
+            conn.close();
+
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -179,7 +183,6 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+partId);
 			stmt.setString(2, location);
 			rs = stmt.executeQuery();
-            conn.close();
 			rs.first();
 			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"), rs.getTimestamp("time"));
             conn.close();
@@ -201,10 +204,10 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			rs = stmt.executeQuery();
-			conn.close();
 			if(!rs.first())
 				return time;
 			time = rs.getTimestamp("time");
+			conn.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
