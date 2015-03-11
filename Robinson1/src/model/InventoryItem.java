@@ -2,6 +2,7 @@ package model;
 
 import controller.MainController;
 import view.inventoryUI;
+
 import java.sql.Timestamp;
 
 /*

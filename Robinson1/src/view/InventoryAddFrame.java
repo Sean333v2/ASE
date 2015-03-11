@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import model.InventoryItem;
+import model.InventoryItemDB;
 import model.Part;
 import controller.MainController;
 
@@ -144,14 +145,26 @@ public class InventoryAddFrame {
 	        	
 	        	 InventoryItem newItem;
 				// If there is a flag that this is an update
-				if (errorItem.getItemId() > 0)
+				if (errorItem.getItemId() > 0){
 					newItem = MainController.updateInventoryItem(info, errorItem);
+					if(MainController.timeFlag){
+						newItem = InventoryItemDB.getInventoryItemByPartIdAndLocation(errorItem.getPartId(), errorItem.getLocation());
+					}
+				}
 				else
 					newItem = MainController.addInventoryItem(info,new InventoryItem());
 				if (newItem.getErrorCount() > 0) {
 					addFrame.dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame(newItem);
 					addFrame.addFrame.setVisible(true);
+					if(MainController.timeFlag){
+						MainController.timeFlag = false;
+						JOptionPane.showMessageDialog(addFrame.addFrame,
+	       					    "Data has already been modified! Refreshing data!",
+	       					    "WARNING",
+	       					    JOptionPane.WARNING_MESSAGE);
+						
+					}
 				} else {
 					addFrame.dispose();
 				}
