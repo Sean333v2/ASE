@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import view.InventoryAtLocationFrame;
 import view.MainFrame;
+import view.ProductFrame;
 import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
@@ -15,12 +16,19 @@ public class MainController {
 	private static InventoryItem item;
 	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
+	private static ProductFrame productFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
 	
 	public static void main(String args[]){
-		System.out.println("CS 4743 Assignment 3 by Barbara Davila and Sean Gallagher");
+		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
+		//Show mainFrame
 		listPartsFrame = new MainFrame();
 		initializeList();
+		listPartsFrame.mainFrame.setVisible(true);
+		//Show partFram
+		productFrame = new ProductFrame();
+		//Get products from db
+		productFrame.productFrame.setVisible(true);	
 		
 	}
 	//This is to set the inventory frame the current frame is working with and be able to control

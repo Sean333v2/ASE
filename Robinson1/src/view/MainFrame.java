@@ -15,7 +15,7 @@ import model.PartsList;
 
 
 public class MainFrame{
-	private static JFrame mainFrame;
+	public static JFrame mainFrame;
 	public JPanel container;
 	//public static PartFrame part;
 	
@@ -30,6 +30,7 @@ public class MainFrame{
 		
 		//Allocate memory
 		mainFrame = new JFrame("Cabinetron");
+		mainFrame.setLocation(650, 0);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		container.setLayout(new GridLayout(0, 4));
@@ -70,7 +71,7 @@ public class MainFrame{
 	      });
 		
 		
-		mainFrame.setVisible(true);
+		//mainFrame.setVisible(true);
 		
 		
 	}
