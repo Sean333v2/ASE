@@ -27,7 +27,7 @@ public class InventoryItemDB {
             	result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
                 		rs.getString("quantity")));
             }
-            
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,8 @@ public class InventoryItemDB {
             	result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"),
                 		rs.getString("quantity")));
             }
-            
+            conn.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,6 +91,8 @@ public class InventoryItemDB {
 			rs = stmt.executeQuery();
 			rs.first();
 			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"));
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -105,6 +108,8 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+i.getPartId());
 			stmt.setString(2, i.getLocation());
 			stmt.execute();
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -132,6 +137,8 @@ public class InventoryItemDB {
 			rs = stmt.executeQuery();
 			rs.first();
 			result = new InventoryItem(rs.getInt("itemId"), rs.getInt("partId"), rs.getString("location"), rs.getString("quantity"));
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -149,6 +156,7 @@ public class InventoryItemDB {
 			stmt.setString(1, ""+partId);
 			stmt.setString(2, location);
 			rs = stmt.executeQuery();
+            conn.close();
 			if(rs.first())
 				return true;
 		}

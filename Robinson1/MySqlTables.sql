@@ -20,6 +20,20 @@ create table inventoryItems (
 		FOREIGN KEY (partId) REFERENCES parts(partId)
 );
 
+create table productTemplates (
+		productId		int primary key auto_increment,
+		productNumber	varchar(20) NOT NULL,
+		description		varchar(255) UNIQUE NOT NULL
+);
+
+create table productTemplatePartDetails (
+		productId	int,
+		partId		int,
+		quantity	int,
+		FOREIGN KEY (productId) REFERENCES productTemplates(productId),
+		FOREIGN KEY (partId) REFERENCES parts(partId),
+		PRIMARY KEY(productId, partId)
+);
 
 /*drop table if exists operatingSystems;
 create table operatingSystems (

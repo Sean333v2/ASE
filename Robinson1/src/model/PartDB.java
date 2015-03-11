@@ -31,7 +31,8 @@ public class PartDB {
             	result.add(new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
                 		rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit")));
             }
-            
+            conn.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,6 +75,8 @@ public class PartDB {
 			}
 			addedPart = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -88,6 +91,8 @@ public class PartDB {
 			stmt = conn.prepareStatement("DELETE FROM parts WHERE partId = ? LIMIT 1");
 			stmt.setString(1, p.getPersonalId());
 			stmt.execute();
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -120,6 +125,8 @@ public class PartDB {
 			}
 			result = new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"),
             					 rs.getString("externalNumber"), rs.getString("vendorName"), rs.getString("unit"));
+            conn.close();
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
