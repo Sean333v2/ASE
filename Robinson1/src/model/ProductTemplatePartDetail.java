@@ -18,6 +18,7 @@ public class ProductTemplatePartDetail{
 	}
 	public void setErrorListAtIndex(int index, String error){
 		errorList[index] = error;
+		setErrorCount(getErrorCount() + 1);
 	}
 	public String getProductTemplateid() {
 		return productTemplateid;

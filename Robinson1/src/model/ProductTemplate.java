@@ -10,7 +10,7 @@ public class ProductTemplate {
 	private String[] errorList = new String[arguments];
 	private int errorCount =0;
 	
-	public void ProductTemplate(String productID, String productNum, String productDescription){
+	public ProductTemplate(String productID, String productNum, String productDescription){
 		setProductID(productID);
 		setProductNum(productNum);
 		setProductDescription(productDescription);
