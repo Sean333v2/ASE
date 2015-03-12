@@ -10,6 +10,8 @@ import model.InventoryItemDB;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
+import model.ProductTemplate;
+import model.ProductTemplateDB;
 
 public class MainController {
 	private static Part newPart;
@@ -23,11 +25,12 @@ public class MainController {
 		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
 		//Show mainFrame
 		listPartsFrame = new MainFrame();
-		initializeList();
+		initializePartList();
 		listPartsFrame.mainFrame.setVisible(true);
+		
 		//Show partFram
 		productFrame = new ProductFrame();
-		//Get products from db
+		initializeTemplateList();
 		productFrame.productFrame.setVisible(true);	
 		
 	}
@@ -41,7 +44,24 @@ public class MainController {
 		
 		
 	}
-	public static void initializeList(){
+	public static void initializeTemplateList(){
+		ArrayList<ProductTemplate> allProductTemplates = ProductTemplateDB.fetchAll();
+		//System.out.println(""+allProductTemplates.size());
+		
+		for(int i = 0; i < allProductTemplates.size(); i++){
+			productFrame.addProduct(allProductTemplates.get(i));
+			
+			
+			/*if(newPart.getErrorCount() == 0){
+				//Add part to mainFrame
+				listPartsFrame.addPart(newPart);
+				//Add part to list
+				list.addPart(newPart);*/
+			//}
+		}
+		
+	}
+	public static void initializePartList(){
 		ArrayList<Part> allParts = PartDB.fetchAll();
 		
 		for(int i = 0; i < allParts.size(); i++){

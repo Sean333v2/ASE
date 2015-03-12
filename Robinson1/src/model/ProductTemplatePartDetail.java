@@ -1,5 +1,7 @@
 package model;
 
+import view.listPart;
+
 public class ProductTemplatePartDetail{
 	private String productTemplateid;
 	private String partId;
@@ -7,11 +9,22 @@ public class ProductTemplatePartDetail{
 	private int arguments = 2;
 	private String[] errorList = new String[arguments];
 	private int errorCount = 0;
+	public listPart partUI = new listPart();
+	public String partName;
 	
 	public ProductTemplatePartDetail(ProductTemplate productTemplate, Part part, String quantity){
 		setProductTemplateid(productTemplate.getProductId());
 		setPartId(part.getPersonalId());
-		setQuantity(quantity);	
+		setQuantity(quantity);
+		setPartName(part.getPartName());
+		
+	}
+	public void setPartName(String name){
+		partName = name;
+		partUI.setPartNameLabel(name);
+	}
+	public String getPartName(){
+		return partName;
 	}
 	public String[] getErrorList(){
 		return errorList;
@@ -31,6 +44,7 @@ public class ProductTemplatePartDetail{
 	}
 	public void setPartId(String partId) {
 		this.partId = partId;
+		partUI.setPartUnitLabel(partId);
 	}
 	public String getQuantity() {
 		return quantity;
@@ -46,8 +60,11 @@ public class ProductTemplatePartDetail{
 			return;
 		}
 		try{
-			if( quantityInt > 0  )
+			if( quantityInt > 0  ){
 				this.quantity = ""+quantityInt;
+				partUI.setPartQuantityLabel(quantity);
+			}
+				
 			
 			else{
 				throw new IllegalArgumentException("This variable should be greater than 0");

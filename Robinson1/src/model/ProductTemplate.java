@@ -16,7 +16,7 @@ public class ProductTemplate {
 	private int arguments = 3;
 	private String[] errorList = new String[arguments];
 	private int errorCount =0;
-	public productTemplateListUI listUI;
+	public productTemplateListUI listUI = new productTemplateListUI();
 	
 	
 	public ProductTemplate(String productID, String productNum, String productDescription){

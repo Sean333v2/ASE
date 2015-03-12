@@ -46,7 +46,7 @@ public class ProductTemplateDB {
 										"VALUES (?, ?);");
 			//Sets the variables from p into the query.
 			stmt.setString(1, p.getProductNum());
-			stmt.setString(2, p.getDescription());
+			stmt.setString(2, p.getProductDescription());
 			
 			if(stmt.execute())//If an error occurs throw exception.
 				throw new SQLException();
@@ -54,7 +54,7 @@ public class ProductTemplateDB {
 			//The rest of the code gets back the information from the new row that was just added.
 			//This will give us an ID to put into the part object.
 			stmt = conn.prepareStatement("SELECT * FROM productTemplate WHERE description = ?");
-			stmt.setString(1, p.getDescription());
+			stmt.setString(1, p.getProductDescription());
 			rs = stmt.executeQuery();
 			if(!rs.first()){
 				return addedProduct;
@@ -101,7 +101,7 @@ public class ProductTemplateDB {
 			Connection conn = Database.getConnection();
 			stmt = conn.prepareStatement("UPDATE productTemplates SET partNumber=?, description=? WHERE productId=?");
 			stmt.setString(1, p.getProductNum());
-			stmt.setString(2, p.getDescription());
+			stmt.setString(2, p.getProductDescription());
 			stmt.setString(3, p.getProductId());
 
 			stmt.execute();

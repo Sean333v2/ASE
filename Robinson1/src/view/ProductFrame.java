@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import model.Part;
 import model.PartDB;
 import model.ProductTemplate;
+import model.ProductTemplateDB;
 import controller.MainController;
 
 public class ProductFrame {
@@ -47,6 +48,7 @@ public class ProductFrame {
 			container.add(new JLabel("Id"));
 			container.add(new JLabel("Product Number"));
 			container.add(addButton);
+			container.add(new JLabel(""));
 
 			
 			//Listeners
@@ -63,8 +65,7 @@ public class ProductFrame {
 		             addFrame.addFrame.setVisible(true);
 		         }
 		      });
-			
-			//mainFrame.setVisible(true);	
+				
 		}
 		
 		
@@ -77,21 +78,21 @@ public class ProductFrame {
 		    addProduct.listUI.setProductIdLabel(addProduct.getProductId());
 		    addProduct.listUI.setProductNumLabel(addProduct.getProductNum());
 			//Adds all to necessary fields to the  main frame
-			//container.add(addPart.listUI.getPartQuantityLabel());
+			
 			container.add(addProduct.listUI.getProductIdLabel());
 			container.add(addProduct.listUI.getProductNumLabel());
 			container.add(addProduct.listUI.getEditButton());
 			container.add(addProduct.listUI.getDetailsButton());
 			
 			
-			//Lsiteners on buttons
+			//Listeners on buttons
 			
 		    addProduct.listUI.getDetailsButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
 		        	//Close this frame
 		        	 productFrame.dispose();
 		        	productDetailFrame.refresh();
-		            productDetailFrame.partFrame.setVisible(true);
+		            productDetailFrame.productTemplateDetailFrame.setVisible(true);
 		         }
 		      });
 		    
