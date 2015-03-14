@@ -58,7 +58,7 @@ public class ProductTemplatePartDetailDB {
 			
 			stmt = conn.prepareStatement("INSERT INTO productTemplatePartDetails (productId, partId, quantity)"+
 										"VALUES (?, ?, ?);");
-			stmt.setString(1, p.getProductId());
+			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
 			stmt.setString(3, p.getQuantity());
 			
@@ -71,7 +71,7 @@ public class ProductTemplatePartDetailDB {
         			"INNER JOIN productTemplates, parts"+
         			"WHERE ? = productTemplates.productId"+
         			"AND ? = parts.partId");
-			stmt.setString(1, p.getProductId());
+			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
 			rs = stmt.executeQuery();
 			if(!rs.first()){
@@ -99,7 +99,7 @@ public class ProductTemplatePartDetailDB {
 		try{
 			Connection conn = Database.getConnection();
 			stmt = conn.prepareStatement("DELETE FROM productTemplatePartDetails WHERE productId = ? AND partId = ?;");
-			stmt.setString(1, p.getProductId());
+			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
 			stmt.execute();
 			
@@ -111,7 +111,7 @@ public class ProductTemplatePartDetailDB {
 		}
 	}
 	
-	public static ProductTemplatePartDetail updateProductTemplate(ProductTemplatePartDetial old, ProductTemplatePartDetail p){
+	public static ProductTemplatePartDetail updateProductTemplate(ProductTemplatePartDetail old, ProductTemplatePartDetail p){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ProductTemplatePartDetail result = null;
@@ -121,10 +121,10 @@ public class ProductTemplatePartDetailDB {
 		try{
 			Connection conn = Database.getConnection();
 			stmt = conn.prepareStatement("UPDATE productTemplatePartDetails SET productId=?, partId=?, quantity=? WHERE productId=? AND partId=?");
-			stmt.setString(1, p.getProductNum());
-			stmt.setString(2, p.getDescription());
-			stmt.setString(3, p.getProductId());
-			stmt.setString(4, old.getProductId());
+			stmt.setString(1, p.getProductTemplateid());
+			stmt.setString(2, p.getPartId());
+			stmt.setString(3, p.getQuantity());
+			stmt.setString(4, old.getProductTemplateid());
 			stmt.setString(5, old.getPartId());
 
 			stmt.execute();
@@ -135,7 +135,7 @@ public class ProductTemplatePartDetailDB {
         			"INNER JOIN productTemplates, parts"+
         			"WHERE ? = productTemplates.productId"+
         			"AND ? = parts.partId");
-			stmt.setString(1, p.getProductId());
+			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
 			rs = stmt.executeQuery();
 			if(!rs.first()){

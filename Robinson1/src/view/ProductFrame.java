@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import model.Part;
 import model.PartDB;
 import model.ProductTemplate;
+import model.ProductTemplateDB;
 import controller.MainController;
 
 public class ProductFrame {
@@ -91,7 +92,7 @@ public class ProductFrame {
 		        	//Close this frame
 		        	 productFrame.dispose();
 		        	productDetailFrame.refresh();
-		            productDetailFrame.partFrame.setVisible(true);
+		            productDetailFrame.productTemplateDetailFrame.setVisible(true);
 		         }
 		      });
 		    
