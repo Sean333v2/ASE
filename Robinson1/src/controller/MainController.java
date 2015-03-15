@@ -15,6 +15,8 @@ import model.PartDB;
 import model.PartsList;
 import model.ProductTemplate;
 import model.ProductTemplateDB;
+import model.ProductTemplatePartDetail;
+import model.ProductTemplatePartDetailDB;
 
 public class MainController {
 	private static Part newPart;
@@ -134,6 +136,25 @@ public class MainController {
 	public static void deleteProductTemplate(ProductTemplate product){
 		ProductTemplateDB.deleteProductTemplate(product);
 		productFrame.refresh();
+	}
+	
+	public static void deleteProductTemplatePartDetail(ProductTemplatePartDetail template){
+		ProductTemplatePartDetailDB.deleteProductTemplatePartDetail(template);
+	}
+	
+	public static ProductTemplatePartDetail addProductTemplatePartDetail(String[] stringArray, ProductTemplatePartDetail addTemplate){
+		addTemplate.setErrorCount(0);
+		addTemplate.setProductTemplateid(stringArray[0]);
+		addTemplate.setPartId(stringArray[1]);
+		addTemplate.setQuantity(stringArray[2]);
+		
+		if(addTemplate.getErrorCount() != 0){
+			return addTemplate;
+		}
+		
+		addTemplate = ProductTemplatePartDetailDB.addProductTemplatePartDetail(addTemplate);
+				
+		return addTemplate;
 	}
 	
 	public static ProductTemplate addProductTemplate(String[] stringArray, ProductTemplate addProduct){
@@ -308,6 +329,22 @@ public class MainController {
 		}
 		
 		return updateProduct;
+	}
+	
+	public static ProductTemplatePartDetail updateProductTemplatePartDetail(String[] stringArray, ProductTemplatePartDetail addTemplate){
+		ProductTemplatePartDetail newTemplate = new ProductTemplatePartDetail(addTemplate.getProductTemplate(), addTemplate.getPart(), addTemplate.getQuantity());
+		newTemplate.setErrorCount(0);
+		newTemplate.setProductTemplateid(stringArray[0]);
+		newTemplate.setPartId(stringArray[1]);
+		newTemplate.setQuantity(stringArray[2]);
+		
+		if(newTemplate.getErrorCount() != 0){
+			return newTemplate;
+		}
+		
+		newTemplate = ProductTemplatePartDetailDB.updateProductTemplatePartDetail(addTemplate, newTemplate);
+				
+		return newTemplate;
 	}
 	
 	//Error check is part number already exists

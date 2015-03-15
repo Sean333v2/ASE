@@ -3,15 +3,36 @@ package model;
 public class ProductTemplatePartDetail{
 	private String productTemplateid;
 	private String partId;
+	private Part part;
+	private ProductTemplate productTemplate;
 	private String quantity;
 	private int arguments = 2;
 	private String[] errorList = new String[arguments];
 	private int errorCount = 0;
 	
+	public ProductTemplatePartDetail(){
+		partId = "";
+		productTemplateid = "";
+		quantity = "";
+	}
 	public ProductTemplatePartDetail(ProductTemplate productTemplate, Part part, String quantity){
 		setProductTemplateid(productTemplate.getProductId());
 		setPartId(part.getPersonalId());
 		setQuantity(quantity);	
+		this.part = part;
+		this.productTemplate = productTemplate;
+	}
+	public Part getPart(){
+		return this.part;
+	}
+	public void setPart(Part p){
+		this.part = p;
+	}
+	public ProductTemplate getProductTemplate(){
+		return this.productTemplate;
+	}
+	public void setProductTemplate(ProductTemplate p){
+		this.productTemplate = p;
 	}
 	public String[] getErrorList(){
 		return errorList;

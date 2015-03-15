@@ -15,26 +15,28 @@ public class ProductTemplatePartDetailDB {
         try {
         	Connection conn = Database.getConnection();
         	stmt = conn.prepareStatement(
-        			"SELECT *"+ 
-        			"FROM productTemplatePartDetails"+
-        			"INNER JOIN productTemplates, parts"+
-        			"WHERE ? = productTemplates.productId"+
-        			"AND productTemplatePartDetails.partId = parts.partId");
+        			"SELECT * "+ 
+        			"FROM productTemplatePartDetails "+
+        			"INNER JOIN productTemplates, parts "+
+        			"WHERE ? = productTemplates.productId "+
+        			"AND productTemplatePartDetails.partId = parts.partId "+
+        			"AND ?=productTemplatePartDetails.productId");
         	stmt.setString(1, id);
+        	stmt.setString(2, id);
             rs = stmt.executeQuery();
             if(!rs.first()){
             	return result;	
             }
             result.add(new ProductTemplatePartDetail(
             		   new ProductTemplate(rs.getString("productId"), rs.getString("productNumber"), rs.getString("description")),
-            		   new Part(rs.getString("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
+            		   new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
             				    rs.getString("vendorName"), rs.getString("unit")),
             		   rs.getString("quantity")));
             
             while(rs.next()){
             	result.add(new ProductTemplatePartDetail(
              		   new ProductTemplate(rs.getString("productId"), rs.getString("productNumber"), rs.getString("description")),
-             		   new Part(rs.getString("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
+             		   new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
              				    rs.getString("vendorName"), rs.getString("unit")),
              		   rs.getString("quantity")));
             }
@@ -47,7 +49,7 @@ public class ProductTemplatePartDetailDB {
 	}
 	
 	//Throws an SQLException if the part/product combo already exists.
-	public static ProductTemplatePartDetail addProductTemplate(ProductTemplatePartDetail p){
+	public static ProductTemplatePartDetail addProductTemplatePartDetail(ProductTemplatePartDetail p){
 		ProductTemplatePartDetail addedProduct = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -66,10 +68,10 @@ public class ProductTemplatePartDetailDB {
 				throw new SQLException();
 			
 			stmt = conn.prepareStatement(
-        			"SELECT *"+ 
-        			"FROM productTemplatePartDetails"+
-        			"INNER JOIN productTemplates, parts"+
-        			"WHERE ? = productTemplates.productId"+
+        			"SELECT * "+ 
+        			"FROM productTemplatePartDetails "+
+        			"INNER JOIN productTemplates, parts "+
+        			"WHERE ? = productTemplates.productId "+
         			"AND ? = parts.partId");
 			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
@@ -80,7 +82,7 @@ public class ProductTemplatePartDetailDB {
 			}
 			addedProduct = new ProductTemplatePartDetail(
          		   		   new ProductTemplate(rs.getString("productId"), rs.getString("productNumber"), rs.getString("description")),
-         		   		   new Part(rs.getString("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
+         		   		   new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
          		   				   	rs.getString("vendorName"), rs.getString("unit")),
          		   		   rs.getString("quantity"));
             conn.close();
@@ -111,7 +113,7 @@ public class ProductTemplatePartDetailDB {
 		}
 	}
 	
-	public static ProductTemplatePartDetail updateProductTemplate(ProductTemplatePartDetail old, ProductTemplatePartDetail p){
+	public static ProductTemplatePartDetail updateProductTemplatePartDetail(ProductTemplatePartDetail old, ProductTemplatePartDetail p){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ProductTemplatePartDetail result = null;
@@ -130,20 +132,22 @@ public class ProductTemplatePartDetailDB {
 			stmt.execute();
 			
 			stmt = conn.prepareStatement(
-        			"SELECT *"+ 
-        			"FROM productTemplatePartDetails"+
-        			"INNER JOIN productTemplates, parts"+
-        			"WHERE ? = productTemplates.productId"+
-        			"AND ? = parts.partId");
+        			"SELECT * "+ 
+        			"FROM productTemplatePartDetails "+
+        			"INNER JOIN productTemplates, parts "+
+        			"WHERE ? = productTemplates.productId "+
+        			"AND ? = parts.partId "+
+        			"AND ? = productTemplatePartDetails.productId");
 			stmt.setString(1, p.getProductTemplateid());
 			stmt.setString(2, p.getPartId());
+			stmt.setString(3, p.getProductTemplateid());
 			rs = stmt.executeQuery();
 			if(!rs.first()){
 				return result;
 			}
 			result = new ProductTemplatePartDetail(
   		   		     new ProductTemplate(rs.getString("productId"), rs.getString("productNumber"), rs.getString("description")),
-  		   		     new Part(rs.getString("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
+  		   		     new Part(rs.getInt("partId"), rs.getString("partName"), rs.getString("partNumber"), rs.getString("externalNumber"),
   		   				   	rs.getString("vendorName"), rs.getString("unit")),
   		   		     rs.getString("quantity"));
             conn.close();

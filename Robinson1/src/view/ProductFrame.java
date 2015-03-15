@@ -102,7 +102,10 @@ public class ProductFrame {
 		    
 		    addProduct.listUI.getEditButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
-		        	 //Show details 
+		        	 //Show details
+		        	 final ProductTemplatePartDetailFrame productTemplatePartDetailFrame = new ProductTemplatePartDetailFrame(addProduct);
+		        	 productTemplatePartDetailFrame.refresh();
+		        	 productTemplatePartDetailFrame.productFrame.setVisible(true);
 		         }
 		      });
 		    
