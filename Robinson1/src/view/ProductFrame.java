@@ -35,7 +35,7 @@ public class ProductFrame {
 			productFrame.setLocation(0, 0);
 			container = new JPanel();
 			JScrollPane scrPane = new JScrollPane(container);
-			container.setLayout(new GridLayout(0, 4));
+			container.setLayout(new GridLayout(0, 5));
 			JButton addButton = new JButton("Add Product");
 			
 			
@@ -48,6 +48,8 @@ public class ProductFrame {
 			container.add(new JLabel("Id"));
 			container.add(new JLabel("Product Number"));
 			container.add(addButton);
+			container.add(new JLabel(""));
+			container.add(new JLabel(""));
 
 			
 			//Listeners
@@ -77,20 +79,21 @@ public class ProductFrame {
 		    addProduct.listUI.setDetailsButton("Details");
 		    addProduct.listUI.setProductIdLabel(addProduct.getProductId());
 		    addProduct.listUI.setProductNumLabel(addProduct.getProductNum());
+		    addProduct.listUI.setDeleteButton("Delete");
 			//Adds all to necessary fields to the  main frame
 			//container.add(addPart.listUI.getPartQuantityLabel());
 			container.add(addProduct.listUI.getProductIdLabel());
 			container.add(addProduct.listUI.getProductNumLabel());
 			container.add(addProduct.listUI.getEditButton());
 			container.add(addProduct.listUI.getDetailsButton());
-			
+			container.add(addProduct.listUI.getDeleteButton());
 			
 			//Lsiteners on buttons
 			
 		    addProduct.listUI.getDetailsButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
 		        	//Close this frame
-		        	 productFrame.dispose();
+		        	//productFrame.dispose();
 		        	productDetailFrame.refresh();
 		            productDetailFrame.productTemplateDetailFrame.setVisible(true);
 		         }
@@ -99,6 +102,12 @@ public class ProductFrame {
 		    addProduct.listUI.getEditButton().addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
 		        	 //Show details 
+		         }
+		      });
+		    
+		    addProduct.listUI.getDeleteButton().addActionListener(new ActionListener() {
+		         public void actionPerformed(ActionEvent e) {
+		        	 MainController.deleteProductTemplate(addProduct);
 		         }
 		      });
 		   

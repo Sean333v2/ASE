@@ -6,12 +6,15 @@ import java.util.ArrayList;
 
 import view.InventoryAtLocationFrame;
 import view.MainFrame;
+import view.ProductDetailFrame;
 import view.ProductFrame;
 import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
+import model.ProductTemplate;
+import model.ProductTemplateDB;
 
 public class MainController {
 	private static Part newPart;
@@ -31,7 +34,8 @@ public class MainController {
 		//Show partFram
 		productFrame = new ProductFrame();
 		//Get products from db
-		productFrame.productFrame.setVisible(true);	
+		initializeProductTemplates();
+		productFrame.productFrame.setVisible(true);
 		
 	}
 	//This is to set the inventory frame the current frame is working with and be able to control
@@ -56,8 +60,28 @@ public class MainController {
 				//Add part to list
 				list.addPart(newPart);
 			}
+			else{
+				System.out.println("Part with errors was not loaded: "+newPart.getPartName());
+			}
 		}
 		
+	}
+	public static void initializeProductTemplates(){
+		ArrayList<ProductTemplate> allProducts = ProductTemplateDB.fetchAll();
+		
+		for(int i = 0; i < allProducts.size(); i++){
+			ProductTemplate newProduct = allProducts.get(i);
+			
+			if(newProduct.getErrorCount() == 0){
+				//Add part to product frame.
+				productFrame.addProduct(newProduct);
+			}
+			else{
+				System.out.println("Product with errors was not loaded: "+newProduct.getProductId());
+				for(int j = 0; j < 3; j++)
+					System.out.println("Errors: "+newProduct.getErrorList()[j]);
+			}
+		}
 	}
 	public static void deletePart(Part deleteItem){
 		boolean isQuantityZero = false;
@@ -105,6 +129,11 @@ public class MainController {
     	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDetailsButton()); */
     	 inventoryLocationFrame.container.revalidate();
     	 
+	}
+	
+	public static void deleteProductTemplate(ProductTemplate product){
+		ProductTemplateDB.deleteProductTemplate(product);
+		productFrame.refresh();
 	}
 	
 	public static InventoryItem addInventoryItem(String[] stringArray, InventoryItem addInventoryItem){
@@ -236,7 +265,24 @@ public class MainController {
 		return updatePart;
 			
 	}
-
+	
+	public static ProductTemplate updateProductTemplate(String[] stringArray, ProductTemplate updateProduct){
+		updateProduct.setErrorCount(0);
+		updateProduct.setProductNum(stringArray[0]);
+		updateProduct.setProductDescription(stringArray[1]);
+		
+		if(updateProduct.getErrorCount() != 0){
+			return updateProduct;
+		}
+		
+		updateProduct = ProductTemplateDB.updateProductTemplate(updateProduct);
+		
+		if(updateProduct.getErrorCount() != 0){
+			productFrame.refresh();
+		}
+		
+		return updateProduct;
+	}
 	
 	//Error check is part number already exists
 	private static boolean errorCheckpNum(String partNum, String id){

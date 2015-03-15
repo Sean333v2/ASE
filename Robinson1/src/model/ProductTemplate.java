@@ -4,7 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import view.listPart;
-import view.productTemplateListUI;
+import view.ProductTemplateListUI;
 
 
 
@@ -16,14 +16,22 @@ public class ProductTemplate {
 	private int arguments = 3;
 	private String[] errorList = new String[arguments];
 	private int errorCount =0;
-	public productTemplateListUI listUI;
+	public ProductTemplateListUI listUI;
 	
+	
+	public ProductTemplate(String productNum, String productDescription){
+		initializeErrorList();
+		setProductNum(productNum);
+		setProductDescription(productDescription);
+		listUI = new ProductTemplateListUI();
+	}
 	
 	public ProductTemplate(String productID, String productNum, String productDescription){
 		initializeErrorList();
 		setProductId(productID);
 		setProductNum(productNum);
 		setProductDescription(productDescription);
+		listUI = new ProductTemplateListUI();
 	}
 	private void initializeErrorList(){
 		for(int i=0; i < arguments;i++){
@@ -72,14 +80,7 @@ public class ProductTemplate {
 	public void setProductDescription(String productDescription) {
 		try{
 			if( productDescription.length() < 255  ){
-				if( productDescription.substring(0, 1).toLowerCase().equals("a") ){
-					this.productDescription = productDescription;
-					
-				}
-					
-				else{
-					throw new IllegalArgumentException("'" + productDescription + "' needs to begin with \"a\"");
-				}
+				this.productDescription = productDescription;
 			}
 			else{
 				throw new IllegalArgumentException("'" + productDescription + "' is longer than 255");

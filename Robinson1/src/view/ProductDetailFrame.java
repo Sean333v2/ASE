@@ -55,22 +55,30 @@ public class ProductDetailFrame {
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	        	
-	        	 info[0] = number.getText();
-	        	 info[1] = description.getText();
+	        	info[0] = number.getText();
+	        	info[1] = description.getText();
 	        	
-	        	
+	        	mainProduct = MainController.updateProductTemplate(info, mainProduct); 
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
-	        	 
+	        	if(mainProduct == null){
+	        		JOptionPane.showMessageDialog(productTemplateDetailFrame,
+       					    "Error adding to the database.",
+       					    "Error",
+       					    JOptionPane.ERROR_MESSAGE);
+	        		mainProduct = new ProductTemplate(info[0], info[1]);
+	        	}
+	        	
+	        	
 	        	 if(mainProduct.getErrorCount() > 0){
 	        		int i=0;
-	        		while(mainProduct.getErrorList()[i].equals("")){}
+	        		while(mainProduct.getErrorList()[i].equals("")){i++;}
 	        		JOptionPane.showMessageDialog(productTemplateDetailFrame,
        					    mainProduct.getErrorList()[i],
-       					    "PName warning",
+       					    "Error",
        					    JOptionPane.ERROR_MESSAGE);
-       			 	productTemplateDetailFrame.dispose();
-       			 	mainProduct.listUI.getDetailsButton().doClick();		 
+       			 	refresh();
+       			 	//mainProduct.listUI.getDetailsButton().doClick();		 
 	        	 }
 	        	 else{
 	        		 //********Update product in main controller

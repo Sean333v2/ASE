@@ -42,7 +42,7 @@ public class ProductTemplateDB {
 			Connection conn = Database.getConnection();
 			
 			//Added a new row into the parts table with the data from p.
-			stmt = conn.prepareStatement("INSERT INTO productTemplate (partNumber, description)"+
+			stmt = conn.prepareStatement("INSERT INTO productTemplates (productNumber, description)"+
 										"VALUES (?, ?);");
 			//Sets the variables from p into the query.
 			stmt.setString(1, p.getProductNum());
@@ -53,7 +53,7 @@ public class ProductTemplateDB {
 			
 			//The rest of the code gets back the information from the new row that was just added.
 			//This will give us an ID to put into the part object.
-			stmt = conn.prepareStatement("SELECT * FROM productTemplate WHERE description = ?");
+			stmt = conn.prepareStatement("SELECT * FROM productTemplates WHERE description = ?");
 			stmt.setString(1, p.getProductDescription());
 			rs = stmt.executeQuery();
 			if(!rs.first()){
@@ -76,12 +76,14 @@ public class ProductTemplateDB {
 		PreparedStatement stmt = null;
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("DELETE FROM productTemplatePartDetails WHERE productId = ?;"+ 
-										 "DELETE FROM productTemplates WHERE productId = ?;");
+			stmt = conn.prepareStatement("DELETE FROM productTemplatePartDetails WHERE productId = ?");
 			stmt.setString(1, p.getProductId());
-			stmt.setString(2, p.getProductId());
 			stmt.execute();
 			
+			stmt = conn.prepareStatement("DELETE FROM productTemplates WHERE productId = ?");
+			stmt.setString(1, p.getProductId());
+			stmt.execute();
+
             conn.close();
 
 		}
@@ -99,7 +101,7 @@ public class ProductTemplateDB {
 		}
 		try{
 			Connection conn = Database.getConnection();
-			stmt = conn.prepareStatement("UPDATE productTemplates SET partNumber=?, description=? WHERE productId=?");
+			stmt = conn.prepareStatement("UPDATE productTemplates SET productNumber=?, description=? WHERE productId=?");
 			stmt.setString(1, p.getProductNum());
 			stmt.setString(2, p.getProductDescription());
 			stmt.setString(3, p.getProductId());
