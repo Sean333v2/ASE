@@ -390,7 +390,7 @@ public class MainController {
 	
 	public static boolean uniqueProductTemplate(ProductTemplate p){
 		for(int i = 0; i < productFrame.productList.size(); i++){
-			if(productFrame.productList.get(i).getProductDescription().equals(p.getProductDescription()))
+			if(productFrame.productList.get(i).getProductDescription().equals(p.getProductDescription()) && productFrame.productList.get(i).getProductId() != p.getProductId())
 				return false;
 		}
 		return true;
