@@ -22,6 +22,7 @@ import controller.MainController;
 public class ProductFrame {
 		public static JFrame productFrame;
 		public JPanel container;
+		public ArrayList<ProductTemplate> productList;
 		//public static PartFrame part;
 		
 		public ProductFrame(){
@@ -29,7 +30,6 @@ public class ProductFrame {
 		}
 
 		private void prepareGUI(){
-			
 			//Allocate memory
 			productFrame = new JFrame("Cabinetron Products");
 			productFrame.setLocation(0, 0);
@@ -62,8 +62,9 @@ public class ProductFrame {
 			addButton.addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
 		        	 //add product
-		        	 AddFrame addFrame = new AddFrame();
-		             addFrame.addFrame.setVisible(true);
+		        	 final ProductDetailFrame productDetailFrame = new ProductDetailFrame(new ProductTemplate(), "Add");
+		        	 productDetailFrame.refresh();
+			         productDetailFrame.productTemplateDetailFrame.setVisible(true);
 		         }
 		      });
 			
@@ -73,7 +74,7 @@ public class ProductFrame {
 		
 		public void addProduct(ProductTemplate addProduct){
 			//Generating a part frame for this part
-		    final ProductDetailFrame productDetailFrame = new ProductDetailFrame(addProduct);
+		    final ProductDetailFrame productDetailFrame = new ProductDetailFrame(addProduct, "Update");
 		    
 		    addProduct.listUI.setEditButton("Edit");
 		    addProduct.listUI.setDetailsButton("Details");
@@ -120,7 +121,7 @@ public class ProductFrame {
 			container.removeAll();
 			productFrame.dispose();
 			prepareGUI();
-			ArrayList<ProductTemplate> productList = ProductTemplateDB.fetchAll();
+			productList = ProductTemplateDB.fetchAll();
 			for(int i=0; i< productList.size(); i++){
 				addProduct(productList.get(i));
 			}

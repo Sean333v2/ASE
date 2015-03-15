@@ -114,7 +114,7 @@ public class ProductTemplateDB {
 			if(!rs.first()){
 				return result;
 			}
-			result = new ProductTemplate(rs.getString("productId"), rs.getString("productNum"), rs.getString("description"));
+			result = new ProductTemplate(rs.getString("productId"), rs.getString("productNumber"), rs.getString("description"));
             conn.close();
 
 		}

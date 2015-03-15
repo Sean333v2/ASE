@@ -67,10 +67,10 @@ public class MainController {
 		
 	}
 	public static void initializeProductTemplates(){
-		ArrayList<ProductTemplate> allProducts = ProductTemplateDB.fetchAll();
+		productFrame.productList = ProductTemplateDB.fetchAll();
 		
-		for(int i = 0; i < allProducts.size(); i++){
-			ProductTemplate newProduct = allProducts.get(i);
+		for(int i = 0; i < productFrame.productList.size(); i++){
+			ProductTemplate newProduct = productFrame.productList.get(i);
 			
 			if(newProduct.getErrorCount() == 0){
 				//Add part to product frame.
@@ -134,6 +134,27 @@ public class MainController {
 	public static void deleteProductTemplate(ProductTemplate product){
 		ProductTemplateDB.deleteProductTemplate(product);
 		productFrame.refresh();
+	}
+	
+	public static ProductTemplate addProductTemplate(String[] stringArray, ProductTemplate addProduct){
+		addProduct.setErrorCount(0);
+		addProduct.setProductNum(stringArray[0]);
+		addProduct.setProductDescription(stringArray[1]);
+		
+		if(addProduct.getErrorCount() != 0){
+			return addProduct;
+		}
+		
+		if(!uniqueProductTemplate(addProduct)){
+			addProduct.setErrorListAtIndex(2, "Description already exists");
+			return addProduct;
+		}
+		addProduct = ProductTemplateDB.addProductTemplate(addProduct);
+		
+		if(addProduct.getErrorCount() == 0)
+			productFrame.refresh();
+		
+		return addProduct;
 	}
 	
 	public static InventoryItem addInventoryItem(String[] stringArray, InventoryItem addInventoryItem){
@@ -275,9 +296,14 @@ public class MainController {
 			return updateProduct;
 		}
 		
+		if(!uniqueProductTemplate(updateProduct)){
+			updateProduct.setErrorListAtIndex(2, "Description already exists");
+			return updateProduct;
+		}
+		
 		updateProduct = ProductTemplateDB.updateProductTemplate(updateProduct);
 		
-		if(updateProduct.getErrorCount() != 0){
+		if(updateProduct.getErrorCount() == 0){
 			productFrame.refresh();
 		}
 		
@@ -323,6 +349,14 @@ public class MainController {
 			return false;
 		return true;
 		
+	}
+	
+	public static boolean uniqueProductTemplate(ProductTemplate p){
+		for(int i = 0; i < productFrame.productList.size(); i++){
+			if(productFrame.productList.get(i).getProductDescription().equals(p.getProductDescription()))
+				return false;
+		}
+		return true;
 	}
 
 }

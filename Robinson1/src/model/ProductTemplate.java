@@ -19,6 +19,11 @@ public class ProductTemplate {
 	public ProductTemplateListUI listUI;
 	
 	
+	public ProductTemplate(){
+		initializeErrorList();
+		listUI = new ProductTemplateListUI();
+	}
+	
 	public ProductTemplate(String productNum, String productDescription){
 		initializeErrorList();
 		setProductNum(productNum);
@@ -58,8 +63,10 @@ public class ProductTemplate {
 	public void setProductNum(String productNum) {
 		try{
 			if( productNum.length() < 20  ){
-				this.productNum = productNum;
-			
+				if(productNum.charAt(0) == 'A')
+					this.productNum = productNum;
+				else
+					throw new IllegalArgumentException("Product Number must start with an 'A'");
 			}
 			else{
 				throw new IllegalArgumentException("'" + productNum + "' is longer than 20");
@@ -83,7 +90,7 @@ public class ProductTemplate {
 				this.productDescription = productDescription;
 			}
 			else{
-				throw new IllegalArgumentException("'" + productDescription + "' is longer than 255");
+				throw new IllegalArgumentException("Description is longer than 255 characters");
 			}
 	
 			

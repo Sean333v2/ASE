@@ -24,12 +24,23 @@ public class ProductDetailFrame {
 	private JLabel id;
 	public ProductTemplate mainProduct;
 	public String[] info = new String[2];
+	private String state;
+	private String add = "Add";
+	private String update = "Update";
 	
-	public ProductDetailFrame(ProductTemplate p){
+	public ProductDetailFrame(ProductTemplate p, String state){
 		mainProduct = p;
-		description = new JTextField(mainProduct.getProductDescription());
-		number = new JTextField(mainProduct.getProductNum());
-		id = new JLabel("ID: "+mainProduct.getProductId());
+		if(update.equals(state)){
+			description = new JTextField(mainProduct.getProductDescription());
+			number = new JTextField(mainProduct.getProductNum());
+			id = new JLabel("ID: "+mainProduct.getProductId());
+		}
+		else if(add.equals(state)){
+			description = new JTextField("");
+			number = new JTextField("");
+			id = new JLabel("");
+		}
+		this.state = state;
 		setUpGUI();
 	}
 	
@@ -42,10 +53,12 @@ public class ProductDetailFrame {
 				productTemplateDetailFrame.dispose();
 	         }        
 	      });
-	    productTemplateDetailFrame.add(new JLabel(""));
-	    JButton updateButton = new JButton("Update");
+	    JButton updateButton = new JButton(state);
 	    
-	    productTemplateDetailFrame.add(id);
+	    if(state.equals(update)){
+	    	productTemplateDetailFrame.add(new JLabel(""));
+	    	productTemplateDetailFrame.add(id);
+	    }
 	    productTemplateDetailFrame.add(new JLabel("Product Number:"));
 	    productTemplateDetailFrame.add(number);
 	    productTemplateDetailFrame.add(new JLabel("Product Description:"));
@@ -58,7 +71,12 @@ public class ProductDetailFrame {
 	        	info[0] = number.getText();
 	        	info[1] = description.getText();
 	        	
-	        	mainProduct = MainController.updateProductTemplate(info, mainProduct); 
+	        	if(state.equals(update)){
+	        		mainProduct = MainController.updateProductTemplate(info, mainProduct);
+	        	}
+	        	else if(state.equals(add)){
+	        		mainProduct = MainController.addProductTemplate(info, mainProduct);
+	        	}
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
 	        	if(mainProduct == null){
