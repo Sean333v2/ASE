@@ -38,7 +38,8 @@ public class ProductTemplate {
 		setProductDescription(productDescription);
 		listUI = new ProductTemplateListUI();
 	}
-	private void initializeErrorList(){
+	
+	public void initializeErrorList(){
 		for(int i=0; i < arguments;i++){
 			errorList[i] = "";
 		}

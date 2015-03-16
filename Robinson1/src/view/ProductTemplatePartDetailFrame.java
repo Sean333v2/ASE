@@ -64,21 +64,23 @@ public class ProductTemplatePartDetailFrame {
 			addButton.addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
 		        	 //add part
-		        	 ProductTemplatePartDetail p = new ProductTemplatePartDetail();
-		        	 p.setProductTemplateid(mainProduct.getProductId());
-		 		    final ProductTemplatePartDetailEditFrame productDetailFrame = new ProductTemplatePartDetailEditFrame(p, "Add");
-		        	 productDetailFrame.refresh();
-			         productDetailFrame.productTemplatePartDetailFrame.setVisible(true);
+		        	 addButtonListener();
 		         }
 		      });
 			
 			//mainFrame.setVisible(true);	
 		}
 		
-		
+		public void addButtonListener(){
+			ProductTemplatePartDetail p = new ProductTemplatePartDetail();
+       	 	p.setProductTemplateid(mainProduct.getProductId());
+		    final ProductTemplatePartDetailEditFrame productDetailFrame = new ProductTemplatePartDetailEditFrame(p, "Add",this);
+       	 	productDetailFrame.refresh();
+	         productDetailFrame.productTemplatePartDetailFrame.setVisible(true);
+		}
 		public void addProductTemplatePartDetail(ProductTemplatePartDetail addPart){
 			//Generating a part frame for this part
-		    final ProductTemplatePartDetailEditFrame productDetailFrame = new ProductTemplatePartDetailEditFrame(addPart, "Update");
+		    final ProductTemplatePartDetailEditFrame productDetailFrame = new ProductTemplatePartDetailEditFrame(addPart, "Update",this);
 		    
 		    /*addPart.listUI.setEditButton("Edit");
 		    addPart.listUI.setDetailsButton("Details");

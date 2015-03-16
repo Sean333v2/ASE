@@ -106,19 +106,18 @@ public class AddFrame {
 	        	 extnumber = new JTextField(extnumber.getText());
 	        	 
 	        	 
-	        	 	
+	        	 if( MainController.nameExists(name.getText()) ){
+	       			 JOptionPane.showMessageDialog(addFrame,
+	       					    "Part Name already exists",
+	       					    "PName warning",
+	       					    JOptionPane.WARNING_MESSAGE);
+					} 	
 	        	//Get Error report to possibly show in frame
 	        	Part newPart;
 				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
 				
-				if( MainController.nameExists(newPart.getPartName()) ){
-       			 JOptionPane.showMessageDialog(addFrame,
-       					    "Part Name already exists",
-       					    "PName warning",
-       					    JOptionPane.WARNING_MESSAGE);
-				}
 				
 				
 				if (newPart.getErrorCount() > 0 ) {

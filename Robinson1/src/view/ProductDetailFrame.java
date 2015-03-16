@@ -96,7 +96,7 @@ public class ProductDetailFrame {
        					    "Error",
        					    JOptionPane.ERROR_MESSAGE);
        			 	refresh();
-       			 	//mainProduct.listUI.getDetailsButton().doClick();		 
+       			 			 
 	        	 }
 	        	 else{
 	        		 //********Update product in main controller

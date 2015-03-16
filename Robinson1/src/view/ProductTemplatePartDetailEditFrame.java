@@ -30,9 +30,12 @@ public class ProductTemplatePartDetailEditFrame {
 	private String state;
 	private String add = "Add";
 	private String update = "Update";
+	private Boolean unique= true;
+	private ProductTemplatePartDetailFrame productFrame;
 	
-	public ProductTemplatePartDetailEditFrame(ProductTemplatePartDetail p, String state){
+	public ProductTemplatePartDetailEditFrame(ProductTemplatePartDetail p, String state, ProductTemplatePartDetailFrame productFrame){
 		mainProduct = p;
+		this.productFrame = productFrame;
 		if(update.equals(state)){
 			productId = new JTextField(mainProduct.getProductTemplate().getProductId());
 			partId = new JTextField(mainProduct.getPart().getPersonalId());
@@ -70,17 +73,37 @@ public class ProductTemplatePartDetailEditFrame {
 	    
 	    updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	        	
+				//flag to see if part id changed in update instance
+	        	boolean flag = true;
+	        	unique = true;
 	        	info[0] = productId.getText();
 	        	info[1] = partId.getText();
 	        	info[2] = quantity.getText();
 	        	
 	        	if(state.equals(update)){
-	        		mainProduct = MainController.updateProductTemplatePartDetail(info, mainProduct);
+	        		if(!mainProduct.getPartId().equals(info[1])){
+	        			flag = false;
+	        		}
+	        		
+	        		if(flag == false){
+	        			unique = MainController.uniqueProductPartCombination(productFrame.productTemplatePartDetailList, info[1]);
+	    	        	
+	        		}
+	        		if(unique){
+	        			mainProduct = MainController.updateProductTemplatePartDetail(info, mainProduct);
+	        		}
 	        	}
 	        	else if(state.equals(add)){
-	        		mainProduct = MainController.addProductTemplatePartDetail(info, mainProduct);
+	        		
+	        		unique = MainController.uniqueProductPartCombination(productFrame.productTemplatePartDetailList, info[1]);
+	        		if(unique){
+	        			mainProduct = MainController.addProductTemplatePartDetail(info, mainProduct);
+	        		}
 	        	}
+	        	 
+	        	 if(!unique){
+	        		 mainProduct.setErrorListAtIndex(0, "Not unique product and part combination");
+	        	 }
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
 	        	if(mainProduct == null){
@@ -101,11 +124,14 @@ public class ProductTemplatePartDetailEditFrame {
        					    "Error",
        					    JOptionPane.ERROR_MESSAGE);
        			 	refresh();
-       			 	//mainProduct.listUI.getDetailsButton().doClick();		 
+       			 	//mainProduct.listUI.getDetailsButton().doClick();
+       			 	mainProduct.initializeErrorList();
 	        	 }
 	        	 else{
 	        		 //********Update product in main controller
+	        		 productFrame.refresh();
 	        		 productTemplatePartDetailFrame.dispose();
+	        		 
 	        	 }
 	        	
 			}

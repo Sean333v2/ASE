@@ -158,13 +158,15 @@ public class Part{
 	
 	public void setPartNum(String partNum) {
 		try{
-			if( partNum.length() < 20  && partNum.length() > 0)
+			if( partNum.length() < 20  && partNum.length() > 0 && partNum.charAt(0) == 'P')
 				this.partNum = partNum;
 			else{
 				if( partNum.length() > 20)
 					throw new IllegalArgumentException("'" + partNum + "' is longer than 20");
-				else
+				else if(partNum.length() == 0)
 					throw new IllegalArgumentException("This field may not be left blank");
+				else throw new IllegalArgumentException("Part number must start with 'P'");
+					
 			}
 		}
 		catch(IllegalArgumentException e){
@@ -183,9 +185,12 @@ public class Part{
 			else{
 				if(partName.length() > 255)
 					throw new IllegalArgumentException("'" + partName + "' is longer than 255");
-				else 
+				else
 					throw new IllegalArgumentException("This field may not be left blank");
+				
+					
 			}
+			
 		}
 		catch(IllegalArgumentException e){
 			errorList[0] = ("ERROR: "+e.getMessage());

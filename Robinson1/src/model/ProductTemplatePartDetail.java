@@ -14,6 +14,7 @@ public class ProductTemplatePartDetail{
 		partId = "";
 		productTemplateid = "";
 		quantity = "";
+		initializeErrorList();
 	}
 	public ProductTemplatePartDetail(ProductTemplate productTemplate, Part part, String quantity){
 		setProductTemplateid(productTemplate.getProductId());
@@ -21,6 +22,12 @@ public class ProductTemplatePartDetail{
 		setQuantity(quantity);	
 		this.part = part;
 		this.productTemplate = productTemplate;
+		initializeErrorList();
+	}
+	public void initializeErrorList(){
+		for(int i=0; i < arguments;i++){
+			errorList[i] = "";
+		}
 	}
 	public Part getPart(){
 		return this.part;

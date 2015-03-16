@@ -8,6 +8,7 @@ import view.InventoryAtLocationFrame;
 import view.MainFrame;
 import view.ProductDetailFrame;
 import view.ProductFrame;
+import view.ProductTemplatePartDetailFrame;
 import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
@@ -25,6 +26,7 @@ public class MainController {
 	private static MainFrame listPartsFrame;
 	private static ProductFrame productFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
+	private static ProductTemplatePartDetailFrame productTemplatePartDetailFrame;
 	public static boolean timeFlag = false;
 	
 	public static void main(String args[]){
@@ -64,6 +66,9 @@ public class MainController {
 			}
 			else{
 				System.out.println("Part with errors was not loaded: "+newPart.getPartName());
+				for(int k=0; k< newPart.getErrorCount();k++){
+					System.out.println(newPart.getErrorListIndex(k));
+				}
 			}
 		}
 		
@@ -87,6 +92,7 @@ public class MainController {
 	}
 	public static void deletePart(Part deleteItem){
 		boolean isQuantityZero = false;
+		boolean isInventory = false;
 		//Remove from array list		
 		 
 		 //Check if part exists in item
@@ -94,8 +100,9 @@ public class MainController {
 		 for(int i=0; i< inventoryList.size(); i++){
 			 int k = Integer.parseInt(deleteItem.getPersonalId());
 			 if((inventoryList.get(i).getPartId()) == k){
+				 isInventory = true;
 				 if(inventoryList.get(i).getQuantity().equals("0")){
-					 System.out.println("Delete");
+					 //System.out.println("Delete");
 					 isQuantityZero = true;
 					 /*if(InventoryAtLocationFrame.mainFrame.isActive())
 						 InventoryAtLocationFrame.mainFrame.dispose();*/
@@ -103,7 +110,7 @@ public class MainController {
 				 }
 			 }
 		 }
-		 if(isQuantityZero){
+		 if(isQuantityZero || !isInventory){
 			 PartDB.deletePart(deleteItem);
 			list.removePart(list.findPart(deleteItem.getPartName()));
 
@@ -166,8 +173,12 @@ public class MainController {
 			return addProduct;
 		}
 		
-		if(!uniqueProductTemplate(addProduct)){
+		if(!uniqueProductTemplate(addProduct) && !uniqueProductTemplateNum(addProduct)){
 			addProduct.setErrorListAtIndex(2, "Description already exists");
+			return addProduct;
+		}
+		if(!uniqueProductTemplateNum(addProduct)){
+			addProduct.setErrorListAtIndex(1, "Number already exists");
 			return addProduct;
 		}
 		addProduct = ProductTemplateDB.addProductTemplate(addProduct);
@@ -321,6 +332,10 @@ public class MainController {
 			updateProduct.setErrorListAtIndex(2, "Description already exists");
 			return updateProduct;
 		}
+		if( !uniqueProductTemplateNum(updateProduct)){
+			updateProduct.setErrorListAtIndex(1, "Number already exists");
+			return updateProduct;
+		}
 		
 		updateProduct = ProductTemplateDB.updateProductTemplate(updateProduct);
 		
@@ -332,11 +347,13 @@ public class MainController {
 	}
 	
 	public static ProductTemplatePartDetail updateProductTemplatePartDetail(String[] stringArray, ProductTemplatePartDetail addTemplate){
+		
 		ProductTemplatePartDetail newTemplate = new ProductTemplatePartDetail(addTemplate.getProductTemplate(), addTemplate.getPart(), addTemplate.getQuantity());
 		newTemplate.setErrorCount(0);
 		newTemplate.setProductTemplateid(stringArray[0]);
 		newTemplate.setPartId(stringArray[1]);
 		newTemplate.setQuantity(stringArray[2]);
+		
 		
 		if(newTemplate.getErrorCount() != 0){
 			return newTemplate;
@@ -391,6 +408,23 @@ public class MainController {
 	public static boolean uniqueProductTemplate(ProductTemplate p){
 		for(int i = 0; i < productFrame.productList.size(); i++){
 			if(productFrame.productList.get(i).getProductDescription().equals(p.getProductDescription()) && productFrame.productList.get(i).getProductId() != p.getProductId())
+				return false;
+		}
+		return true;
+	}
+	public static boolean uniqueProductPartCombination(ArrayList<ProductTemplatePartDetail> list, String newPart){
+			for(int i=0; i< list.size(); i++){
+				if(newPart.equals(list.get(i).getPartId())){
+					return false;
+				}
+			}
+			return true;
+		
+		
+	}
+	public static boolean uniqueProductTemplateNum(ProductTemplate p){
+		for(int i = 0; i < productFrame.productList.size(); i++){
+			if(productFrame.productList.get(i).getProductNum().equals(p.getProductNum()) && productFrame.productList.get(i).getProductId() != p.getProductId())
 				return false;
 		}
 		return true;
