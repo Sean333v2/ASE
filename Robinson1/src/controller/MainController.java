@@ -52,6 +52,7 @@ public class MainController {
 		
 		
 	}
+	
 	public static void initializeList(){
 		ArrayList<Part> allParts = PartDB.fetchAll();
 		
@@ -429,5 +430,20 @@ public class MainController {
 		}
 		return true;
 	}
-
+	public static String[] createPartList(){
+		ArrayList<Part> array = PartDB.fetchAll();
+		String[] list = new String[array.size()];
+		for(int i=0;i<array.size();i++){
+			list[i] = array.get(i).getPartName();
+		}
+		return list;
+	}
+	public static String getPartIdfromPartName(String partName){
+		ArrayList<Part> array = PartDB.fetchAll();
+		for(int i=0;i<array.size();i++){
+			if(partName.equals(array.get(i).getPartName()))
+					return array.get(i).getPersonalId();
+		}
+	 return null;
+	}
 }

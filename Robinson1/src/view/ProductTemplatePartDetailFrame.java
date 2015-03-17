@@ -75,7 +75,7 @@ public class ProductTemplatePartDetailFrame {
 			ProductTemplatePartDetail p = new ProductTemplatePartDetail();
        	 	p.setProductTemplateid(mainProduct.getProductId());
 		    final ProductTemplatePartDetailEditFrame productDetailFrame = new ProductTemplatePartDetailEditFrame(p, "Add",this);
-       	 	productDetailFrame.refresh();
+       	 	//productDetailFrame.refresh();
 	         productDetailFrame.productTemplatePartDetailFrame.setVisible(true);
 		}
 		public void addProductTemplatePartDetail(ProductTemplatePartDetail addPart){
