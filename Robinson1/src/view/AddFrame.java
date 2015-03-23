@@ -32,6 +32,7 @@ public class AddFrame {
 		
 		setUpGUI();
 	}
+	/*
 	public AddFrame(Part errorPart){
 		name = new JTextField("");
 		vendor = new JTextField("");
@@ -57,7 +58,9 @@ public class AddFrame {
 
 		setUpErrorGUI(errorPart);
 		
-	}
+	}*/
+	
+	
 
 	private void setUpGUI(){
 		addFrame = new JFrame("Cabinetron: Add Part");
@@ -106,24 +109,35 @@ public class AddFrame {
 	        	 extnumber = new JTextField(extnumber.getText());
 	        	 
 	        	 
-	        	 if( MainController.nameExists(name.getText()) ){
+	        	/* if( MainController.nameExists(name.getText()) ){
 	       			 JOptionPane.showMessageDialog(addFrame,
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-					} 	
+					} */	
 	        	//Get Error report to possibly show in frame
 	        	Part newPart;
 				newPart = MainController.addPart(info, new Part());
 				
 				//show warning if part already exists
-				
-				
+				if(newPart == null){
+					System.exit(0);
+				}
 				
 				if (newPart.getErrorCount() > 0 ) {
+					int i=0;
+					while(newPart.getErrorList()[i].equals("")){i++;}
+					JOptionPane.showMessageDialog(addFrame,
+       					    newPart.getErrorListIndex(i),
+       					    "PName warning",
+       					    JOptionPane.WARNING_MESSAGE);
 					addFrame.dispose();
-					AddFrame addFrame = new AddFrame (newPart);
+					AddFrame addFrame = new AddFrame();
 					addFrame.addFrame.setVisible(true);
+       			 	
+					/*addFrame.dispose();
+					AddFrame addFrame = new AddFrame (newPart);
+					addFrame.addFrame.setVisible(true);*/
 				} else {
 					addFrame.dispose();
 				}
@@ -134,7 +148,7 @@ public class AddFrame {
 	      });
 	   
 	}
-
+/*
 	private void setUpErrorGUI(Part errorPart) {
 		addFrame = new JFrame("***Try Again*** ");
 		addFrame.setSize(670, 200);
@@ -210,5 +224,5 @@ public class AddFrame {
 	        
 	      });
 	   
-	}
+	}*/
 }

@@ -81,20 +81,29 @@ public class PartFrame{
 	        	 //the user should be warned and allowed to cancel.
         
 	       
-	        	 if( !MainController.errorCheckPName(mainPart.getPartName(), mainPart.getPersonalId()) ){
+	        	/* if( !MainController.errorCheckPName(mainPart.getPartName(), mainPart.getPersonalId()) ){
 	       			 JOptionPane.showMessageDialog(partFrame,
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
 	       			 	partFrame.dispose();
 	       			 	mainPart.listUI.getDetailsButton().doClick();
-					}
+					}*/
 	       			
 	       			
 					if (newPart.getErrorCount() > 0) {
+						int i=0;
+						while(newPart.getErrorList()[i].equals("")){i++;}
+						JOptionPane.showMessageDialog(partFrame,
+	       					    newPart.getErrorListIndex(i),
+	       					    "PName warning",
+	       					    JOptionPane.WARNING_MESSAGE);
+						partFrame.dispose();
+	       			 	mainPart.listUI.getDetailsButton().doClick();
+						/*
 						partFrame.dispose();
 						AddFrame addFrame = new AddFrame (newPart);
-						addFrame.addFrame.setVisible(true);
+						addFrame.addFrame.setVisible(true);*/
 					} else {
 						partFrame.dispose();
 					}
