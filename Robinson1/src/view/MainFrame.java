@@ -15,7 +15,7 @@ import model.PartsList;
 
 
 public class MainFrame{
-	public static JFrame mainFrame;
+	public static JPanel mainFrame;
 	public JPanel container;
 	//public static PartFrame part;
 	
@@ -24,12 +24,14 @@ public class MainFrame{
 	}
 	
 
-	
+	public JPanel getFrame(){
+		return mainFrame;
+	}
 	
 	private void prepareGUI(){
 		
 		//Allocate memory
-		mainFrame = new JFrame("Cabinetron");
+		mainFrame = new JPanel();
 		mainFrame.setLocation(650, 0);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
@@ -50,11 +52,11 @@ public class MainFrame{
 		
 		
 		//Listeners
-		mainFrame.addWindowListener(new WindowAdapter() {
+		/*mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            System.exit(0);
 	         }        
-	      });
+	      });*/
 		
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -107,8 +109,8 @@ public class MainFrame{
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
 	        	 MainController.deletePart(addPart);
-	        	 if( partFrame.partFrame.isShowing() )
-	        		 partFrame.partFrame.dispose();	 
+	        	 //if( partFrame.partFrame.isShowing() )
+	        		// partFrame.partFrame.dispose();	 
 	         }
 	      });
 	    mainFrame.setVisible(true);
@@ -117,7 +119,7 @@ public class MainFrame{
 	
 	public void refresh(){
 		container.removeAll();
-		mainFrame.dispose();
+		//mainFrame.dispose();
 		prepareGUI();
 		ArrayList<Part> partsList = PartDB.fetchAll();
 		for(int i=0; i< partsList.size(); i++){

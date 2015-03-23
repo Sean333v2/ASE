@@ -12,7 +12,7 @@ import controller.MainController;
 
 public class InventoryAddFrame {
 	
-	public JFrame addFrame;
+	public JPanel addFrame;
 	private JTextField quantity;
 	private JTextField partId;
 	private JComboBox location;
@@ -49,14 +49,14 @@ public class InventoryAddFrame {
 	}
 
 	private void setUpGUI(){
-		addFrame = new JFrame("Cabinetron: Add Part in "+itemlocation );
+		addFrame = new JPanel();
 		addFrame.setSize(300, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
-	    addFrame.addWindowListener(new WindowAdapter() {
+	    /*addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            addFrame.dispose();
 	         }        
-	      });
+	      });*/
 	    
 	    addFrame.add(new JLabel("Part Id:"));
 	    addFrame.add(partId);
@@ -98,11 +98,11 @@ public class InventoryAddFrame {
 					System.out.println(newItem.getErrorListAtIndex(i));
 				}
 				if (newItem.getErrorCount() > 0 ) {
-					addFrame.dispose();
+					//addFrame.dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
 					addFrame.addFrame.setVisible(true);
 				} else {
-					addFrame.dispose();
+					//addFrame.dispose();
 				}
 	      
 	         }
@@ -113,14 +113,14 @@ public class InventoryAddFrame {
 	}
 
 	private void setUpErrorGUI(InventoryItem errorItem) {
-		addFrame = new JFrame("***Try Again*** ");
+		addFrame = new JPanel();
 		addFrame.setSize(670, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
-	    addFrame.addWindowListener(new WindowAdapter() {
+	    /*addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            addFrame.dispose();
 	         }        
-	      });
+	      });*/
 		addFrame.add(new JLabel("PartId: " + errorItem.getErrorListAtIndex(1)));
 	    addFrame.add(partId);
 		addFrame.add(new JLabel("Quantity: " + errorItem.getErrorListAtIndex(2)));
@@ -154,7 +154,7 @@ public class InventoryAddFrame {
 				else
 					newItem = MainController.addInventoryItem(info,new InventoryItem());
 				if (newItem.getErrorCount() > 0) {
-					addFrame.dispose();
+					//addFrame.dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame(newItem);
 					addFrame.addFrame.setVisible(true);
 					if(MainController.timeFlag){
@@ -166,7 +166,7 @@ public class InventoryAddFrame {
 						
 					}
 				} else {
-					addFrame.dispose();
+					//addFrame.dispose();
 				}
 	        	
 	         }

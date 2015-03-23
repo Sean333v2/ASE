@@ -14,7 +14,7 @@ import model.Part;
 
 public class InventoryPartFrame{
 	
-	public JFrame inventoryFrame;
+	public JPanel inventoryFrame;
 	private JTextField quantity;
 	private JLabel name;
 	private JComboBox location;
@@ -38,14 +38,14 @@ public class InventoryPartFrame{
 	}
 	
 	private void setUpGUI(){
-		inventoryFrame = new JFrame("Cabinetron: Part");
+		inventoryFrame = new JPanel();
 		inventoryFrame.setSize(300, 300);
 		inventoryFrame.setLayout(new GridLayout(0, 2));       
-	    inventoryFrame.addWindowListener(new WindowAdapter() {
+	    /*inventoryFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
 	            inventoryFrame.dispose();
 	         }        
-	      });
+	      });*/
 	    
 	    //Show Inventory Item on mainframe
 	    inventoryFrame.add(id);
@@ -91,13 +91,13 @@ public class InventoryPartFrame{
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-	       			inventoryFrame.dispose();
+	       			//inventoryFrame.dispose();
 	       			//mainItem.setPartName(originalName);
 	       			mainItem.partUI.getDetailsButton().doClick();
 					}
 	       			
 	        	 if(mainItem.getErrorCount() > 0){
-	        		 inventoryFrame.dispose();
+	        		 //inventoryFrame.dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
 	        		 inventoryaddFrame.addFrame.setVisible(true);
 	        		 if(MainController.timeFlag){
@@ -116,11 +116,11 @@ public class InventoryPartFrame{
 		       					    "Data has already been modified! Refreshing data!",
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
-			        		 inventoryFrame.dispose();
+			        		 //inventoryFrame.dispose();
 			        		 mainItem.partUI.getDetailsButton().doClick();
 						}
-	        		 else
-	        			 inventoryFrame.dispose();
+	        		 //else
+	        			 //inventoryFrame.dispose();
 
 	        	}
 	        	 

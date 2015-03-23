@@ -10,7 +10,7 @@ import controller.MainController;
 
 public class AddFrame {
 	
-	public JFrame addFrame;
+	public JPanel addFrame;
 	private JTextField name;
 	private JTextField vendor;
 	private JTextField number;
@@ -60,14 +60,14 @@ public class AddFrame {
 	}
 
 	private void setUpGUI(){
-		addFrame = new JFrame("Cabinetron: Add Part");
+		addFrame = new JPanel();
 		addFrame.setSize(300, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
-	    addFrame.addWindowListener(new WindowAdapter() {
+	    /*addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            addFrame.dispose();
 	         }        
-	      });
+	      });*/ 
 	    
 	    addFrame.add(new JLabel("Name:"));
 	    addFrame.add(name);
@@ -121,11 +121,11 @@ public class AddFrame {
 				
 				
 				if (newPart.getErrorCount() > 0 ) {
-					addFrame.dispose();
+					//addFrame.dispose();
 					AddFrame addFrame = new AddFrame (newPart);
 					addFrame.addFrame.setVisible(true);
 				} else {
-					addFrame.dispose();
+					//addFrame.dispose();
 				}
 	      
 	         }
@@ -136,14 +136,14 @@ public class AddFrame {
 	}
 
 	private void setUpErrorGUI(Part errorPart) {
-		addFrame = new JFrame("***Try Again*** ");
+		addFrame = new JPanel();
 		addFrame.setSize(670, 200);
 		addFrame.setLayout(new GridLayout(0, 2));       
-	    addFrame.addWindowListener(new WindowAdapter() {
+	    /*addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            addFrame.dispose();
 	         }        
-	      });
+	      });*/
 		addFrame.add(new JLabel("Name: " + errorPart.getErrorListIndex(0)));
 	    addFrame.add(name);
 		addFrame.add(new JLabel("Part Number: " + errorPart.getErrorListIndex(1)));
@@ -184,7 +184,7 @@ public class AddFrame {
 		       					    "Part Name already exists",
 		       					    "PName warning",
 		       					    JOptionPane.WARNING_MESSAGE);
-		       			 	addFrame.dispose();
+		       			 	//addFrame.dispose();
 		       			 	errorPart.listUI.getDetailsButton().doClick();
 					}
 				}
@@ -199,11 +199,11 @@ public class AddFrame {
 					
 				}
 				if (newPart.getErrorCount() > 0) {
-					addFrame.dispose();
+					//addFrame.dispose();
 					AddFrame addFrame = new AddFrame(newPart);
 					addFrame.addFrame.setVisible(true);
 				} else {
-					addFrame.dispose();
+					//addFrame.dispose();
 				}
 	        	
 	         }

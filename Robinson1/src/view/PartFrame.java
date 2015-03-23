@@ -10,7 +10,7 @@ import model.Part;
 
 public class PartFrame{
 	
-	public JFrame partFrame;
+	public JPanel partFrame;
 	//private JTextField quantity;
 	private JTextField name;
 	private JTextField vendor;
@@ -41,14 +41,14 @@ public class PartFrame{
 	}
 	
 	private void setUpGUI(Part newPart){
-		partFrame = new JFrame("Cabinetron: Part");
+		partFrame = new JPanel();
 		partFrame.setSize(300, 300);
 		partFrame.setLayout(new GridLayout(0, 2));       
-	    partFrame.addWindowListener(new WindowAdapter() {
+	    /*partFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
 	            partFrame.dispose();
 	         }        
-	      });
+	      });*/
 	    
 	    partFrame.add(new JLabel("Name:"));
 	    partFrame.add(name);
@@ -86,18 +86,18 @@ public class PartFrame{
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-	       			 	partFrame.dispose();
+	       			 	//partFrame.dispose();
 	       			 	mainPart.listUI.getDetailsButton().doClick();
 					}
 	       			
 	       			
 					if (newPart.getErrorCount() > 0) {
-						partFrame.dispose();
+						//partFrame.dispose();
 						AddFrame addFrame = new AddFrame (newPart);
 						addFrame.addFrame.setVisible(true);
-					} else {
-						partFrame.dispose();
-					}
+					} //else {
+					//	partFrame.dispose();
+					//}
 			}
 	      });
 	    

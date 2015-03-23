@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,7 +18,7 @@ import model.ProductTemplate;
 import controller.MainController;
 
 public class ProductDetailFrame {
-	public JFrame productTemplateDetailFrame;
+	public JPanel productTemplateDetailFrame;
 	private JTextField description;
 	private JTextField number;
 	private JLabel id;
@@ -45,14 +45,14 @@ public class ProductDetailFrame {
 	}
 	
 	private void setUpGUI(){
-		productTemplateDetailFrame = new JFrame("Cabinetron: Product Template");
+		productTemplateDetailFrame = new JPanel();
 		productTemplateDetailFrame.setSize(300, 300);
 		productTemplateDetailFrame.setLayout(new GridLayout(0, 2));       
-	    productTemplateDetailFrame.addWindowListener(new WindowAdapter() {
+	    /*productTemplateDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
 				productTemplateDetailFrame.dispose();
 	         }        
-	      });
+	      });*/
 	    JButton updateButton = new JButton(state);
 	    
 	    if(state.equals(update)){
@@ -98,10 +98,10 @@ public class ProductDetailFrame {
        			 	refresh();
        			 			 
 	        	 }
-	        	 else{
+	        	 /*else{
 	        		 //********Update product in main controller
 	        		 productTemplateDetailFrame.dispose();
-	        	 }
+	        	 }*/
 	        	
 			}
 	      });

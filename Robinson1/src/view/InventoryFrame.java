@@ -16,7 +16,7 @@ import model.PartsList;
 
 
 public class InventoryFrame{
-	public static JFrame InventoryFrame;
+	public static JPanel InventoryFrame;
 	public JPanel container;
 	private JComboBox locationBox;
 	private String location;
@@ -31,17 +31,17 @@ public class InventoryFrame{
 	
 	private void prepareGUI(){
 		
-		InventoryFrame = new JFrame("Inventory");
+		InventoryFrame = new JPanel();
 		InventoryFrame.setSize(500,600);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		InventoryFrame.add(scrPane);
 		container.setLayout(new GridLayout(0, 5));
-		InventoryFrame.addWindowListener(new WindowAdapter() {
+		/*InventoryFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            InventoryFrame.dispose();
 	         }        
-	      });
+	      });*/
 		
 		locationBox = new JComboBox(locationStrings);
 		locationBox.setSelectedItem("Unknown");
@@ -60,7 +60,7 @@ public class InventoryFrame{
 	        	 else{
 	        		 //Open inventory frame at that location
 	        		//Close frame
-		             InventoryFrame.dispose();
+		             //InventoryFrame.dispose();
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
 		             InventoryAtLocationFrame.mainFrame.setVisible(true);
 		             

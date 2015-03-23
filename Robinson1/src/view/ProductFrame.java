@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,7 +20,7 @@ import model.ProductTemplateDB;
 import controller.MainController;
 
 public class ProductFrame {
-		public static JFrame productFrame;
+		public static JPanel productFrame;
 		public JPanel container;
 		public ArrayList<ProductTemplate> productList;
 		//public static PartFrame part;
@@ -29,9 +29,13 @@ public class ProductFrame {
 			prepareGUI();
 		}
 
+		public JPanel getFrame(){
+			return productFrame;
+		}
+		
 		private void prepareGUI(){
 			//Allocate memory
-			productFrame = new JFrame("Cabinetron Products");
+			productFrame = new JPanel();
 			productFrame.setLocation(0, 0);
 			container = new JPanel();
 			JScrollPane scrPane = new JScrollPane(container);
@@ -53,11 +57,11 @@ public class ProductFrame {
 
 			
 			//Listeners
-			productFrame.addWindowListener(new WindowAdapter() {
+			/*productFrame.addWindowListener(new WindowAdapter() {
 		         public void windowClosing(WindowEvent windowEvent){
 		            System.exit(0);
 		         }        
-		      });
+		      });*/
 			
 			addButton.addActionListener(new ActionListener() {
 		         public void actionPerformed(ActionEvent e) {
@@ -122,7 +126,7 @@ public class ProductFrame {
 		
 		public void refresh(){
 			container.removeAll();
-			productFrame.dispose();
+			//productFrame.dispose();
 			prepareGUI();
 			productList = ProductTemplateDB.fetchAll();
 			for(int i=0; i< productList.size(); i++){

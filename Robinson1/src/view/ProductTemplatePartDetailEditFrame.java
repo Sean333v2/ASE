@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -21,7 +21,7 @@ import model.ProductTemplatePartDetail;
 import controller.MainController;
 
 public class ProductTemplatePartDetailEditFrame {
-	public JFrame productTemplatePartDetailFrame;
+	public JPanel productTemplatePartDetailFrame;
 	//private JTextField partId;
 	private JComboBox partName;
 	private JTextField productId;
@@ -62,14 +62,14 @@ public class ProductTemplatePartDetailEditFrame {
 	}
 	
 	private void setUpGUI(){
-		productTemplatePartDetailFrame = new JFrame("Cabinetron: Product Template");
+		productTemplatePartDetailFrame = new JPanel();
 		productTemplatePartDetailFrame.setSize(300, 300);
 		productTemplatePartDetailFrame.setLayout(new GridLayout(0, 2));       
-	    productTemplatePartDetailFrame.addWindowListener(new WindowAdapter() {
+	    /*productTemplatePartDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
 				productTemplatePartDetailFrame.dispose();
 	         }        
-	      });
+	      });*/
 	    JButton updateButton = new JButton(state);
 	    
 	    productTemplatePartDetailFrame.add(new JLabel("Product Template Id:"));
@@ -142,7 +142,7 @@ public class ProductTemplatePartDetailEditFrame {
 	        	 else{
 	        		 //********Update product in main controller
 	        		 productFrame.refresh();
-	        		 productTemplatePartDetailFrame.dispose();
+	        		 //productTemplatePartDetailFrame.dispose();
 	        		 
 	        	 }
 	        	

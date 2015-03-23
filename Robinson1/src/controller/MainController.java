@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import view.InventoryAtLocationFrame;
 import view.MainFrame;
+import view.MasterFrame;
 import view.ProductDetailFrame;
 import view.ProductFrame;
 import view.ProductTemplatePartDetailFrame;
@@ -24,23 +25,32 @@ public class MainController {
 	private static InventoryItem item;
 	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
-	private static ProductFrame productFrame;
+	public static ProductFrame productFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
 	private static ProductTemplatePartDetailFrame productTemplatePartDetailFrame;
 	public static boolean timeFlag = false;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
-		//Show mainFrame
-		listPartsFrame = new MainFrame();
-		initializeList();
-		listPartsFrame.mainFrame.setVisible(true);
-		//Show partFram
-		productFrame = new ProductFrame();
-		//Get products from db
-		initializeProductTemplates();
-		productFrame.productFrame.setVisible(true);
 		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MasterFrame.createAndShowGUI();
+            }
+        });
+	}
+	public static void startMainFrame(){
+		//Show mainFrame
+				setListPartsFrame(new MainFrame());
+				initializeList();
+				getListPartsFrame().mainFrame.setVisible(true);
+	}
+	public static void startProductFrame(){
+		//Show partFram
+				productFrame = new ProductFrame();
+				//Get products from db
+				initializeProductTemplates();
+				productFrame.productFrame.setVisible(true);
 	}
 	//This is to set the inventory frame the current frame is working with and be able to control
 	public static void setInventoryLocation(InventoryAtLocationFrame frame){
@@ -61,7 +71,7 @@ public class MainController {
 			
 			if(newPart.getErrorCount() == 0){
 				//Add part to mainFrame
-				listPartsFrame.addPart(newPart);
+				getListPartsFrame().addPart(newPart);
 				//Add part to list
 				list.addPart(newPart);
 			}
@@ -116,11 +126,11 @@ public class MainController {
 			list.removePart(list.findPart(deleteItem.getPartName()));
 
 			//Remove from MainFrame
-			 listPartsFrame.container.remove(deleteItem.listUI.getPartUnitLabel());
-	    	 listPartsFrame.container.remove(deleteItem.listUI.getPartNameLabel());
-	    	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
-	    	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
-	    	 listPartsFrame.container.revalidate();
+			 getListPartsFrame().container.remove(deleteItem.listUI.getPartUnitLabel());
+	    	 getListPartsFrame().container.remove(deleteItem.listUI.getPartNameLabel());
+	    	 getListPartsFrame().container.remove(deleteItem.listUI.getDeleteButton());
+	    	 getListPartsFrame().container.remove(deleteItem.listUI.getDetailsButton()); 
+	    	 getListPartsFrame().container.revalidate();
 		 } 
 	}
 	
@@ -253,7 +263,7 @@ public class MainController {
 		if(newPart.getErrorCount() == 0){
 			//newPart = PartDB.addPart(newPart);
 			//Add part to mainFrame
-			listPartsFrame.addPart(newPart);
+			getListPartsFrame().addPart(newPart);
 			//Add part to list
 			list.addPart(newPart);	
 			//listPartsFrame.refresh();
@@ -313,7 +323,7 @@ public class MainController {
 			updatePart = tester;
 		
 		if(updatePart.getErrorCount() == 0){
-			listPartsFrame.refresh();	
+			getListPartsFrame().refresh();	
 		}
 		
 		return updatePart;
@@ -445,5 +455,11 @@ public class MainController {
 					return array.get(i).getPersonalId();
 		}
 	 return null;
+	}
+	public static MainFrame getListPartsFrame() {
+		return listPartsFrame;
+	}
+	public static void setListPartsFrame(MainFrame listPartsFrame) {
+		MainController.listPartsFrame = listPartsFrame;
 	}
 }

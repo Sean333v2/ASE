@@ -17,7 +17,7 @@ import model.PartsList;
 
 
 public class InventoryAtLocationFrame{
-	public static JFrame mainFrame;
+	public static JPanel mainFrame;
 	public JPanel container;
 	private String location;
 	private ArrayList<InventoryItem> listItemsatLocation;
@@ -30,7 +30,7 @@ public class InventoryAtLocationFrame{
 	private void prepareGUI(){
 		
 		//Prepare frame and panel
-		mainFrame = new JFrame("Cabinetron: Parts in " + location );
+		mainFrame = new JPanel();
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		JButton addButton = new JButton("Add Inventory Part");
@@ -44,11 +44,11 @@ public class InventoryAtLocationFrame{
 		
 		
 		//Listeners
-		mainFrame.addWindowListener(new WindowAdapter() {
+		/*mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            mainFrame.dispose();
 	         }        
-	      });
+	      });*/
 		
 		addButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -101,8 +101,8 @@ public class InventoryAtLocationFrame{
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
 	        	 MainController.deleteInventoryItem(addInventoryPart);
-	        	 if( itemFrame.inventoryFrame.isShowing() )
-	        		 itemFrame.inventoryFrame.dispose();
+	        	 //if( itemFrame.inventoryFrame.isShowing() )
+	        		// itemFrame.inventoryFrame.dispose();
  
 	        	 
 	         }
@@ -115,7 +115,7 @@ public class InventoryAtLocationFrame{
 	
 	public void refresh(){
 		container.removeAll();
-		mainFrame.dispose();
+		//mainFrame.dispose();
 		prepareGUI();
 		/*listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI

@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,7 +22,7 @@ import model.ProductTemplatePartDetailDB;
 import controller.MainController;
 
 public class ProductTemplatePartDetailFrame {
-		public static JFrame productFrame;
+		public static JPanel productFrame;
 		public JPanel container;
 		public ProductTemplate mainProduct;
 		public ArrayList<ProductTemplatePartDetail> productTemplatePartDetailList;
@@ -35,7 +35,7 @@ public class ProductTemplatePartDetailFrame {
 
 		private void prepareGUI(){
 			//Allocate memory
-			productFrame = new JFrame("Cabinetron Product: "+mainProduct.getProductNum());
+			productFrame = new JPanel();
 			productFrame.setLocation(0, 0);
 			container = new JPanel();
 			JScrollPane scrPane = new JScrollPane(container);
@@ -119,7 +119,7 @@ public class ProductTemplatePartDetailFrame {
 		
 		public void refresh(){
 			container.removeAll();
-			productFrame.dispose();
+			//productFrame.dispose();
 			prepareGUI();
 			productTemplatePartDetailList = ProductTemplatePartDetailDB.fetchAllByProductId(mainProduct.getProductId());
 			for(int i=0; i< productTemplatePartDetailList.size(); i++){
