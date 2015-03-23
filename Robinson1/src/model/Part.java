@@ -32,7 +32,13 @@ public class Part{
 		personalId = "";
 		externalNum ="";
 		isNew = true;
+		initializeErrorList();
 		//errorList = null;
+	}
+	public void initializeErrorList(){
+		for(int i=0; i < arguments;i++){
+			errorList[i] = "";
+		}
 	}
 	public void setIsNew(boolean isNew){
 		this.isNew = isNew;
@@ -52,6 +58,7 @@ public class Part{
 			errorList[i] = "";
 		else
 			errorList[i] = s;
+		setErrorCount(getErrorCount() + 1);
 	}
 	
 	public Part(int id, String name, String num, String extern, String vendor, String unit){
@@ -86,14 +93,15 @@ public class Part{
 				throw new IllegalArgumentException("'" + l + "' cannot be null");
 			}
 			else if("Unknown".equals(l) || "".equals(l)){
-				throw new IllegalArgumentException("Cannot be 'Unknown'");
+				throw new IllegalArgumentException("Location cannot be 'Unknown'");
 			}
 			else{
 				this.location = l;
 			}
 		}
 		catch(Exception e){
-			errorList[6]= ("ERROR: "+e.getMessage());
+			//errorList[6]= ("ERROR: "+e.getMessage());
+			errorList[6]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
 	}
@@ -108,14 +116,15 @@ public class Part{
 				throw new IllegalArgumentException("'" + u + "' cannot be null");
 			}
 			else if("Unknown".equals(u) || "".equals(u)){
-				throw new IllegalArgumentException("Cannot be 'Unknown'");
+				throw new IllegalArgumentException("Unit cannot be 'Unknown'");
 			}
 			else{
 				this.unit = u;
 			}
 		}
 		catch(Exception e){
-			errorList[4]= ("ERROR: "+e.getMessage());
+			//errorList[4]= ("ERROR: "+e.getMessage());
+			errorList[4]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
 	}
@@ -138,10 +147,10 @@ public class Part{
 		return errorList[i];
 	}
 
-	public void setErrorName(){
+	/*public void setErrorName(){
 		errorList[5] = "Name already exists in file";
 	}
-	
+	*/
 	//Getter and Setter for Error Count
 	public int getErrorCount() {
 		return errorCount;
@@ -162,15 +171,16 @@ public class Part{
 				this.partNum = partNum;
 			else{
 				if( partNum.length() > 20)
-					throw new IllegalArgumentException("'" + partNum + "' is longer than 20");
+					throw new IllegalArgumentException("'" + partNum + "' is longer than 20 characters");
 				else if(partNum.length() == 0)
-					throw new IllegalArgumentException("This field may not be left blank");
+					throw new IllegalArgumentException("Part number may not be left blank");
 				else throw new IllegalArgumentException("Part number must start with 'P'");
 					
 			}
 		}
 		catch(IllegalArgumentException e){
-			errorList[1]= ("ERROR: "+e.getMessage());
+			//errorList[1]= ("ERROR: "+e.getMessage());
+			errorList[1]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
 	}
@@ -186,14 +196,15 @@ public class Part{
 				if(partName.length() > 255)
 					throw new IllegalArgumentException("'" + partName + "' is longer than 255");
 				else
-					throw new IllegalArgumentException("This field may not be left blank");
+					throw new IllegalArgumentException("Part name may not be left blank");
 				
 					
 			}
 			
 		}
 		catch(IllegalArgumentException e){
-			errorList[0] = ("ERROR: "+e.getMessage());
+			//errorList[0] = ("ERROR: "+e.getMessage());
+			errorList[0]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
 		//Check if there is an existing part for updated parts
@@ -241,11 +252,12 @@ public class Part{
 				this.quantity = quantityInt;
 			}
 			else{
-				throw new IllegalArgumentException("This variable should be greater than 0");
+				throw new IllegalArgumentException("Quantity should be greater than 0");
 			}
 		}
 		catch(IllegalArgumentException e){
-			errorList[3] =("ERROR: Must be greater");
+			//errorList[3] =("ERROR: Must be greater");
+			errorList[3]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}	
 		
@@ -262,7 +274,8 @@ public class Part{
 			}
 		}
 		catch(IllegalArgumentException e){
-			errorList[5] =("ERROR: "+e.getMessage());
+			//errorList[5] =("ERROR: "+e.getMessage());
+			errorList[5]= (""+e.getMessage());
 			setErrorCount(getErrorCount() + 1);
 		}
 	}

@@ -229,10 +229,14 @@ public class MainController {
 		if(errorCheckpNum(stringArray[1], "0")){
 			newPart.setPartNum(stringArray[1]);
 		}
+		
 			
 		//Error check with model 
+		if(!nameExists(stringArray[0])){
 		newPart.setPartName(stringArray[0]);
-		newPart.setPartNum(stringArray[1]);
+		}
+		else{newPart.setErrorList(0, "Name exists"); }
+		//newPart.setPartNum(stringArray[1]);
 		newPart.setVendorName(stringArray[2]);
 		newPart.setUnit(stringArray[3]);
 		newPart.setExternalNum(stringArray[4]);
@@ -242,15 +246,17 @@ public class MainController {
 		newPart.listUI.setPartUnitLabel(newPart.getUnit());
 		newPart.listUI.setPartNameLabel(newPart.getPartName());
 		
-		Part tester = PartDB.addPart(newPart);
-		if(tester == null)
-			return newPart;
-		else
-			newPart = tester;
+		
 		
 		
 		
 		if(newPart.getErrorCount() == 0){
+			
+			Part tester = PartDB.addPart(newPart);
+			if(tester == null)
+				return newPart;
+			else
+				newPart = tester;
 			//newPart = PartDB.addPart(newPart);
 			//Add part to mainFrame
 			listPartsFrame.addPart(newPart);
@@ -296,8 +302,8 @@ public class MainController {
 		
 		//Initialize error to check again in this method
 		updatePart.setErrorCount(0);
-		updatePart.setPartName(stringArray[0]);
-		updatePart.setPartNum(stringArray[1]);
+		//updatePart.setPartName(stringArray[0]);
+		//updatePart.setPartNum(stringArray[1]);
 		updatePart.setVendorName(stringArray[2]);
 		updatePart.setUnit(stringArray[3]);
 		updatePart.setExternalNum(stringArray[4]);
@@ -305,14 +311,18 @@ public class MainController {
 		if(errorCheckpNum(stringArray[1], updatePart.getPersonalId())){
 			updatePart.setPartNum(stringArray[1]);
 		}
-		Part tester = PartDB.updatePart(updatePart);
-		if(tester == null ){
-			return updatePart;
-		}
-		else
-			updatePart = tester;
+		if(errorCheckPName(stringArray[0], updatePart.getPersonalId())){
+			updatePart.setPartName(stringArray[0]);
+			}
+			else{updatePart.setErrorList(0, "Name exists"); }
 		
 		if(updatePart.getErrorCount() == 0){
+			Part tester = PartDB.updatePart(updatePart);
+			if(tester == null ){
+				return updatePart;
+			}
+			else
+				updatePart = tester;
 			listPartsFrame.refresh();	
 		}
 		
