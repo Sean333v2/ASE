@@ -32,7 +32,7 @@ public class InventoryFrame{
 	private void prepareGUI(){
 		
 		InventoryFrame = new JFrame("Inventory");
-		InventoryFrame.setSize(500,600);
+		InventoryFrame.setSize(500,100);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		InventoryFrame.add(scrPane);

@@ -16,6 +16,7 @@ public class InventoryAddFrame {
 	private JTextField quantity;
 	private JTextField partId;
 	private JComboBox location;
+	private JCheckBox isPart;
 	private String itemlocation;
 	private int arguments = 7;
 	private String[] info = new String[arguments];
@@ -24,6 +25,7 @@ public class InventoryAddFrame {
 
 	public InventoryAddFrame(String location){
 		itemlocation = location;
+		isPart = new JCheckBox();
 		quantity = new JTextField("");
 		partId = new JTextField("");
 		//location = new JComboBox(locationStrings);
@@ -34,6 +36,7 @@ public class InventoryAddFrame {
 	public InventoryAddFrame(InventoryItem errorItem){
 		quantity = new JTextField("");
 		partId = new JTextField("");
+		isPart = new JCheckBox();
 		//location = new JComboBox(locationStrings);
 		//location.setSelectedItem("Unknown");
 		
@@ -57,8 +60,9 @@ public class InventoryAddFrame {
 	            addFrame.dispose();
 	         }        
 	      });
-	    
-	    addFrame.add(new JLabel("Part Id:"));
+	    addFrame.add(new JLabel("Is This Item a Part?"));
+	    addFrame.add(isPart);
+	    addFrame.add(new JLabel("Part/Product Id:"));
 	    addFrame.add(partId);
 	    addFrame.add(new JLabel("Quantity:"));
 	    addFrame.add(quantity);
@@ -71,8 +75,12 @@ public class InventoryAddFrame {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Get the text fields and send to controller
 	        	 info[0] = ""+partId.getText();
-	        	 info[1] = ""+quantity.getText();
-	        	 info[2] = itemlocation;
+	        	 if(isPart.isSelected())
+	        		 info[1] = "True";
+	        	 else
+	        		 info[1] = "False";
+	        	 info[2] = ""+quantity.getText();
+	        	 info[3] = itemlocation;
 	        	 
 	        	 
 	        	 partId = new JTextField(partId.getText());
@@ -135,8 +143,12 @@ public class InventoryAddFrame {
 	        	 //Get the text fields and send to controller
 
 	        	 info[0] = partId.getText();
-	        	 info[1] = quantity.getText();
-	        	 info[2] = itemlocation;
+	        	 if(isPart.isSelected())
+	        		 info[1] = "True";
+	        	 else
+	        		 info[1] = "False";
+	        	 info[2] = quantity.getText();
+	        	 info[3] = itemlocation;
 	        	 
 	        	 partId = new JTextField(partId.getText());
 	        	 quantity = new JTextField(quantity.getText());
@@ -148,7 +160,7 @@ public class InventoryAddFrame {
 				if (errorItem.getItemId() > 0){
 					newItem = MainController.updateInventoryItem(info, errorItem);
 					if(MainController.timeFlag){
-						newItem = InventoryItemDB.getInventoryItemByPartIdAndLocation(errorItem.getPartId(), errorItem.getLocation());
+						newItem = InventoryItemDB.getInventoryItemByPartIdAndLocation(errorItem.getPartId(), errorItem.getLocation(), errorItem.getIsPart());
 					}
 				}
 				else
