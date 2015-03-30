@@ -30,7 +30,7 @@ public class LoginView extends JFrame{
 private void prepareGUI(){
 		
 		LoginFrame = new JFrame("Login");
-		LoginFrame.setSize(600,200);
+		LoginFrame.setSize(900,150);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		LoginFrame.add(scrPane);
@@ -50,7 +50,7 @@ private void prepareGUI(){
 	         public void actionPerformed(ActionEvent e) {
 	        	
 	        	login = (String)loginBox.getSelectedItem();
-	        	//LoginController.getPermissions(login);
+	        	
 	        	LoginFrame.dispose();
 	        	OptionFrame optionFrame = new OptionFrame(login);
   	 

@@ -8,7 +8,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
-import controller.WindowManager;
 import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
@@ -30,7 +29,6 @@ public class InventoryPartFrame extends JFrame{
 	
 	
 	public InventoryPartFrame(InventoryItem p){
-		WindowManager.windows.add(this);
 		partId = p.getPartId();
 		mainItem = p;
 		quantity = new JTextField(mainItem.getQuantity());
@@ -47,8 +45,7 @@ public class InventoryPartFrame extends JFrame{
 		inventoryFrame.setLayout(new GridLayout(0, 2));       
 	    inventoryFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-				WindowManager.windows.remove(this);
-				inventoryFrame.dispose();
+				dispose();
 	         }        
 	      });
 	    
@@ -96,15 +93,13 @@ public class InventoryPartFrame extends JFrame{
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-	       			WindowManager.windows.remove(this);
-	       			inventoryFrame.dispose();
+	       			dispose();
 	       			//mainItem.setPartName(originalName);
 	       			mainItem.partUI.getDetailsButton().doClick();
 					}
 	       			
 	        	 if(mainItem.getErrorCount() > 0){
-	        		 WindowManager.windows.remove(this);
-	        		 inventoryFrame.dispose();
+	        		 dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
 	        		 inventoryaddFrame.addFrame.setVisible(true);
 	        		 if(MainController.timeFlag){
@@ -123,13 +118,11 @@ public class InventoryPartFrame extends JFrame{
 		       					    "Data has already been modified! Refreshing data!",
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
-							WindowManager.windows.remove(this);
-							inventoryFrame.dispose();
+							dispose();
 			        		 mainItem.partUI.getDetailsButton().doClick();
 						}
 	        		 else{
-	        			 WindowManager.windows.remove(this);
-	        			 inventoryFrame.dispose();
+	        			 dispose();
 	        		 }
 
 	        	}
@@ -139,7 +132,11 @@ public class InventoryPartFrame extends JFrame{
 	    inventoryFrame.add(updateButton);
 	    inventoryFrame.add(partButton);
 	}
-	
+	@Override
+	public void dispose(){
+		inventoryFrame.dispose();
+		
+	}
 	public void refresh(){
 		
 		name.setText(mainItem.getPart().getPartName());

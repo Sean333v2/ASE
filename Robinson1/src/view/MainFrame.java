@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.LoginController;
 import controller.MainController;
-import controller.WindowManager;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
@@ -18,10 +18,12 @@ import model.PartsList;
 public class MainFrame extends JFrame{
 	public static JFrame mainFrame;
 	public JPanel container;
+	JMenuBar menuBar;
+	JMenu menu,currentLogin;
+	JMenuItem exit, logout, currentLog;
 	//public static PartFrame part;
 	
 	public MainFrame(){
-		WindowManager.windows.add(this);
 		prepareGUI();
 	}
 	
@@ -50,14 +52,45 @@ public class MainFrame extends JFrame{
 		container.add(addButton);
 		container.add(new JLabel(""));
 		//container.add(inventoryButton);
+		//Menu stuff
+		menuBar = new JMenuBar();
+		menu = new JMenu("File");
+		currentLogin = new JMenu("Current Login");
+		menuBar.add(menu);
+		menuBar.add(currentLogin);
+		exit = new JMenuItem("Exit Program");
+		logout = new JMenuItem("Logout");
+		menu.add(exit);
+		menu.add(logout);
+		currentLog = new JMenuItem(LoginController.currentLogin,
+                KeyEvent.VK_T);
+		currentLogin.add(currentLog);
 		
+		
+		
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		logout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					//dispose all frames and show login frame
+				MainController.closeAllOpenWindows();
+			}
+		});
+		mainFrame.setJMenuBar(menuBar);
 		
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
 	            //System.exit(0);
-	        	 WindowManager.windows.remove(this);
-	        	 mainFrame.dispose();
+	        	 dispose();
 	         }        
 	      });
 		
@@ -113,18 +146,20 @@ public class MainFrame extends JFrame{
 	        	 //Delete Part
 	        	 MainController.deletePart(addPart);
 	        	 if( partFrame.partFrame.isShowing() )
-	        		 WindowManager.windows.remove(partFrame);
 	        		 partFrame.partFrame.dispose();	 
 	         }
 	      });
 	    mainFrame.setVisible(true);
 	   
 	}
-	
+	@Override
+	public void dispose(){
+		mainFrame.dispose();
+		
+	}
 	public void refresh(){
 		container.removeAll();
-		WindowManager.windows.remove(this);
-		mainFrame.dispose();
+		dispose();
 		prepareGUI();
 		ArrayList<Part> partsList = PartDB.fetchAll();
 		for(int i=0; i< partsList.size(); i++){

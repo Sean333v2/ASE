@@ -1,8 +1,13 @@
 package controller;
 
+import java.awt.List;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
+import java.awt.Window;
 
 import view.InventoryAtLocationFrame;
 import view.LoginView;
@@ -30,9 +35,10 @@ public class MainController {
 	private static ProductTemplatePartDetailFrame productTemplatePartDetailFrame;
 	public static boolean timeFlag = false;
 	private static LoginView loginView;
+	 
 	
 	public static void main(String args[]){
-		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
+		System.out.println("CS 4743 Assignment 5 by Barbara Davila and Sean Gallagher");
 		LoginController.setLogins();
 		loginView = new LoginView();
 		
@@ -45,6 +51,16 @@ public class MainController {
 		//Get products from db
 		initializeProductTemplates();
 		productFrame.productFrame.setVisible(true);*/
+		
+	}
+	public static void closeAllOpenWindows(){
+		
+		Window[] windows = new Window[Window.getWindows().length];
+		windows = Window.getWindows();
+		for(int i=0;i< windows.length; i++){
+			windows[i].dispose();
+		}
+		loginView = new LoginView();
 		
 	}
 	public static void setPartsFrame(){

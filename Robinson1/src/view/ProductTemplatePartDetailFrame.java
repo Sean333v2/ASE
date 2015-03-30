@@ -20,7 +20,6 @@ import model.ProductTemplateDB;
 import model.ProductTemplatePartDetail;
 import model.ProductTemplatePartDetailDB;
 import controller.MainController;
-import controller.WindowManager;
 
 public class ProductTemplatePartDetailFrame extends JFrame {
 		public static JFrame productFrame;
@@ -31,7 +30,6 @@ public class ProductTemplatePartDetailFrame extends JFrame {
 		
 		public ProductTemplatePartDetailFrame(ProductTemplate mainProduct){
 			this.mainProduct = mainProduct;
-			WindowManager.windows.add(this);
 			prepareGUI();
 			
 		}
@@ -119,11 +117,14 @@ public class ProductTemplatePartDetailFrame extends JFrame {
 		    productFrame.setVisible(true);
 		   
 		}
-		
+		@Override
+		public void dispose(){
+			productFrame.dispose();
+			
+		}
 		public void refresh(){
 			container.removeAll();
-			WindowManager.windows.remove(this);
-			productFrame.dispose();
+			dispose();
 			prepareGUI();
 			productTemplatePartDetailList = ProductTemplatePartDetailDB.fetchAllByProductId(mainProduct.getProductId());
 			for(int i=0; i< productTemplatePartDetailList.size(); i++){

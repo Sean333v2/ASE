@@ -15,9 +15,8 @@ import javax.swing.JScrollPane;
 
 import controller.LoginController;
 import controller.MainController;
-import controller.WindowManager;
 
-public class OptionFrame {
+public class OptionFrame extends JFrame{
 	
 	JFrame optionFrame;
 	private JPanel container;
@@ -27,22 +26,21 @@ public class OptionFrame {
 	
 	public OptionFrame(String login){
 		this.login = login;
-		WindowManager.windows.add(this);
+		LoginController.currentLogin = login;
 		permissions = LoginController.getPermissions(login);
 		prepareGUI();
 	}
 private void prepareGUI(){
 		
 		optionFrame = new JFrame(login + " Frames");
-		optionFrame.setSize(600,200);
+		optionFrame.setSize(500,100);
 		container = new JPanel();
 		JScrollPane scrPane = new JScrollPane(container);
 		optionFrame.add(scrPane);
 		container.setLayout(new GridLayout(0, 5));
 		optionFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	 WindowManager.windows.remove(this);
-	            optionFrame.dispose();
+	        	dispose();
 	         }        
 	      });
 		//permissions = LoginController.getPermissions(login);	
@@ -86,6 +84,11 @@ private void prepareGUI(){
 		}
 		optionFrame.setVisible(true);
 		
+	}
+	@Override
+	public void dispose(){
+		optionFrame.dispose();
+	
 	}
 
 }

@@ -9,7 +9,6 @@ import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
 import controller.MainController;
-import controller.WindowManager;
 
 public class InventoryAddFrame extends JFrame{
 	
@@ -25,8 +24,7 @@ public class InventoryAddFrame extends JFrame{
 	
 	
 	public InventoryAddFrame(String location){
-		
-		WindowManager.windows.add(this);
+	
 		
 		itemlocation = location;
 		quantity = new JTextField("");
@@ -59,8 +57,7 @@ public class InventoryAddFrame extends JFrame{
 		addFrame.setLayout(new GridLayout(0, 2));       
 	    addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	 WindowManager.windows.remove(this);
-	        	 addFrame.dispose();
+	        	dispose();
 	         }        
 	      });
 	    
@@ -104,13 +101,11 @@ public class InventoryAddFrame extends JFrame{
 					System.out.println(newItem.getErrorListAtIndex(i));
 				}
 				if (newItem.getErrorCount() > 0 ) {
-					WindowManager.windows.remove(this);
-					addFrame.dispose();
+					dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
 					addFrame.addFrame.setVisible(true);
 				} else {
-					WindowManager.windows.remove(this);
-					addFrame.dispose();
+					dispose();
 				}
 	      
 	         }
@@ -182,5 +177,12 @@ public class InventoryAddFrame extends JFrame{
 	      });
 	   
 	}
+	@Override
+	public void dispose(){
+		addFrame.dispose();
+		
+		
+	}
 }
+
 
