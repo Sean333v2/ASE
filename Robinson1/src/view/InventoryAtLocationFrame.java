@@ -86,7 +86,7 @@ public class InventoryAtLocationFrame extends JFrame{
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	dispose();
+	            mainFrame.dispose();
 	         }        
 	      });
 		
@@ -119,7 +119,10 @@ public class InventoryAtLocationFrame extends JFrame{
 	    addInventoryPart.partUI.setDeleteButton("Delete");
 	    addInventoryPart.partUI.setDetailsButton("Details");
 		addInventoryPart.partUI.setPartQuantityLabel(addInventoryPart.getQuantity());
-		addInventoryPart.partUI.setPartNameLabel(addInventoryPart.getPart().getPartName());
+		if(addInventoryPart.getIsPart())
+			addInventoryPart.partUI.setPartNameLabel(addInventoryPart.getPart().getPartName());
+		else
+			addInventoryPart.partUI.setPartNameLabel(addInventoryPart.getPartProduct().getProductDescription());
 		
 	    
 		//Add to mainframe part details & buttons
@@ -140,12 +143,13 @@ public class InventoryAtLocationFrame extends JFrame{
 	    addInventoryPart.partUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deleteInventoryItem(addInventoryPart);
+	        	 if(MainController.deleteInventoryItem(addInventoryPart))
+	        		 refresh();
 	        	 if( itemFrame.inventoryFrame.isShowing() ){
 	        		 
 	        		 itemFrame.inventoryFrame.dispose();
 	        	 }
- 
+	        	 
 	        	 
 	         }
 	      });
@@ -154,15 +158,10 @@ public class InventoryAtLocationFrame extends JFrame{
 	    mainFrame.setVisible(true);
 	   
 	}
-	@Override
-	public void dispose(){
-		mainFrame.dispose();
-		
-		
-	}
+
 	public void refresh(){
 		container.removeAll();
-		dispose();
+		mainFrame.dispose();
 		prepareGUI();
 		/*listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI

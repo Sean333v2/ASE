@@ -4,6 +4,7 @@ import controller.MainController;
 import view.inventoryUI;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /*
 Inventory Item: an instance of a Part at a Location with a given Quantity. Id: automatically generated unique id
@@ -14,14 +15,15 @@ Constraint: No two Inventory Items can have same Part/Location
 public class InventoryItem{
 	private String location;
 	private String quantity;
-	private Part part;
+	private Object part;
 	private int itemId = -1;
 	private int partId;
 	public inventoryUI partUI;
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	private String[] errorList = new String[4];
 	private int errorCount = 0;
-	private Timestamp time;
+	private Timestamp time;// = Timestamp.valueOf(LocalDateTime.now());
+	private boolean isPart;
 	
 	public InventoryItem(){
 		location = "Unknown";
@@ -30,9 +32,10 @@ public class InventoryItem{
 		errorList[0] = null;
 	}
 	
-	public InventoryItem( int itemId, int partId, String location, String quantity, Timestamp t){
+	public InventoryItem( int itemId, int partId, boolean isPart, String location, String quantity, Timestamp t){
 		this.quantity = null;
 		this.itemId = itemId;
+		setIsPart(isPart);
 		setPartId(partId);
 		setLocation(location);
 		setQuantity(quantity);
@@ -41,9 +44,10 @@ public class InventoryItem{
 		time = t;
 	}
 	
-	public InventoryItem( int itemId, int partId, String location, String quantity){
+	public InventoryItem( int itemId, int partId, boolean isPart, String location, String quantity){
 		this.quantity = null;
 		this.itemId = itemId;
+		setIsPart(isPart);
 		setPartId(partId);
 		setLocation(location);
 		setQuantity(quantity);
@@ -51,13 +55,22 @@ public class InventoryItem{
 		errorList[0] = null;
 	}
 	
-	public InventoryItem(int partId, String location, String quantity){
+	public InventoryItem(int partId, boolean isPart, String location, String quantity){
 		this.quantity = null;
+		setIsPart(isPart);
 		setPartId(partId);
 		setLocation(location);
 		setQuantity(quantity);
 		partUI = new inventoryUI();
 		errorList[0] = null;
+	}
+	
+	public boolean getIsPart(){
+		return this.isPart;
+	}
+	
+	public void setIsPart(boolean b){
+		this.isPart = b;
 	}
 	
 	public Timestamp getTime(){
@@ -84,7 +97,12 @@ public class InventoryItem{
 		try{
 			if(MainController.list.findPartById(partId)){
 				this.partId = partId;
-				part = MainController.list.getPartById(this.partId);
+				if(isPart)
+					part = MainController.list.getPartById(this.partId);
+				else
+					for(int i = 0; i < MainController.productFrame.productList.size(); i++)
+						if(MainController.productFrame.productList.get(i).getProductId().equals(""+partId))
+							part = MainController.productFrame.productList.get(i);
 			}
 			else
 				throw new IllegalArgumentException("PartId does not exist");
@@ -96,7 +114,10 @@ public class InventoryItem{
 		}
 	}
 	public Part getPart(){
-		return part;	
+		return (Part) part;	
+	}
+	public ProductTemplate getPartProduct(){
+		return (ProductTemplate) part;
 	}
 	public void setQuantity(String quantity){
 		int quantityInt;
@@ -111,7 +132,7 @@ public class InventoryItem{
 		}
 		try{
 			if(quantityInt == 0)
-				if(this.quantity != null)
+				if(this.itemId > 0)
 					this.quantity = quantity;
 				else
 					throw new IllegalArgumentException("Cannot be initialized to 0");

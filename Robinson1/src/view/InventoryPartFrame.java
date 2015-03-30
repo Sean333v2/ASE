@@ -32,7 +32,10 @@ public class InventoryPartFrame extends JFrame{
 		partId = p.getPartId();
 		mainItem = p;
 		quantity = new JTextField(mainItem.getQuantity());
-		name = new JLabel("Name: " +mainItem.getPart().getPartName());
+		if(mainItem.getIsPart())
+			name = new JLabel("Name: " +mainItem.getPart().getPartName());
+		else
+			name = new JLabel("Name: " +mainItem.getPartProduct().getProductDescription());
 		location = new JComboBox(locationStrings);
 		location.setSelectedItem(mainItem.getLocation());
 		id = new JLabel("ID: "+mainItem.getItemId());
@@ -63,12 +66,12 @@ public class InventoryPartFrame extends JFrame{
 	    JButton partButton = new JButton("Part Details");
 	    
 	    
-	    partButton.addActionListener(new ActionListener() {
+	    /*partButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainItem.getPart().listUI.getDetailsButton().doClick();
 				
 			}
-	    });
+	    });*/
 	
 	    //Work on this
 	    updateButton.addActionListener(new ActionListener() {
@@ -80,7 +83,7 @@ public class InventoryPartFrame extends JFrame{
 	        	 
 	        	 mainItem = MainController.updateInventoryItem(info, mainItem);
 	        	 if(MainController.timeFlag){
-	        		 InventoryItem temp = InventoryItemDB.getInventoryItemByPartIdAndLocation(mainItem.getPartId(), mainItem.getLocation());
+	        		 InventoryItem temp = InventoryItemDB.getInventoryItemByPartIdAndLocation(mainItem.getPartId(), mainItem.getLocation(), mainItem.getIsPart());
 	        		 mainItem.setLocation(temp.getLocation());
 	        		 mainItem.setPartId(temp.getPartId());
 	        		 mainItem.setQuantity(temp.getQuantity());
@@ -130,7 +133,7 @@ public class InventoryPartFrame extends JFrame{
 	         }
 	      });
 	    inventoryFrame.add(updateButton);
-	    inventoryFrame.add(partButton);
+	    //inventoryFrame.add(partButton);
 	}
 	@Override
 	public void dispose(){
@@ -138,8 +141,10 @@ public class InventoryPartFrame extends JFrame{
 		
 	}
 	public void refresh(){
-		
-		name.setText(mainItem.getPart().getPartName());
+		if(mainItem.getIsPart())
+			name.setText(mainItem.getPart().getPartName());
+		else
+			name.setText(mainItem.getPartProduct().getProductDescription());
 		quantity.setText(""+mainItem.getQuantity());
 		location.setSelectedItem(mainItem.getLocation());
 	}

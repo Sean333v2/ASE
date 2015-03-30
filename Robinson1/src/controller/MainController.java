@@ -30,7 +30,7 @@ public class MainController {
 	private static InventoryItem item;
 	public static PartsList list = new PartsList();
 	private static MainFrame listPartsFrame;
-	private static ProductFrame productFrame;
+	public static ProductFrame productFrame;
 	private static InventoryAtLocationFrame inventoryLocationFrame;
 	private static ProductTemplatePartDetailFrame productTemplatePartDetailFrame;
 	public static boolean timeFlag = false;
@@ -156,11 +156,13 @@ public class MainController {
 	}
 	
 	//Deletes the inventory item from that frame
-	public static void deleteInventoryItem(InventoryItem deleteInventoryPart){
+	public static boolean deleteInventoryItem(InventoryItem deleteInventoryPart){
 		
 		//Remove from array list
-		if(deleteInventoryPart.getQuantity().equals("0"))
-			InventoryItemDB.deleteInventoryItem(deleteInventoryPart); 
+		if(deleteInventoryPart.getQuantity().equals("0")){
+			InventoryItemDB.deleteInventoryItem(deleteInventoryPart);
+			return true;
+		}
 		
 		//Remove from MainFrame
 		 /*inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getPartQuantityLabel());
@@ -169,6 +171,7 @@ public class MainController {
     	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDeleteButton());
     	 inventoryLocationFrame.container.remove(deleteInventoryPart.partUI.getDetailsButton()); */
     	 inventoryLocationFrame.container.revalidate();
+    	 return false;
     	 
 	}
 	
@@ -222,15 +225,16 @@ public class MainController {
 	}
 	
 	public static InventoryItem addInventoryItem(String[] stringArray, InventoryItem addInventoryItem){
-		item = addInventoryItem;
+		item = new InventoryItem(Integer.parseInt(stringArray[0]), Boolean.parseBoolean(stringArray[1]), stringArray[3], stringArray[2]);
+		//item = addInventoryItem;
 		
 	//Error check with model 
-		item.setPartId(Integer.parseInt(stringArray[0]));
+		/*item.setPartId(Integer.parseInt(stringArray[0]));
 		item.setQuantity(stringArray[1]);
-		item.setLocation(stringArray[2]);
+		item.setLocation(stringArray[2]);*/
 	
 	
-		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation()))
+		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation(), item.getIsPart()))
 		{
 			item.setErrorCount(item.getErrorCount() + 1);
 			item.setErrorListAtIndex(0, "Part and Location combination already exits!");
@@ -240,7 +244,10 @@ public class MainController {
 	
 		if(item.getErrorCount() == 0 && item.getItemId() > 0){
 			item.partUI.setPartQuantityLabel(item.getQuantity());
-			item.partUI.setPartNameLabel(item.getPart().getPartName());
+			if(item.getIsPart())
+				item.partUI.setPartNameLabel(item.getPart().getPartName());
+			else
+				item.partUI.setPartNameLabel(item.getPartProduct().getProductDescription());
 			inventoryLocationFrame.refresh();
 			//System.out.println("Something");
 	}

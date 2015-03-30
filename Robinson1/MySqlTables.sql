@@ -15,9 +15,11 @@ create table parts (
 create table inventoryItems (
         itemId       	int primary key auto_increment,
         partId			int,
+        productId		int,
 		quantity		varchar(50),
 		location		ENUM('Facility 1 Warehouse 1', 'Facility 1 Warehouse 2', 'Facility 2') NOT NULL,
 		FOREIGN KEY (partId) REFERENCES parts(partId)
+		FOREIGN KEY (product) REFERENCES productTemplates(productId)
 );
 
 create table productTemplates (
