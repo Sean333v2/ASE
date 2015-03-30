@@ -19,7 +19,6 @@ import model.PartDB;
 import model.ProductTemplate;
 import model.ProductTemplatePartDetail;
 import controller.MainController;
-import controller.WindowManager;
 
 public class ProductTemplatePartDetailEditFrame extends JFrame{
 	
@@ -40,7 +39,7 @@ public class ProductTemplatePartDetailEditFrame extends JFrame{
 	private String[] partList;
 	
 	public ProductTemplatePartDetailEditFrame(ProductTemplatePartDetail p, String state, ProductTemplatePartDetailFrame productFrame){
-		WindowManager.windows.add(this);
+		
 		mainProduct = p;
 		this.productFrame = productFrame;
 		partList = MainController.createPartList();
@@ -63,15 +62,18 @@ public class ProductTemplatePartDetailEditFrame extends JFrame{
 		this.state = state;
 		setUpGUI();
 	}
-	
+	@Override
+	public void dispose(){
+		productTemplatePartDetailFrame.dispose();
+		
+	}
 	private void setUpGUI(){
 		productTemplatePartDetailFrame = new JFrame("Cabinetron: Product Template");
 		productTemplatePartDetailFrame.setSize(300, 300);
 		productTemplatePartDetailFrame.setLayout(new GridLayout(0, 2));       
 	    productTemplatePartDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-				WindowManager.windows.remove(this);
-				productTemplatePartDetailFrame.dispose();
+				dispose();
 	         }        
 	      });
 	    JButton updateButton = new JButton(state);
@@ -146,8 +148,7 @@ public class ProductTemplatePartDetailEditFrame extends JFrame{
 	        	 else{
 	        		 //********Update product in main controller
 	        		 productFrame.refresh();
-	        		 WindowManager.windows.remove(this);
-	        		 productTemplatePartDetailFrame.dispose();
+	        		 dispose();
 	        		 
 	        	 }
 	        	

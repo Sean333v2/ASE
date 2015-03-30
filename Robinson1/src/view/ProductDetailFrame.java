@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import model.Part;
 import model.ProductTemplate;
 import controller.MainController;
-import controller.WindowManager;
 
 public class ProductDetailFrame extends JFrame {
 	public JFrame productTemplateDetailFrame;
@@ -30,7 +29,7 @@ public class ProductDetailFrame extends JFrame {
 	private String update = "Update";
 	
 	public ProductDetailFrame(ProductTemplate p, String state){
-		WindowManager.windows.add(this);
+	
 		mainProduct = p;
 		if(update.equals(state)){
 			description = new JTextField(mainProduct.getProductDescription());
@@ -45,15 +44,18 @@ public class ProductDetailFrame extends JFrame {
 		this.state = state;
 		setUpGUI();
 	}
-	
+	@Override
+	public void dispose(){
+		productTemplateDetailFrame.dispose();
+		
+	}
 	private void setUpGUI(){
 		productTemplateDetailFrame = new JFrame("Cabinetron: Product Template");
 		productTemplateDetailFrame.setSize(300, 300);
 		productTemplateDetailFrame.setLayout(new GridLayout(0, 2));       
 	    productTemplateDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-				WindowManager.windows.remove(this);
-				productTemplateDetailFrame.dispose();
+				dispose();
 	         }        
 	      });
 	    JButton updateButton = new JButton(state);
@@ -103,8 +105,7 @@ public class ProductDetailFrame extends JFrame {
 	        	 }
 	        	 else{
 	        		 //********Update product in main controller
-	        		 WindowManager.windows.remove(this);
-	        		 productTemplateDetailFrame.dispose();
+	        		 dispose();
 	        	 }
 	        	
 			}

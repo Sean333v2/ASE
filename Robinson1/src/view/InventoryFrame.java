@@ -11,7 +11,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
-import controller.WindowManager;
 import model.Part;
 import model.PartsList;
 
@@ -27,7 +26,7 @@ public class InventoryFrame extends JFrame{
 	//public static PartFrame part;
 	
 	public InventoryFrame(){
-		WindowManager.windows.add(this);
+		
 		prepareGUI();
 	}
 	
@@ -41,8 +40,7 @@ public class InventoryFrame extends JFrame{
 		container.setLayout(new GridLayout(0, 5));
 		InventoryFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	 WindowManager.windows.remove(this);
-	            InventoryFrame.dispose();
+	        	 dispose();
 	         }        
 	      });
 		
@@ -63,8 +61,7 @@ public class InventoryFrame extends JFrame{
 	        	 else{
 	        		 //Open inventory frame at that location
 	        		//Close frame
-	        		 WindowManager.windows.remove(this);
-		             InventoryFrame.dispose();
+	        		dispose();
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
 		             InventoryAtLocationFrame.mainFrame.setVisible(true);
 		             
@@ -82,6 +79,10 @@ public class InventoryFrame extends JFrame{
 		container.add(new JLabel(""));
 		InventoryFrame.setVisible(true);
 		
+	}
+	@Override
+	public void dispose(){
+		InventoryFrame.dispose();
 	}
 /*	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 1 by Barbara Davila and Sean Gallagher");

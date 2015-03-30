@@ -6,7 +6,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
-import controller.WindowManager;
 import model.Part;
 
 public class PartFrame extends JFrame{
@@ -27,7 +26,6 @@ public class PartFrame extends JFrame{
 	//String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public PartFrame(Part p){
-		WindowManager.windows.add(this);
 		mainPart = p;
 		//quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
 		name = new JTextField(mainPart.getPartName());
@@ -48,8 +46,7 @@ public class PartFrame extends JFrame{
 		partFrame.setLayout(new GridLayout(0, 2));       
 	    partFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-				WindowManager.windows.remove(this);
-	            partFrame.dispose();
+				dispose();
 	         }        
 	      });
 	    
@@ -101,23 +98,25 @@ public class PartFrame extends JFrame{
 	       					    mainPart.getErrorListIndex(i),
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
-						WindowManager.windows.remove(this);
-						partFrame.dispose();
+						dispose();
 	       			 	mainPart.listUI.getDetailsButton().doClick();
 						/*
 						partFrame.dispose();
 						AddFrame addFrame = new AddFrame (newPart);
 						addFrame.addFrame.setVisible(true);*/
 					} else {
-						WindowManager.windows.remove(this);
-						partFrame.dispose();
+						dispose();
 					}
 			}
 	      });
 	    
 	   
 	}
-	
+	@Override
+	public void dispose(){
+		partFrame.dispose();
+		
+	}
 	public void refresh(){
 		name.setText(mainPart.getPartName());
 		number.setText(mainPart.getPartNum());

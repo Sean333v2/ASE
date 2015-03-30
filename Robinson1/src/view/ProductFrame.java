@@ -3,6 +3,7 @@ package view;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -20,19 +21,20 @@ import model.Part;
 import model.PartDB;
 import model.ProductTemplate;
 import model.ProductTemplateDB;
+import controller.LoginController;
 import controller.MainController;
-import controller.WindowManager;
 
 public class ProductFrame extends JFrame{
 		public static JFrame productFrame;
 		public JPanel container;
 		public ArrayList<ProductTemplate> productList;
 		JMenuBar menuBar;
-		JMenu menu;
-		JMenuItem exit, logout;
+		JMenu menu, currentLogin;
+		JMenuItem exit, logout,currentLog;
+		
 		
 		public ProductFrame(){
-			WindowManager.windows.add(this);
+			
 			prepareGUI();
 		}
 
@@ -48,11 +50,18 @@ public class ProductFrame extends JFrame{
 			//Menu stuff
 			menuBar = new JMenuBar();
 			menu = new JMenu("File");
+			currentLogin = new JMenu("Current Login");
 			menuBar.add(menu);
+			menuBar.add(currentLogin);
 			exit = new JMenuItem("Exit Program");
 			logout = new JMenuItem("Logout");
 			menu.add(exit);
 			menu.add(logout);
+			currentLog = new JMenuItem(LoginController.currentLogin,
+	                KeyEvent.VK_T);
+			currentLogin.add(currentLog);
+			
+			
 			
 			exit.addActionListener(new ActionListener() {
 				
@@ -67,8 +76,10 @@ public class ProductFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 						//dispose all frames and show login frame
+					MainController.closeAllOpenWindows();
 				}
 			});
+			productFrame.setJMenuBar(menuBar);
 			
 			//Construct mainframe
 			productFrame.setSize(550,600);
@@ -87,8 +98,7 @@ public class ProductFrame extends JFrame{
 			productFrame.addWindowListener(new WindowAdapter() {
 		         public void windowClosing(WindowEvent windowEvent){
 		            //System.exit(0);
-		        	 WindowManager.windows.remove(this);
-		        	 productFrame.dispose();
+		        	 dispose();
 		         }        
 		      });
 			
@@ -152,11 +162,15 @@ public class ProductFrame extends JFrame{
 		    productFrame.setVisible(true);
 		   
 		}
-		
+		@Override
+		public void dispose(){
+			productFrame.dispose();
+			
+			
+		}
 		public void refresh(){
 			container.removeAll();
-			//WindowManager.windows.remove(this);
-			productFrame.dispose();
+			dispose();
 			prepareGUI();
 			productList = ProductTemplateDB.fetchAll();
 			for(int i=0; i< productList.size(); i++){

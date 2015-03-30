@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.LoginController;
 import controller.MainController;
-import controller.WindowManager;
 import model.InventoryItem;
 import model.Part;
 import model.PartsList;
@@ -22,12 +22,15 @@ public class InventoryAtLocationFrame extends JFrame{
 	public JPanel container;
 	private String location;
 	private ArrayList<InventoryItem> listItemsatLocation;
+	JMenuBar menuBar;
+	JMenu menu, currentLogin;
+	JMenuItem exit, logout,currentLog;
 
 	//public static PartFrame part;
 	
 	public InventoryAtLocationFrame(String location){
 		this.location = location;
-		WindowManager.windows.add(this);
+		
 		
 		prepareGUI();
 	}
@@ -46,12 +49,44 @@ public class InventoryAtLocationFrame extends JFrame{
 		//Set this window as window for maincontroller to work with
 		MainController.setInventoryLocation(this);
 		
+		//Menu stuff
+		menuBar = new JMenuBar();
+		menu = new JMenu("File");
+		currentLogin = new JMenu("Current Login");
+		menuBar.add(menu);
+		menuBar.add(currentLogin);
+		exit = new JMenuItem("Exit Program");
+		logout = new JMenuItem("Logout");
+		menu.add(exit);
+		menu.add(logout);
+		currentLog = new JMenuItem(LoginController.currentLogin,
+                KeyEvent.VK_T);
+		currentLogin.add(currentLog);
+		
+		
+		
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		logout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					//dispose all frames and show login frame
+				MainController.closeAllOpenWindows();
+			}
+		});
+		mainFrame.setJMenuBar(menuBar);
 		
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	 WindowManager.windows.remove(this);
-	        	 mainFrame.dispose();
+	        	dispose();
 	         }        
 	      });
 		
@@ -107,7 +142,7 @@ public class InventoryAtLocationFrame extends JFrame{
 	        	 //Delete Part
 	        	 MainController.deleteInventoryItem(addInventoryPart);
 	        	 if( itemFrame.inventoryFrame.isShowing() ){
-	        		 WindowManager.windows.remove(itemFrame);
+	        		 
 	        		 itemFrame.inventoryFrame.dispose();
 	        	 }
  
@@ -119,11 +154,15 @@ public class InventoryAtLocationFrame extends JFrame{
 	    mainFrame.setVisible(true);
 	   
 	}
-	
+	@Override
+	public void dispose(){
+		mainFrame.dispose();
+		
+		
+	}
 	public void refresh(){
 		container.removeAll();
-		WindowManager.windows.remove(this);
-		mainFrame.dispose();
+		dispose();
 		prepareGUI();
 		/*listItemsatLocation = MainController.getInventoryAtLocation(location);
 		//Get parts from database here and call function to add apart into GUI
