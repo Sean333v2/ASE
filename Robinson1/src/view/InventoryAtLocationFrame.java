@@ -11,20 +11,24 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import controller.MainController;
+import controller.WindowManager;
 import model.InventoryItem;
 import model.Part;
 import model.PartsList;
 
 
-public class InventoryAtLocationFrame{
+public class InventoryAtLocationFrame extends JFrame{
 	public static JFrame mainFrame;
 	public JPanel container;
 	private String location;
 	private ArrayList<InventoryItem> listItemsatLocation;
+
 	//public static PartFrame part;
 	
 	public InventoryAtLocationFrame(String location){
 		this.location = location;
+		WindowManager.windows.add(this);
+		
 		prepareGUI();
 	}
 	private void prepareGUI(){
@@ -46,7 +50,8 @@ public class InventoryAtLocationFrame{
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            mainFrame.dispose();
+	        	 WindowManager.windows.remove(this);
+	        	 mainFrame.dispose();
 	         }        
 	      });
 		
@@ -101,8 +106,10 @@ public class InventoryAtLocationFrame{
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
 	        	 MainController.deleteInventoryItem(addInventoryPart);
-	        	 if( itemFrame.inventoryFrame.isShowing() )
+	        	 if( itemFrame.inventoryFrame.isShowing() ){
+	        		 WindowManager.windows.remove(itemFrame);
 	        		 itemFrame.inventoryFrame.dispose();
+	        	 }
  
 	        	 
 	         }
@@ -115,6 +122,7 @@ public class InventoryAtLocationFrame{
 	
 	public void refresh(){
 		container.removeAll();
+		WindowManager.windows.remove(this);
 		mainFrame.dispose();
 		prepareGUI();
 		/*listItemsatLocation = MainController.getInventoryAtLocation(location);

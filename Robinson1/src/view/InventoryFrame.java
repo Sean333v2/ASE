@@ -11,11 +11,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
+import controller.WindowManager;
 import model.Part;
 import model.PartsList;
 
 
-public class InventoryFrame{
+public class InventoryFrame extends JFrame{
 	public static JFrame InventoryFrame;
 	public JPanel container;
 	private JComboBox locationBox;
@@ -26,6 +27,7 @@ public class InventoryFrame{
 	//public static PartFrame part;
 	
 	public InventoryFrame(){
+		WindowManager.windows.add(this);
 		prepareGUI();
 	}
 	
@@ -39,6 +41,7 @@ public class InventoryFrame{
 		container.setLayout(new GridLayout(0, 5));
 		InventoryFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
+	        	 WindowManager.windows.remove(this);
 	            InventoryFrame.dispose();
 	         }        
 	      });
@@ -60,6 +63,7 @@ public class InventoryFrame{
 	        	 else{
 	        		 //Open inventory frame at that location
 	        		//Close frame
+	        		 WindowManager.windows.remove(this);
 		             InventoryFrame.dispose();
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
 		             InventoryAtLocationFrame.mainFrame.setVisible(true);

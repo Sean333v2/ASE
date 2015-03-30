@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import view.InventoryAtLocationFrame;
+import view.LoginView;
 import view.MainFrame;
 import view.ProductDetailFrame;
 import view.ProductFrame;
@@ -28,10 +29,14 @@ public class MainController {
 	private static InventoryAtLocationFrame inventoryLocationFrame;
 	private static ProductTemplatePartDetailFrame productTemplatePartDetailFrame;
 	public static boolean timeFlag = false;
+	private static LoginView loginView;
 	
 	public static void main(String args[]){
 		System.out.println("CS 4743 Assignment 4 by Barbara Davila and Sean Gallagher");
-		//Show mainFrame
+		LoginController.setLogins();
+		loginView = new LoginView();
+		
+		/*//Show mainFrame
 		listPartsFrame = new MainFrame();
 		initializeList();
 		listPartsFrame.mainFrame.setVisible(true);
@@ -39,8 +44,18 @@ public class MainController {
 		productFrame = new ProductFrame();
 		//Get products from db
 		initializeProductTemplates();
-		productFrame.productFrame.setVisible(true);
+		productFrame.productFrame.setVisible(true);*/
 		
+	}
+	public static void setPartsFrame(){
+		listPartsFrame = new MainFrame();
+		initializeList();
+		listPartsFrame.mainFrame.setVisible(true);
+	}
+	public static void setProductsFrame(){
+		productFrame = new ProductFrame();
+		initializeProductTemplates();
+		productFrame.productFrame.setVisible(true);
 	}
 	//This is to set the inventory frame the current frame is working with and be able to control
 	public static void setInventoryLocation(InventoryAtLocationFrame frame){

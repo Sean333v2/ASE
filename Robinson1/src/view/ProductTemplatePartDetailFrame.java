@@ -20,8 +20,9 @@ import model.ProductTemplateDB;
 import model.ProductTemplatePartDetail;
 import model.ProductTemplatePartDetailDB;
 import controller.MainController;
+import controller.WindowManager;
 
-public class ProductTemplatePartDetailFrame {
+public class ProductTemplatePartDetailFrame extends JFrame {
 		public static JFrame productFrame;
 		public JPanel container;
 		public ProductTemplate mainProduct;
@@ -30,7 +31,9 @@ public class ProductTemplatePartDetailFrame {
 		
 		public ProductTemplatePartDetailFrame(ProductTemplate mainProduct){
 			this.mainProduct = mainProduct;
+			WindowManager.windows.add(this);
 			prepareGUI();
+			
 		}
 
 		private void prepareGUI(){
@@ -119,6 +122,7 @@ public class ProductTemplatePartDetailFrame {
 		
 		public void refresh(){
 			container.removeAll();
+			WindowManager.windows.remove(this);
 			productFrame.dispose();
 			prepareGUI();
 			productTemplatePartDetailList = ProductTemplatePartDetailDB.fetchAllByProductId(mainProduct.getProductId());

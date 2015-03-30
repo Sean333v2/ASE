@@ -8,11 +8,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
+import controller.WindowManager;
 import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
 
-public class InventoryPartFrame{
+public class InventoryPartFrame extends JFrame{
 	
 	public JFrame inventoryFrame;
 	private JTextField quantity;
@@ -23,10 +24,13 @@ public class InventoryPartFrame{
 	private int arguments = 8;
 	private String[] info = new String[arguments];
 	public InventoryItem mainItem;
+	
+	
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2"};
 	
 	
 	public InventoryPartFrame(InventoryItem p){
+		WindowManager.windows.add(this);
 		partId = p.getPartId();
 		mainItem = p;
 		quantity = new JTextField(mainItem.getQuantity());
@@ -43,7 +47,8 @@ public class InventoryPartFrame{
 		inventoryFrame.setLayout(new GridLayout(0, 2));       
 	    inventoryFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
-	            inventoryFrame.dispose();
+				WindowManager.windows.remove(this);
+				inventoryFrame.dispose();
 	         }        
 	      });
 	    
@@ -91,12 +96,14 @@ public class InventoryPartFrame{
 	       					    "Part Name already exists",
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
+	       			WindowManager.windows.remove(this);
 	       			inventoryFrame.dispose();
 	       			//mainItem.setPartName(originalName);
 	       			mainItem.partUI.getDetailsButton().doClick();
 					}
 	       			
 	        	 if(mainItem.getErrorCount() > 0){
+	        		 WindowManager.windows.remove(this);
 	        		 inventoryFrame.dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
 	        		 inventoryaddFrame.addFrame.setVisible(true);
@@ -116,11 +123,14 @@ public class InventoryPartFrame{
 		       					    "Data has already been modified! Refreshing data!",
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
-			        		 inventoryFrame.dispose();
+							WindowManager.windows.remove(this);
+							inventoryFrame.dispose();
 			        		 mainItem.partUI.getDetailsButton().doClick();
 						}
-	        		 else
+	        		 else{
+	        			 WindowManager.windows.remove(this);
 	        			 inventoryFrame.dispose();
+	        		 }
 
 	        	}
 	        	 

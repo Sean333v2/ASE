@@ -9,17 +9,19 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import controller.MainController;
+import controller.WindowManager;
 import model.Part;
 import model.PartDB;
 import model.PartsList;
 
 
-public class MainFrame{
+public class MainFrame extends JFrame{
 	public static JFrame mainFrame;
 	public JPanel container;
 	//public static PartFrame part;
 	
 	public MainFrame(){
+		WindowManager.windows.add(this);
 		prepareGUI();
 	}
 	
@@ -35,7 +37,7 @@ public class MainFrame{
 		JScrollPane scrPane = new JScrollPane(container);
 		container.setLayout(new GridLayout(0, 4));
 		JButton addButton = new JButton("Add Part");
-		JButton inventoryButton = new JButton("Inventory");
+		//JButton inventoryButton = new JButton("Inventory");
 		
 		//Construct mainframe
 		mainFrame.setSize(550,600);
@@ -46,13 +48,16 @@ public class MainFrame{
 		container.add(new JLabel("Unit"));
 		container.add(new JLabel("Name"));
 		container.add(addButton);
-		container.add(inventoryButton);
+		container.add(new JLabel(""));
+		//container.add(inventoryButton);
 		
 		
 		//Listeners
 		mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            System.exit(0);
+	            //System.exit(0);
+	        	 WindowManager.windows.remove(this);
+	        	 mainFrame.dispose();
 	         }        
 	      });
 		
@@ -63,12 +68,12 @@ public class MainFrame{
 	         }
 	      });
 		
-		inventoryButton.addActionListener(new ActionListener() {
+		/*inventoryButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 InventoryFrame InvFrame = new InventoryFrame();
 	             InventoryFrame.InventoryFrame.setVisible(true);
 	         }
-	      });
+	      });*/
 		
 		
 		//mainFrame.setVisible(true);
@@ -108,6 +113,7 @@ public class MainFrame{
 	        	 //Delete Part
 	        	 MainController.deletePart(addPart);
 	        	 if( partFrame.partFrame.isShowing() )
+	        		 WindowManager.windows.remove(partFrame);
 	        		 partFrame.partFrame.dispose();	 
 	         }
 	      });
@@ -117,6 +123,7 @@ public class MainFrame{
 	
 	public void refresh(){
 		container.removeAll();
+		WindowManager.windows.remove(this);
 		mainFrame.dispose();
 		prepareGUI();
 		ArrayList<Part> partsList = PartDB.fetchAll();

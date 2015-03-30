@@ -19,8 +19,10 @@ import model.PartDB;
 import model.ProductTemplate;
 import model.ProductTemplatePartDetail;
 import controller.MainController;
+import controller.WindowManager;
 
-public class ProductTemplatePartDetailEditFrame {
+public class ProductTemplatePartDetailEditFrame extends JFrame{
+	
 	public JFrame productTemplatePartDetailFrame;
 	//private JTextField partId;
 	private JComboBox partName;
@@ -38,6 +40,7 @@ public class ProductTemplatePartDetailEditFrame {
 	private String[] partList;
 	
 	public ProductTemplatePartDetailEditFrame(ProductTemplatePartDetail p, String state, ProductTemplatePartDetailFrame productFrame){
+		WindowManager.windows.add(this);
 		mainProduct = p;
 		this.productFrame = productFrame;
 		partList = MainController.createPartList();
@@ -67,6 +70,7 @@ public class ProductTemplatePartDetailEditFrame {
 		productTemplatePartDetailFrame.setLayout(new GridLayout(0, 2));       
 	    productTemplatePartDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
+				WindowManager.windows.remove(this);
 				productTemplatePartDetailFrame.dispose();
 	         }        
 	      });
@@ -142,6 +146,7 @@ public class ProductTemplatePartDetailEditFrame {
 	        	 else{
 	        		 //********Update product in main controller
 	        		 productFrame.refresh();
+	        		 WindowManager.windows.remove(this);
 	        		 productTemplatePartDetailFrame.dispose();
 	        		 
 	        	 }

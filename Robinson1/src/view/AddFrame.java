@@ -7,8 +7,9 @@ import javax.swing.*;
 
 import model.Part;
 import controller.MainController;
+import controller.WindowManager;
 
-public class AddFrame {
+public class AddFrame extends JFrame{
 	
 	public JFrame addFrame;
 	private JTextField name;
@@ -21,7 +22,8 @@ public class AddFrame {
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	
 	public AddFrame(){
-	
+		WindowManager.windows.add(this);
+		
 		name = new JTextField("");
 		vendor = new JTextField("");
 		number = new JTextField("");
@@ -68,7 +70,8 @@ public class AddFrame {
 		addFrame.setLayout(new GridLayout(0, 2));       
 	    addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            addFrame.dispose();
+	            WindowManager.windows.remove(this);
+	        	 addFrame.dispose();
 	         }        
 	      });
 	    
@@ -131,6 +134,7 @@ public class AddFrame {
        					    newPart.getErrorListIndex(i),
        					    "PName warning",
        					    JOptionPane.WARNING_MESSAGE);
+					WindowManager.windows.remove(this);
 					addFrame.dispose();
 					AddFrame addFrame = new AddFrame();
 					addFrame.addFrame.setVisible(true);
@@ -139,6 +143,7 @@ public class AddFrame {
 					AddFrame addFrame = new AddFrame (newPart);
 					addFrame.addFrame.setVisible(true);*/
 				} else {
+					WindowManager.windows.remove(this);
 					addFrame.dispose();
 				}
 	      

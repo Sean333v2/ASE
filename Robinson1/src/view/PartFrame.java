@@ -6,9 +6,10 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.MainController;
+import controller.WindowManager;
 import model.Part;
 
-public class PartFrame{
+public class PartFrame extends JFrame{
 	
 	public JFrame partFrame;
 	//private JTextField quantity;
@@ -26,6 +27,7 @@ public class PartFrame{
 	//String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	
 	public PartFrame(Part p){
+		WindowManager.windows.add(this);
 		mainPart = p;
 		//quantity = new JTextField(Integer.toString(mainPart.getQuantity()));
 		name = new JTextField(mainPart.getPartName());
@@ -37,15 +39,16 @@ public class PartFrame{
 		//location.setSelectedItem(mainPart.getLocation());
 		id = new JLabel("ID: "+p.getPersonalId());
 		extnumber =  new JTextField(mainPart.getExternalNum());
-		setUpGUI(p);
+		setUpGUI();
 	}
 	
-	private void setUpGUI(Part newPart){
+	private void setUpGUI(){
 		partFrame = new JFrame("Cabinetron: Part");
 		partFrame.setSize(300, 300);
 		partFrame.setLayout(new GridLayout(0, 2));       
 	    partFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
+				WindowManager.windows.remove(this);
 	            partFrame.dispose();
 	         }        
 	      });
@@ -74,8 +77,8 @@ public class PartFrame{
 	        	 info[2] = vendor.getText();
 	        	 info[3] = (String)unit.getSelectedItem();
 	        	 info[4] = extnumber.getText();
-	        	 String originalName = newPart.getPartName();
-	        	 mainPart = MainController.updatePart(info,newPart);
+	        	 String originalName = mainPart.getPartName();
+	        	 mainPart = MainController.updatePart(info,mainPart);
 	        	
 	        	 //The following will check if duplicate Part Name exists when adding a Part, 
 	        	 //the user should be warned and allowed to cancel.
@@ -91,13 +94,14 @@ public class PartFrame{
 					}*/
 	       			
 	       			
-					if (newPart.getErrorCount() > 0) {
+					if (mainPart.getErrorCount() > 0) {
 						int i=0;
-						while(newPart.getErrorList()[i].equals("")){i++;}
+						while(mainPart.getErrorList()[i].equals("")){i++;}
 						JOptionPane.showMessageDialog(partFrame,
-	       					    newPart.getErrorListIndex(i),
+	       					    mainPart.getErrorListIndex(i),
 	       					    "PName warning",
 	       					    JOptionPane.WARNING_MESSAGE);
+						WindowManager.windows.remove(this);
 						partFrame.dispose();
 	       			 	mainPart.listUI.getDetailsButton().doClick();
 						/*
@@ -105,6 +109,7 @@ public class PartFrame{
 						AddFrame addFrame = new AddFrame (newPart);
 						addFrame.addFrame.setVisible(true);*/
 					} else {
+						WindowManager.windows.remove(this);
 						partFrame.dispose();
 					}
 			}

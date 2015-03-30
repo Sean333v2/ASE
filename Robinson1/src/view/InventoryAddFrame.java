@@ -9,8 +9,9 @@ import model.InventoryItem;
 import model.InventoryItemDB;
 import model.Part;
 import controller.MainController;
+import controller.WindowManager;
 
-public class InventoryAddFrame {
+public class InventoryAddFrame extends JFrame{
 	
 	public JFrame addFrame;
 	private JTextField quantity;
@@ -21,8 +22,12 @@ public class InventoryAddFrame {
 	private String[] info = new String[arguments];
 	String[] unitStrings = {"Linear Feet", "Pieces", "Unknown"};
 	String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
-
+	
+	
 	public InventoryAddFrame(String location){
+		
+		WindowManager.windows.add(this);
+		
 		itemlocation = location;
 		quantity = new JTextField("");
 		partId = new JTextField("");
@@ -54,7 +59,8 @@ public class InventoryAddFrame {
 		addFrame.setLayout(new GridLayout(0, 2));       
 	    addFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	            addFrame.dispose();
+	        	 WindowManager.windows.remove(this);
+	        	 addFrame.dispose();
 	         }        
 	      });
 	    
@@ -98,10 +104,12 @@ public class InventoryAddFrame {
 					System.out.println(newItem.getErrorListAtIndex(i));
 				}
 				if (newItem.getErrorCount() > 0 ) {
+					WindowManager.windows.remove(this);
 					addFrame.dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
 					addFrame.addFrame.setVisible(true);
 				} else {
+					WindowManager.windows.remove(this);
 					addFrame.dispose();
 				}
 	      

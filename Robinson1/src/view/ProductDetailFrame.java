@@ -16,8 +16,9 @@ import javax.swing.JTextField;
 import model.Part;
 import model.ProductTemplate;
 import controller.MainController;
+import controller.WindowManager;
 
-public class ProductDetailFrame {
+public class ProductDetailFrame extends JFrame {
 	public JFrame productTemplateDetailFrame;
 	private JTextField description;
 	private JTextField number;
@@ -29,6 +30,7 @@ public class ProductDetailFrame {
 	private String update = "Update";
 	
 	public ProductDetailFrame(ProductTemplate p, String state){
+		WindowManager.windows.add(this);
 		mainProduct = p;
 		if(update.equals(state)){
 			description = new JTextField(mainProduct.getProductDescription());
@@ -50,6 +52,7 @@ public class ProductDetailFrame {
 		productTemplateDetailFrame.setLayout(new GridLayout(0, 2));       
 	    productTemplateDetailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
+				WindowManager.windows.remove(this);
 				productTemplateDetailFrame.dispose();
 	         }        
 	      });
@@ -100,6 +103,7 @@ public class ProductDetailFrame {
 	        	 }
 	        	 else{
 	        		 //********Update product in main controller
+	        		 WindowManager.windows.remove(this);
 	        		 productTemplateDetailFrame.dispose();
 	        	 }
 	        	

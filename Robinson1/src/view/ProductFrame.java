@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -18,14 +21,18 @@ import model.PartDB;
 import model.ProductTemplate;
 import model.ProductTemplateDB;
 import controller.MainController;
+import controller.WindowManager;
 
-public class ProductFrame {
+public class ProductFrame extends JFrame{
 		public static JFrame productFrame;
 		public JPanel container;
 		public ArrayList<ProductTemplate> productList;
-		//public static PartFrame part;
+		JMenuBar menuBar;
+		JMenu menu;
+		JMenuItem exit, logout;
 		
 		public ProductFrame(){
+			WindowManager.windows.add(this);
 			prepareGUI();
 		}
 
@@ -38,6 +45,30 @@ public class ProductFrame {
 			container.setLayout(new GridLayout(0, 5));
 			JButton addButton = new JButton("Add Product");
 			
+			//Menu stuff
+			menuBar = new JMenuBar();
+			menu = new JMenu("File");
+			menuBar.add(menu);
+			exit = new JMenuItem("Exit Program");
+			logout = new JMenuItem("Logout");
+			menu.add(exit);
+			menu.add(logout);
+			
+			exit.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+					
+				}
+			});
+			logout.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+						//dispose all frames and show login frame
+				}
+			});
 			
 			//Construct mainframe
 			productFrame.setSize(550,600);
@@ -55,7 +86,9 @@ public class ProductFrame {
 			//Listeners
 			productFrame.addWindowListener(new WindowAdapter() {
 		         public void windowClosing(WindowEvent windowEvent){
-		            System.exit(0);
+		            //System.exit(0);
+		        	 WindowManager.windows.remove(this);
+		        	 productFrame.dispose();
 		         }        
 		      });
 			
@@ -122,6 +155,7 @@ public class ProductFrame {
 		
 		public void refresh(){
 			container.removeAll();
+			//WindowManager.windows.remove(this);
 			productFrame.dispose();
 			prepareGUI();
 			productList = ProductTemplateDB.fetchAll();
