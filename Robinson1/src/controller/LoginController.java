@@ -6,7 +6,7 @@ import model.User;
 
 public class LoginController {
 	
-	private static int userCount = 5;
+	private static int userCount = 4;
 	private static User[] user = new User[userCount];
 	public static String currentLogin;
 	
@@ -17,8 +17,8 @@ public class LoginController {
 		 user[0] = new User("Tom Jones", "jones1","Production Manager", "tjones@hotmail.com");
 		 user[1] = new User("Sue Smith", "smith1","Inventory Manager","smith.sue@gmail.com");
 		 user[2] = new User("Ragnar Nelson", "nelson1","Admin", "rnelson71@gmail.com");
-		 user[3] = new User("Barbara Davila", "davila1", "Viewer","barbara_dav@hotmail.com");
-		 user[4] = new User("Bad Credentials", "blah", "bad", "hello");
+		// user[3] = new User("Barbara Davila", "davila1", "Viewer","barbara_dav@hotmail.com");
+		 user[3] = new User("Bad Credentials", "blah", "bad", "hello");
 		 setPermissions();
 	
 	}
@@ -45,10 +45,10 @@ public class LoginController {
 			user[j].getPermissions()[5] = true;
 		
 			}
-		else if(role.toLowerCase().equals("viewer")){
+		/*else if(role.toLowerCase().equals("viewer")){
 			for(int i=0; i < user[j].getPermissions().length;i++)
 				user[j].getPermissions()[i] = false;
-			}
+			}*/
 		
 		}
 	}
