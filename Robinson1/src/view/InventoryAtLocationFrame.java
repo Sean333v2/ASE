@@ -110,7 +110,6 @@ public class InventoryAtLocationFrame extends JFrame{
 		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		for(int i=0; i < listItemsatLocation.size(); i++){
 			InventoryItem item = listItemsatLocation.get(i);
-			System.out.println("itemId: "+item.getItemId()+" partId: "+item.getPartId()+" location: "+item.getLocation()+" Quantity: "+item.getQuantity()+" isPart: "+item.getIsPart());
 			addPart(item);
 			
 		}

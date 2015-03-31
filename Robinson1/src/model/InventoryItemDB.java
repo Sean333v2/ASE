@@ -75,9 +75,7 @@ public class InventoryItemDB {
             while(rs.next()){
             	id = "partId";
                 isPart = true;
-                System.out.println("1");
                 if(rs.getInt(id) == 0){
-                    System.out.println("2");
                 	id = "productId";
                 	isPart = false;
                 }
