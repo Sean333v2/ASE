@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -50,9 +51,20 @@ private void prepareGUI(){
 	         public void actionPerformed(ActionEvent e) {
 	        	
 	        	login = (String)loginBox.getSelectedItem();
-	        	
+	        	if(login.equals(LoginController.getlogins()[4])){
+	        		JOptionPane.showMessageDialog(LoginFrame,
+       					    "Bad Credentials",
+       					    "badCredentialsError",
+       					    JOptionPane.ERROR_MESSAGE);
+	        		LoginFrame.dispose();
+	        		LoginView lf = new LoginView();
+	        		
+	        		
+	        	}
+	        	else{
 	        	LoginFrame.dispose();
 	        	OptionFrame optionFrame = new OptionFrame(login);
+	        	}
   	 
 	         }
 	      });

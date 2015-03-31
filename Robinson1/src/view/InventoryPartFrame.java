@@ -102,7 +102,7 @@ public class InventoryPartFrame extends JFrame{
 	       			mainItem.partUI.getDetailsButton().doClick();
 					}
 	       			
-	        	 if(mainItem.getErrorCount() > 0){
+	        	/* if(mainItem.getErrorCount() > 0){
 	        		 dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
 	        		 inventoryaddFrame.addFrame.setVisible(true);
@@ -113,7 +113,16 @@ public class InventoryPartFrame extends JFrame{
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
 							
-						}
+						}*/
+					if (mainItem.getErrorCount() > 0) {
+						int i=0;
+						while(mainItem.getErrorList()[i].equals("")){i++;}
+						JOptionPane.showMessageDialog(inventoryFrame,
+	       					    mainItem.getErrorListAtIndex(i),
+	       					    "PName warning",
+	       					    JOptionPane.WARNING_MESSAGE);
+						dispose();
+	       			 	mainItem.partUI.getDetailsButton().doClick();
 	        	 }
 	        	 else{
 	        		 if(MainController.timeFlag){

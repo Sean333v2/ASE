@@ -36,7 +36,7 @@ public class InventoryAddFrame extends JFrame{
 		
 		setUpGUI();
 	}
-	public InventoryAddFrame(InventoryItem errorItem){
+	/*public InventoryAddFrame(InventoryItem errorItem){
 		quantity = new JTextField("");
 		partId = new JTextField("");
 		isPart = new JCheckBox();
@@ -52,7 +52,7 @@ public class InventoryAddFrame extends JFrame{
 		
 		setUpErrorGUI(errorItem);
 		
-	}
+	}*/
 
 	private void setUpGUI(){
 		addFrame = new JFrame("Cabinetron: Add Part in "+itemlocation );
@@ -105,14 +105,31 @@ public class InventoryAddFrame extends JFrame{
        			  
 	 
        		 	}*/
-				for(int i=0; i < newItem.getErrorCount(); i++){
-					System.out.println(newItem.getErrorListAtIndex(i));
-				}
-				if (newItem.getErrorCount() > 0 ) {
+				/*for(int i=0; i < newItem.getErrorCount(); i++){
+					//System.out.println(newItem.getErrorListAtIndex(i));
+				}*/
+				/*if (newItem.getErrorCount() > 0 ) {
 					dispose();
 					InventoryAddFrame addFrame = new InventoryAddFrame (newItem);
 					addFrame.addFrame.setVisible(true);
-				} else {
+				} */
+				if (newItem.getErrorCount() > 0 ) {
+					int i=0;
+					while(newItem.getErrorList()[i].equals("")){i++;}
+					JOptionPane.showMessageDialog(addFrame,
+       					    newItem.getErrorListAtIndex(i),
+       					    "ITem warning",
+       					    JOptionPane.WARNING_MESSAGE);
+					
+					dispose();
+					InventoryAddFrame addFrame = new InventoryAddFrame (itemlocation);
+					addFrame.addFrame.setVisible(true);
+       			 	
+					/*addFrame.dispose();
+					AddFrame addFrame = new AddFrame (newPart);
+					addFrame.addFrame.setVisible(true);*/
+				}
+				else {
 					dispose();
 				}
 	      
@@ -122,7 +139,7 @@ public class InventoryAddFrame extends JFrame{
 	      });
 	   
 	}
-
+/*
 	private void setUpErrorGUI(InventoryItem errorItem) {
 		addFrame = new JFrame("***Try Again*** ");
 		addFrame.setSize(670, 200);
@@ -194,7 +211,7 @@ public class InventoryAddFrame extends JFrame{
 		addFrame.dispose();
 		
 		
-	}
+	}*/
 }
 
 
