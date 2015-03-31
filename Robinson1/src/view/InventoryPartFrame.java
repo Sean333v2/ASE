@@ -100,17 +100,29 @@ public class InventoryPartFrame{
 					}
 	       			
 	        	 if(mainItem.getErrorCount() > 0){
-	        		 inventoryFrame.dispose();
+	        		 /*inventoryFrame.dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
-	        		 inventoryaddFrame.addFrame.setVisible(true);
+	        		 inventoryaddFrame.addFrame.setVisible(true);*/
 	        		 if(MainController.timeFlag){
 							MainController.timeFlag = false;
-							JOptionPane.showMessageDialog(inventoryaddFrame.addFrame,
+							JOptionPane.showMessageDialog(inventoryFrame,
 		       					    "Data has already been modified! Refreshing data!",
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
 							
-						}
+					}
+	        		 else{
+	        			 for(int i = 0; i<mainItem.getErrorCount(); i++){
+	        				 if(mainItem.getErrorListAtIndex(i) != null && !mainItem.getErrorListAtIndex(i).equals("")){
+	        					 JOptionPane.showMessageDialog(inventoryFrame,
+			       					    mainItem.getErrorListAtIndex(i),
+			       					    "WARNING",
+			       					    JOptionPane.WARNING_MESSAGE);
+	        					 break;
+	        				 }
+	        			 }
+	        		 }
+	        		 
 	        	 }
 	        	 else{
 	        		 if(MainController.timeFlag){

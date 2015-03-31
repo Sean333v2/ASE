@@ -201,14 +201,60 @@ public class MainController {
 		/*item.setPartId(Integer.parseInt(stringArray[0]));
 		item.setQuantity(stringArray[1]);
 		item.setLocation(stringArray[2]);*/
-	
+		
+		if(!item.getIsPart()){
+			ProductTemplate product = null;
+			for(int i = 0; i < 	productFrame.productList.size(); i++){
+				if(productFrame.productList.get(i).equals(""+item.getPartId()))
+					product = productFrame.productList.get(i);
+			}
+			if(product == null){
+				item.setErrorListAtIndex(0, "Product Id does not exist.");
+			}
+			else{
+				ArrayList<ProductTemplatePartDetail> temp = ProductTemplatePartDetailDB.fetchAllByProductId(product.getProductId());
+				ArrayList<Part> parts = new ArrayList<Part>();
+				for(int i = 0; i < temp.size(); i++)
+					parts.add(temp.get(i).getPart());
+				ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
+				for(int i = 0; i < parts.size(); i++)
+					if(InventoryItemDB.findInventoryItemByPartIdAndLocation(Integer.valueOf(parts.get(i).getPersonalId()), item.getLocation(), true))
+						items.add(InventoryItemDB.getInventoryItemByPartIdAndLocation(Integer.valueOf(parts.get(i).getPersonalId()), item.getLocation(), true));
+				if(items.size() != parts.size()){
+					item.setErrorListAtIndex(0, "Needed parts are not at this location");
+				}
+				else{
+					for(int i = 0; i < items.size(); i++){
+						for(int j = 0; j < temp.size(); j++){
+							if(temp.get(j).getPartId().equals(""+items.get(i).getPartId())){
+								if(Integer.valueOf(temp.get(j).getQuantity())*Integer.valueOf(item.getQuantity()) > Integer.valueOf(items.get(i).getQuantity()))
+									item.setErrorListAtIndex(0, "Not enough "+items.get(i).getPart().getPartName());
+							}
+						}
+					}
+					if(item.getErrorCount() == 0){
+						for(int i = 0; i < items.size(); i++){
+							for(int j = 0; j < temp.size(); j++){
+								if(temp.get(j).getPartId().equals(""+items.get(i).getPartId())){
+									LocalDateTime dateTime = LocalDateTime.now();
+									Timestamp newTime = Timestamp.valueOf(dateTime);
+									items.get(i).setTime(newTime);
+									items.get(i).setQuantity(""+(Integer.valueOf(items.get(i).getQuantity()) - Integer.valueOf(temp.get(j).getQuantity())*Integer.valueOf(item.getQuantity())));
+									InventoryItemDB.updateInventoryItem(items.get(i));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	
 		if(InventoryItemDB.findInventoryItemByPartIdAndLocation(item.getPartId(), item.getLocation(), item.getIsPart()))
 		{
 			item.setErrorCount(item.getErrorCount() + 1);
 			item.setErrorListAtIndex(0, "Part and Location combination already exits!");
 		}
-		else
+		else if(item.getErrorCount() == 0)
 			item = InventoryItemDB.addInventoryItem(item);
 	
 		if(item.getErrorCount() == 0 && item.getItemId() > 0){
@@ -282,6 +328,61 @@ public class MainController {
 		updateItem.setPartId(Integer.parseInt(stringArray[0]));
 		updateItem.setQuantity(stringArray[1]);
 		updateItem.setLocation(stringArray[2]);
+		
+		if(Integer.valueOf(updateItem.getQuantity()) < Integer.valueOf(stringArray[1])){
+			int diff = Integer.valueOf(stringArray[1]) - Integer.valueOf(updateItem.getQuantity());
+			item = updateItem;
+			if(!item.getIsPart()){
+				ProductTemplate product = null;
+				for(int i = 0; i < 	productFrame.productList.size(); i++){
+					if(productFrame.productList.get(i).equals(""+item.getPartId()))
+						product = productFrame.productList.get(i);
+				}
+				if(product == null){
+					item.setErrorListAtIndex(0, "Product Id does not exist.");
+					return item;
+				}
+				else{
+					ArrayList<ProductTemplatePartDetail> temp = ProductTemplatePartDetailDB.fetchAllByProductId(product.getProductId());
+					ArrayList<Part> parts = new ArrayList<Part>();
+					for(int i = 0; i < temp.size(); i++)
+						parts.add(temp.get(i).getPart());
+					ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
+					for(int i = 0; i < parts.size(); i++)
+						if(InventoryItemDB.findInventoryItemByPartIdAndLocation(Integer.valueOf(parts.get(i).getPersonalId()), item.getLocation(), true))
+							items.add(InventoryItemDB.getInventoryItemByPartIdAndLocation(Integer.valueOf(parts.get(i).getPersonalId()), item.getLocation(), true));
+					if(items.size() != parts.size()){
+						item.setErrorListAtIndex(0, "Needed parts are not at this location");
+						return item;
+					}
+					else{
+						for(int i = 0; i < items.size(); i++){
+							for(int j = 0; j < temp.size(); j++){
+								if(temp.get(j).getPartId().equals(""+items.get(i).getPartId())){
+									if(Integer.valueOf(temp.get(j).getQuantity())*diff > Integer.valueOf(items.get(i).getQuantity())){
+										item.setErrorListAtIndex(0, "Not enough "+items.get(i).getPart().getPartName());
+										return item;
+									}	
+								}
+							}
+						}
+						if(item.getErrorCount() == 0){
+							for(int i = 0; i < items.size(); i++){
+								for(int j = 0; j < temp.size(); j++){
+									if(temp.get(j).getPartId().equals(""+items.get(i).getPartId())){
+										LocalDateTime dateTime = LocalDateTime.now();
+										Timestamp newTime = Timestamp.valueOf(dateTime);
+										items.get(i).setTime(newTime);
+										items.get(i).setQuantity(""+(Integer.valueOf(items.get(i).getQuantity()) - Integer.valueOf(temp.get(j).getQuantity())*diff));
+										InventoryItemDB.updateInventoryItem(items.get(i));
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		Timestamp oldTime = InventoryItemDB.getTimestamp(updateItem);
 		LocalDateTime dateTime = LocalDateTime.now();
