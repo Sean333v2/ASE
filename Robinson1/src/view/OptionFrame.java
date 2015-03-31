@@ -68,7 +68,7 @@ private void prepareGUI(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				InventoryFrame InvFrame = new InventoryFrame();
-	            InventoryFrame.InventoryFrame.setVisible(true);
+	            InvFrame.InventoryFrame.setVisible(true);
 			}
 		});
 		productTemplates.addActionListener(new ActionListener() {

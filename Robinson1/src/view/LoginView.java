@@ -51,7 +51,7 @@ private void prepareGUI(){
 	         public void actionPerformed(ActionEvent e) {
 	        	
 	        	login = (String)loginBox.getSelectedItem();
-	        	if(login.equals(LoginController.getlogins()[4])){
+	        	if(login.equals(LoginController.getlogins()[3])){
 	        		JOptionPane.showMessageDialog(LoginFrame,
        					    "Bad Credentials",
        					    "badCredentialsError",

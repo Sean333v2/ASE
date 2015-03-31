@@ -91,39 +91,51 @@ public class InventoryPartFrame extends JFrame{
 	        		 mainItem.setTime(temp.getTime());
 	        	 }
 	        		 
-	        	 String partNameError = "ERROR: '"+ mainItem.getPart().getPartName()+"' already exists";
-					if( mainItem.getErrorCount() == 1 && mainItem.getErrorListAtIndex(0).equals(partNameError) ){
+					/*if( mainItem.getErrorCount() > 0 ){
+						for(int i = 0; i < mainItem.getErrorCount(); i++){
+							if(mainItem.getErrorListAtIndex(i) != null && !mainItem.getErrorListAtIndex(i).equals("")){
 	       			 JOptionPane.showMessageDialog(inventoryFrame,
-	       					    "Part Name already exists",
-	       					    "PName warning",
+										mainItem.getErrorListAtIndex(i),
+										"Warning",
 	       					    JOptionPane.WARNING_MESSAGE);
 	       			dispose();
 	       			//mainItem.setPartName(originalName);
-	       			mainItem.partUI.getDetailsButton().doClick();
-					}
+	       			//mainItem.partUI.getDetailsButton().doClick();
+					}*/
 	       			
-	        	/* if(mainItem.getErrorCount() > 0){
-	        		 dispose();
+	        	 if(mainItem.getErrorCount() > 0){
+	        		 /*dispose();
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
-	        		 inventoryaddFrame.addFrame.setVisible(true);
+	        		 inventoryaddFrame.addFrame.setVisible(true);*/
+	        	 	int i=0;
+					while(mainItem.getErrorList()[i].equals("")){i++;}
+					JOptionPane.showMessageDialog(inventoryFrame,
+    					    mainItem.getErrorListAtIndex(i),
+    					    "PName warning",
+    					    JOptionPane.WARNING_MESSAGE);
+					dispose();
+    			 	mainItem.partUI.getDetailsButton().doClick();
+	        	 	 
 	        		 if(MainController.timeFlag){
 							MainController.timeFlag = false;
-							JOptionPane.showMessageDialog(inventoryaddFrame.addFrame,
+							JOptionPane.showMessageDialog(inventoryFrame,
 		       					    "Data has already been modified! Refreshing data!",
 		       					    "WARNING",
 		       					    JOptionPane.WARNING_MESSAGE);
 							
-						}*/
-					if (mainItem.getErrorCount() > 0) {
-						int i=0;
-						while(mainItem.getErrorList()[i].equals("")){i++;}
-						JOptionPane.showMessageDialog(inventoryFrame,
-	       					    mainItem.getErrorListAtIndex(i),
-	       					    "PName warning",
-	       					    JOptionPane.WARNING_MESSAGE);
-						dispose();
-	       			 	mainItem.partUI.getDetailsButton().doClick();
-	        	 }
+					 }
+	        		 else{
+	        			 for(i = 0; i<mainItem.getErrorCount(); i++){
+	        				 if(mainItem.getErrorListAtIndex(i) != null && !mainItem.getErrorListAtIndex(i).equals("")){
+	        					 JOptionPane.showMessageDialog(inventoryFrame,
+			       					    mainItem.getErrorListAtIndex(i),
+			       					    "WARNING",
+			       					    JOptionPane.WARNING_MESSAGE);
+	        					 break;
+	        				 }
+	        			 }
+	        		 }
+	        	 } 
 	        	 else{
 	        		 if(MainController.timeFlag){
 							MainController.timeFlag = false;

@@ -63,7 +63,7 @@ public class InventoryFrame extends JFrame{
 	        		//Close frame
 	        		dispose();
 	        		 InventoryAtLocationFrame InvFrame = new InventoryAtLocationFrame(location);
-		             InventoryAtLocationFrame.mainFrame.setVisible(true);
+		             InvFrame.mainFrame.setVisible(true);
 		             
 	        		//Get from database the parts from this location
 	        		 
