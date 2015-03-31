@@ -110,7 +110,9 @@ public class MainFrame extends JFrame{
 		
 		
 		//mainFrame.setVisible(true);
-		
+		if(LoginController.getPermissions(LoginController.currentLogin)[5] == false){
+			addButton.setEnabled(false); 
+		}
 		
 	}
 	
@@ -150,6 +152,10 @@ public class MainFrame extends JFrame{
 	         }
 	      });
 	    mainFrame.setVisible(true);
+	    
+	    if(LoginController.getPermissions(LoginController.currentLogin)[6] == false){
+	    	addPart.listUI.getDeleteButton().setEnabled(false); 
+		}
 	   
 	}
 	@Override

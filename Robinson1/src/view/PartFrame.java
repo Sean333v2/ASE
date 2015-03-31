@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import controller.LoginController;
 import controller.MainController;
 import model.Part;
 
@@ -109,6 +110,9 @@ public class PartFrame extends JFrame{
 					}
 			}
 	      });
+	    
+	    if(LoginController.getPermissions(LoginController.currentLogin)[5] == false)
+	    	updateButton.setEnabled(false); 
 	    
 	   
 	}

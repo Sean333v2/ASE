@@ -100,6 +100,9 @@ public class InventoryAtLocationFrame extends JFrame{
 		//Add all widgets to frame and set visibility
 		container.add(new JLabel("Quantity"));
 		container.add(new JLabel("Name"));
+		if(LoginController.getPermissions(LoginController.currentLogin)[4] == false){
+			addButton.setEnabled(false); 
+		}
 		container.add(addButton);
 		container.add(new JLabel(""));
 		
@@ -156,6 +159,10 @@ public class InventoryAtLocationFrame extends JFrame{
 	    
 	    //UI
 	    mainFrame.setVisible(true);
+	    
+	    if(LoginController.getPermissions(LoginController.currentLogin)[6] == false){
+	    	addInventoryPart.partUI.getDeleteButton().setEnabled(false); 
+		}
 	   
 	}
 

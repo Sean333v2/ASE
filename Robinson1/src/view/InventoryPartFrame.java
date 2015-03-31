@@ -7,6 +7,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import controller.LoginController;
 import controller.MainController;
 import model.InventoryItem;
 import model.InventoryItemDB;
@@ -134,6 +135,8 @@ public class InventoryPartFrame extends JFrame{
 	      });
 	    inventoryFrame.add(updateButton);
 	    //inventoryFrame.add(partButton);
+	    if(LoginController.getPermissions(LoginController.currentLogin)[4] == false)
+	    	updateButton.setEnabled(false); 
 	}
 	@Override
 	public void dispose(){
