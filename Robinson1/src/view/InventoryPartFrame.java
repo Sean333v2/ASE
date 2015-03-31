@@ -108,7 +108,7 @@ public class InventoryPartFrame extends JFrame{
 	        		 InventoryAddFrame inventoryaddFrame = new InventoryAddFrame(mainItem);
 	        		 inventoryaddFrame.addFrame.setVisible(true);*/
 	        	 	int i=0;
-					while(mainItem.getErrorList()[i].equals("")){i++;}
+					while(mainItem.getErrorListAtIndex(i) == null || "".equals(mainItem.getErrorListAtIndex(i))){i++;}
 					JOptionPane.showMessageDialog(inventoryFrame,
     					    mainItem.getErrorListAtIndex(i),
     					    "PName warning",
@@ -124,7 +124,7 @@ public class InventoryPartFrame extends JFrame{
 		       					    JOptionPane.WARNING_MESSAGE);
 							
 					 }
-	        		 else{
+	        		 /*else{
 	        			 for(i = 0; i<mainItem.getErrorCount(); i++){
 	        				 if(mainItem.getErrorListAtIndex(i) != null && !mainItem.getErrorListAtIndex(i).equals("")){
 	        					 JOptionPane.showMessageDialog(inventoryFrame,
@@ -134,7 +134,7 @@ public class InventoryPartFrame extends JFrame{
 	        					 break;
 	        				 }
 	        			 }
-	        		 }
+	        		 }*/
 	        	 } 
 	        	 else{
 	        		 if(MainController.timeFlag){

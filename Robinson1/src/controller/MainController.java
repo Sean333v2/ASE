@@ -122,7 +122,7 @@ public class MainController {
 			}
 		}
 	}
-	public static void deletePart(Part deleteItem){
+	public static boolean deletePart(Part deleteItem){
 		boolean isQuantityZero = false;
 		boolean isInventory = false;
 		//Remove from array list		
@@ -131,7 +131,7 @@ public class MainController {
 		 ArrayList<InventoryItem> inventoryList = InventoryItemDB.fetchAll();
 		 for(int i=0; i< inventoryList.size(); i++){
 			 int k = Integer.parseInt(deleteItem.getPersonalId());
-			 if((inventoryList.get(i).getPartId()) == k){
+			 if((inventoryList.get(i).getPartId()) == k && inventoryList.get(i).getIsPart()){
 				 isInventory = true;
 				 if(inventoryList.get(i).getQuantity().equals("0")){
 					 //System.out.println("Delete");
@@ -152,7 +152,9 @@ public class MainController {
 	    	 listPartsFrame.container.remove(deleteItem.listUI.getDeleteButton());
 	    	 listPartsFrame.container.remove(deleteItem.listUI.getDetailsButton()); 
 	    	 listPartsFrame.container.revalidate();
+	    	 return true;
 		 } 
+		 return false;
 	}
 	
 	//Deletes the inventory item from that frame
@@ -235,9 +237,10 @@ public class MainController {
 		
 		if(!item.getIsPart()){
 			ProductTemplate product = null;
-			for(int i = 0; i < 	productFrame.productList.size(); i++){
-				if(productFrame.productList.get(i).getProductId().equals(""+item.getPartId()))
-					product = productFrame.productList.get(i);
+			ArrayList<ProductTemplate> productList = ProductTemplateDB.fetchAll();
+			for(int i = 0; i < 	productList.size(); i++){
+				if(productList.get(i).getProductId().equals(""+item.getPartId()))
+					product = productList.get(i);
 			}
 			if(product == null){
 				item.setErrorListAtIndex(0, "Product Id does not exist.");
@@ -362,9 +365,10 @@ public class MainController {
 			item = updateItem;
 			if(!item.getIsPart()){
 				ProductTemplate product = null;
-				for(int i = 0; i < 	productFrame.productList.size(); i++){
-					if(productFrame.productList.get(i).getProductId().equals(""+item.getPartId()))
-						product = productFrame.productList.get(i);
+				ArrayList<ProductTemplate> productList = ProductTemplateDB.fetchAll();
+				for(int i = 0; i < 	productList.size(); i++){
+					if(productList.get(i).getProductId().equals(""+item.getPartId()))
+						product = productList.get(i);
 				}
 				if(product == null){
 					item.setErrorListAtIndex(0, "Product Id does not exist.");

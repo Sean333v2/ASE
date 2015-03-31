@@ -115,7 +115,7 @@ public class InventoryAddFrame extends JFrame{
 				} */
 				if (newItem.getErrorCount() > 0 ) {
 					int i=0;
-					while(newItem.getErrorList()[i].equals("")){i++;}
+					while(newItem.getErrorListAtIndex(i) == null || "".equals(newItem.getErrorListAtIndex(i))){i++;}
 					JOptionPane.showMessageDialog(addFrame,
        					    newItem.getErrorListAtIndex(i),
        					    "ITem warning",

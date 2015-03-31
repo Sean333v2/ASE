@@ -19,6 +19,12 @@ public class PartsList {
 	}
 	
 	public boolean findPartById(int id){
+		if(list.size() == 0){
+			ArrayList<Part> temp = PartDB.fetchAll();
+			for (int i = 0; i < temp.size(); i++)
+				if (temp.get(i).getPersonalId().equals(""+id))
+					return true;
+		}
 		for (int i = 0; i < list.size(); i++)
 			if (list.get(i).getPersonalId().equals(""+id))
 				return true;

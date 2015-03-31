@@ -5,6 +5,7 @@ import view.inventoryUI;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /*
 Inventory Item: an instance of a Part at a Location with a given Quantity. Id: automatically generated unique id
@@ -21,7 +22,6 @@ public class InventoryItem{
 	public inventoryUI partUI;
 	private String[] locationStrings = {"Facility 1 Warehouse 1", "Facility 1 Warehouse 2", "Facility 2", "Unknown"};
 	private String[] errorList = new String[4];
-	private int arguments =4;
 	private int errorCount = 0;
 	private Timestamp time;// = Timestamp.valueOf(LocalDateTime.now());
 	private boolean isPart;
@@ -30,9 +30,7 @@ public class InventoryItem{
 		location = "Unknown";
 		this.quantity = null;
 		partUI = new inventoryUI();
-		//errorList[0] = null;
-		initializeErrorList();
-		
+		errorList[0] = null;
 	}
 	
 	public InventoryItem( int itemId, int partId, boolean isPart, String location, String quantity, Timestamp t){
@@ -43,8 +41,7 @@ public class InventoryItem{
 		setLocation(location);
 		setQuantity(quantity);
 		partUI = new inventoryUI();
-		initializeErrorList();
-		//errorList[0] = null;
+		errorList[0] = null;
 		time = t;
 	}
 	
@@ -56,8 +53,7 @@ public class InventoryItem{
 		setLocation(location);
 		setQuantity(quantity);
 		partUI = new inventoryUI();
-		initializeErrorList();
-		//errorList[0] = null;
+		errorList[0] = null;
 	}
 	
 	public InventoryItem(int partId, boolean isPart, String location, String quantity){
@@ -67,17 +63,8 @@ public class InventoryItem{
 		setLocation(location);
 		setQuantity(quantity);
 		partUI = new inventoryUI();
-		initializeErrorList();
-		//errorList[0] = null;
+		errorList[0] = null;
 	}
-	
-	
-
-	public void initializeErrorList(){
-	for(int i=0; i < arguments;i++){
-		errorList[i] = "";
-	}
-}
 	
 	public boolean getIsPart(){
 		return this.isPart;
@@ -109,16 +96,24 @@ public class InventoryItem{
 	
 	public void setPartId(int partId){
 		try{
-			if(MainController.list.findPartById(partId)){
-				this.partId = partId;
-				if(isPart)
-					part = MainController.list.getPartById(this.partId);
-				else
-					for(int i = 0; i < MainController.productFrame.productList.size(); i++)
-						if(MainController.productFrame.productList.get(i).getProductId().equals(""+partId))
-							part = MainController.productFrame.productList.get(i);
-			}
-			else
+				this.partId = -1;
+				if(isPart == true){
+					ArrayList<Part> partList = PartDB.fetchAll();
+					for(int i = 0; i < partList.size(); i++)
+						if(partList.get(i).getPersonalId().equals(""+partId)){
+							this.partId = partId;
+							part = partList.get(i);
+						}
+				}
+				else{
+					ArrayList<ProductTemplate> productList = ProductTemplateDB.fetchAll();
+					for(int i = 0; i < productList.size(); i++)
+						if(productList.get(i).getProductId().equals(""+partId)){
+							this.partId = partId;
+							part = productList.get(i);
+						}
+				}
+			if(this.partId == -1)
 				throw new IllegalArgumentException("PartId does not exist");
 		}
 		catch(IllegalArgumentException e){
@@ -200,9 +195,6 @@ public class InventoryItem{
 
 	public String getErrorListAtIndex(int index){
 		return errorList[index];
-	}
-	public String[] getErrorList(){
-		return errorList;
 	}
 
 	public void setErrorListAtIndex(int i, String string) {

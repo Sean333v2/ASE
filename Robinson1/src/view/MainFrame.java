@@ -146,7 +146,8 @@ public class MainFrame extends JFrame{
 	    addPart.listUI.getDeleteButton().addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 //Delete Part
-	        	 MainController.deletePart(addPart);
+	        	 if(MainController.deletePart(addPart))
+	        		 refresh();
 	        	 if( partFrame.partFrame.isShowing() )
 	        		 partFrame.partFrame.dispose();	 
 	         }

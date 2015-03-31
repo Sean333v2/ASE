@@ -109,7 +109,9 @@ public class InventoryAtLocationFrame extends JFrame{
 		//Display items at a particular location if there already
 		listItemsatLocation = MainController.getInventoryAtLocation(location);
 		for(int i=0; i < listItemsatLocation.size(); i++){
-			addPart(listItemsatLocation.get(i));
+			InventoryItem item = listItemsatLocation.get(i);
+			System.out.println("itemId: "+item.getItemId()+" partId: "+item.getPartId()+" location: "+item.getLocation()+" Quantity: "+item.getQuantity()+" isPart: "+item.getIsPart());
+			addPart(item);
 			
 		}
 		mainFrame.setVisible(true);
