@@ -189,6 +189,7 @@ public class InventoryItem{
 	}
 
 	public void setErrorListAtIndex(int i, String string) {
+		errorCount++;
 		errorList[i] = string;
 	}
 

@@ -205,7 +205,7 @@ public class MainController {
 		if(!item.getIsPart()){
 			ProductTemplate product = null;
 			for(int i = 0; i < 	productFrame.productList.size(); i++){
-				if(productFrame.productList.get(i).equals(""+item.getPartId()))
+				if(productFrame.productList.get(i).getProductId().equals(""+item.getPartId()))
 					product = productFrame.productList.get(i);
 			}
 			if(product == null){
@@ -325,9 +325,6 @@ public class MainController {
 	public static InventoryItem updateInventoryItem(String[] stringArray, InventoryItem updateItem){
 		//Initialize error to check again in this method.
 		updateItem.setErrorCount(0);
-		updateItem.setPartId(Integer.parseInt(stringArray[0]));
-		updateItem.setQuantity(stringArray[1]);
-		updateItem.setLocation(stringArray[2]);
 		
 		if(Integer.valueOf(updateItem.getQuantity()) < Integer.valueOf(stringArray[1])){
 			int diff = Integer.valueOf(stringArray[1]) - Integer.valueOf(updateItem.getQuantity());
@@ -335,7 +332,7 @@ public class MainController {
 			if(!item.getIsPart()){
 				ProductTemplate product = null;
 				for(int i = 0; i < 	productFrame.productList.size(); i++){
-					if(productFrame.productList.get(i).equals(""+item.getPartId()))
+					if(productFrame.productList.get(i).getProductId().equals(""+item.getPartId()))
 						product = productFrame.productList.get(i);
 				}
 				if(product == null){
@@ -373,7 +370,7 @@ public class MainController {
 										LocalDateTime dateTime = LocalDateTime.now();
 										Timestamp newTime = Timestamp.valueOf(dateTime);
 										items.get(i).setTime(newTime);
-										items.get(i).setQuantity(""+(Integer.valueOf(items.get(i).getQuantity()) - Integer.valueOf(temp.get(j).getQuantity())*diff));
+										items.get(i).setQuantity(""+((Integer.valueOf(items.get(i).getQuantity()) - Integer.valueOf(temp.get(j).getQuantity())*diff)));
 										InventoryItemDB.updateInventoryItem(items.get(i));
 									}
 								}
@@ -383,6 +380,10 @@ public class MainController {
 				}
 			}
 		}
+		
+		updateItem.setPartId(Integer.parseInt(stringArray[0]));
+		updateItem.setQuantity(stringArray[1]);
+		updateItem.setLocation(stringArray[2]);
 		
 		Timestamp oldTime = InventoryItemDB.getTimestamp(updateItem);
 		LocalDateTime dateTime = LocalDateTime.now();

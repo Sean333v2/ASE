@@ -87,17 +87,21 @@ public class InventoryPartFrame{
 	        		 mainItem.setQuantity(temp.getQuantity());
 	        		 mainItem.setTime(temp.getTime());
 	        	 }
-	        		 
-	        	 String partNameError = "ERROR: '"+ mainItem.getPart().getPartName()+"' already exists";
-					if( mainItem.getErrorCount() == 1 && mainItem.getErrorListAtIndex(0).equals(partNameError) ){
-	       			 JOptionPane.showMessageDialog(inventoryFrame,
-	       					    "Part Name already exists",
-	       					    "PName warning",
-	       					    JOptionPane.WARNING_MESSAGE);
-	       			inventoryFrame.dispose();
+
+					/*if( mainItem.getErrorCount() > 0 ){
+						for(int i = 0; i < mainItem.getErrorCount(); i++){
+							if(mainItem.getErrorListAtIndex(i) != null && !mainItem.getErrorListAtIndex(i).equals("")){
+								JOptionPane.showMessageDialog(inventoryFrame,
+										mainItem.getErrorListAtIndex(i),
+										"Warning",
+										JOptionPane.WARNING_MESSAGE);
+	       			 			break;
+							}
+						}
+	       			//inventoryFrame.dispose();
 	       			//mainItem.setPartName(originalName);
-	       			mainItem.partUI.getDetailsButton().doClick();
-					}
+	       			//mainItem.partUI.getDetailsButton().doClick();
+					}*/
 	       			
 	        	 if(mainItem.getErrorCount() > 0){
 	        		 /*inventoryFrame.dispose();
