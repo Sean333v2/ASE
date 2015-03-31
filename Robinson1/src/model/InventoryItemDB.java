@@ -66,7 +66,7 @@ public class InventoryItemDB {
             	id = "productId";
             	isPart = false;
             }
-            System.out.println("partId: "+rs.getInt(id));
+            //System.out.println("partId: "+rs.getInt(id));
             //Add the first row to the list of items
             result.add(new InventoryItem(rs.getInt("itemId"), rs.getInt(id), isPart, rs.getString("location"),
             		rs.getString("quantity"), rs.getTimestamp("time")));
